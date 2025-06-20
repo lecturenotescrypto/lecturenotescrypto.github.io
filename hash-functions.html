@@ -414,7 +414,7 @@ which transactions happened?</em></p>
 <p>More concretely, imagine that there is a ledger of transactions
 <span class="math display">\[t_1,t_2,\dots,t_n,\]</span> and two different options <span class="math inline">\(t_{n+1},t_{n+1}&#39;\)</span> are
 claimed to be the next transaction by different parties:</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="assets/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This situation is called a <em>fork</em>. The system is
 designed in such a way that users are encouraged to keep a <em>consensus</em>
 on a ledger of valid transactions. The general idea is that you have
@@ -679,7 +679,7 @@ operation, there is no “previous block” in the first iteration, and so
 again we introduce an initialization vector <span class="math inline">\(\mathbf z_0\)</span>, which can be
 set to the string of <span class="math inline">\(0\)</span>’s of length <span class="math inline">\(n\)</span>, or any other bitstring. There
 is no need for the IV to be secret.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="assets/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="proposition">
 <p><span id="prp:MDtransform" class="proposition"><strong>Proposition 5.2  </strong></span><em>If <span class="math inline">\(H\)</span> is a collision-resistant hash function, then
 <span class="math inline">\(\mathbf{H}\)</span>, produced with the Merkle-Damgård transformation, as
@@ -724,7 +724,7 @@ resistant as well. </em></p>
 <div class="solution">
 <p><span id="unlabeled-div-80" class="solution"><em>Solution</em>. </span>We know that <span class="math inline">\(H\)</span> is collision-resistant. We need to show that the transformed function <span class="math inline">\(\mathbf{H}\)</span> is also collision-resistant. Our strategy is the following: we will assume that <span class="math inline">\(\mathbf{H}\)</span> is <em>not</em> collision-resistant and use this fact to find a collision for <span class="math inline">\(H\)</span>. If we manage to do this, we end up in a <em>contradiction</em>: while <span class="math inline">\(H\)</span> is collision resistant we found a collision! It must be the case that our assumption “<span class="math inline">\(\mathbf{H}\)</span> is <em>not</em> collision-resistant” is false and therefore the proposition holds.</p>
 <p>We first present a diagram for the simplified transformation:</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="assets/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We assume <span class="math inline">\(\mathbf{H}\)</span> is not collision-resistant. Therefore, there exists an efficient algorithm <span class="math inline">\(\mathcal{A}\)</span> that outputs a collision.</p>
 <p>We will use this algorithm to construct a collision for <span class="math inline">\(H\)</span>. Running <span class="math inline">\(\mathcal{A}\)</span> will output a collision, that is, it will output
 <span class="math inline">\((\mathbf z_0, \mathbf x_1, \mathbf x_2)\neq
@@ -807,7 +807,7 @@ But <span class="math inline">\(\mathbf v\neq \mathbf v&#39;\)</span> are differ
 </ul>
 <p>The commitment is the root of the tree. This construction is called a <em>Merkle tree</em> and is a widely used vector commitment scheme. We next present the construction schematically.
 Note that indeed in each level the inputs of <span class="math inline">\(H\)</span> are elements of <span class="math inline">\(\{0,1\}^{2\ell}\)</span>.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="assets/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>We next describe the commitment scheme.</p>
 <ul>
 <li>To commit to a vector <span class="math inline">\(\mathbf v\)</span>, build a Merkle tree as described above.</li>
@@ -815,7 +815,7 @@ Note that indeed in each level the inputs of <span class="math inline">\(H\)</sp
 <li>To verify the proof, recompute the path from scratch until the root value <span class="math inline">\(c&#39;\)</span> and verify that the latter value is equal to the commitment <span class="math inline">\(c\)</span>.</li>
 </ul>
 <p>As an example, we show schematically what values you need to open <span class="math inline">\(\mathbf v_3\)</span>.</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p></li>
+<p><img src="assets/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p></li>
 <li><p>First, let’s see efficiency. The commitment is here as well independent of <span class="math inline">\(n\)</span> since it is a single digest. How about the proof size? This is basically a number of hashes equal
 to the height of the binary tree. The height is <span class="math inline">\(\log n\)</span>, so the proof size is <span class="math inline">\(\mathcal{O}(\ell\cdot\log n)\)</span> bits, which is sublinear in <span class="math inline">\(n\)</span>. Similarly, the verifier needs to perform
 a single hash computation for each level, so it does <span class="math inline">\(\mathcal{O}(\log n)\)</span> hash computations, which is also sublinear in <span class="math inline">\(n\)</span>.</p>

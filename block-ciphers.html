@@ -406,7 +406,7 @@ inside each of the algorithms, only that they work and they are secure.
 For example, we assume that <span class="math inline">\(\mathsf{Enc}\)</span> takes as input a plaintext
 <span class="math inline">\(\mathsf{m}\)</span> of length <span class="math inline">\(\ell\)</span> and produces a ciphertext <span class="math inline">\(\mathsf{c}\)</span>
 corresponding to <span class="math inline">\(\mathsf{m}\)</span>. We represent this by the diagram</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="assets/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>This will allow us to discuss block ciphers in a
 more general way.</p>
 </div>
@@ -426,7 +426,7 @@ determined by the <em>mode of operation</em> that we choose.</p>
 <p>In ECB mode, we take the most straightforward approach, and encrypt each
 block on its own: <span class="math display">\[\mathsf{c}_i=\mathsf{Enc}_k(\mathsf{m}_i).\]</span> The ECB
 mode is represented in the following diagram:
-<img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="assets/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>The main advantage of this approach is that, since each block is
 independent, we can make the operations in parallel, potentially saving
 computation time.</p>
@@ -458,7 +458,7 @@ cipher is fed back into the input of the next iteration, by computing
 the <span class="math inline">\(\mathsf{XOR}\)</span> with the new input. More precisely:
 <span class="math display">\[\mathsf{c}_i=\mathsf{Enc}_k(\mathsf{m}_i\oplus \mathsf{c}_{i-1}).\]</span>
 The CBC mode is represented in the following diagram:
-<img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="assets/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Note that this does not work for the first block, since there is no
 previous ciphertext, and so we introduce something to replace it, which
 we call the <em>initialization vector</em> (often denoted by IV). By choosing
@@ -489,7 +489,7 @@ produced in blocks of length <span class="math inline">\(\ell\)</span>: <span cl
 &amp; \mathbf w_i = \mathsf{Enc}_k(\mathbf w_{i-1}), \\
 &amp; \mathsf{c}_i=\mathsf{m}_i\oplus \mathbf w_i. \\
 \end{aligned}\]</span> The OFB mode is represented in the following diagram:</p>
-<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="assets/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Again, we need an IV to feed into <span class="math inline">\(\mathsf{Enc}\)</span> in the first iteration.
 Observe that the block cipher and the feedback loop do not involve the
 message at all, which is simply <span class="math inline">\(\mathsf{XOR}\)</span>’ed with the result of
@@ -512,7 +512,7 @@ counter works as an IV that updates after encrypting each block.
     \end{aligned}\]</span> After the last iteration, the current value of the
 counter is also sent, together with the ciphertext. The CTR mode is
 represented in the following diagram:
-<img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="assets/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="exercise">
 <p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 3.1  </strong></span><em>We have not discussed the decryption procedure of any
 of the modes of operation. Given a <span class="math inline">\(\mathsf{Dec}\)</span> algorithm that
