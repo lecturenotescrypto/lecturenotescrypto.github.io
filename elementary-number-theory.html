@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>6 Elementary number theory | Cryptography lecture notes</title>
+  <meta name="description" content="6 Elementary number theory | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="6 Elementary number theory | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="6 Elementary number theory | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="hash-functions.html"/>
+<link rel="next" href="algebraic-structures.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="elementary-number-theory" class="section level1 hasAnchor" number="6">
+<h1><span class="header-section-number">6</span> Elementary number theory<a href="elementary-number-theory.html#elementary-number-theory" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The second half of the course relies strongly on some ideas from number
+theory, which is the branch of mathematics that deals with integer
+numbers and their properties. This section and the next contain
+mathematical background that we will require to build some asymmetric
+cryptography. In this section, we will:</p>
+<ol style="list-style-type: decimal">
+<li><p>Review integer and modular arithmetic.</p></li>
+<li><p>Discuss algorithmic aspects of modular arithmetic.</p></li>
+</ol>
+<p><strong>Note.</strong> In these notes, we use the convention that <span class="math inline">\(\mathbb{N}\)</span> does
+not include <span class="math inline">\(0\)</span>. We will refer to the set of non-negative integers by
+<span class="math inline">\(\mathbb{Z}_{\geq 0}\)</span>.</p>
+<div id="integer-arithmetic" class="section level2 hasAnchor" number="6.1">
+<h2><span class="header-section-number">6.1</span> Integer arithmetic<a href="elementary-number-theory.html#integer-arithmetic" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Consider the set <span class="math inline">\(\mathbb{Z}\)</span> of integer numbers. A key concept to the
+whole section is that of <em>divisibility</em>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-83" class="definition"><strong>Definition 6.1  </strong></span><em>Let <span class="math inline">\(a,b\in\mathbb{Z}\)</span>. We say that <span class="math inline">\(b\)</span></em> divides <em><span class="math inline">\(a\)</span>
+if there exists <span class="math inline">\(m\in \mathbb{Z}\)</span> such that <span class="math display">\[bm=a.\]</span> We denote that <span class="math inline">\(b\)</span>
+divides <span class="math inline">\(a\)</span> by <span class="math inline">\(b\mid a\)</span>. In this case, we also say that <span class="math inline">\(b\)</span> is a</em> divisor <em>or</em> factor <em>of <span class="math inline">\(a\)</span>, or that <span class="math inline">\(a\)</span> is</em> divisible <em>by <span class="math inline">\(b\)</span>, or that
+<span class="math inline">\(a\)</span> is a</em> multiple <em>of</em> <span class="math inline">\(b\)</span>.</p>
+</div>
+<p>Note that it is crucial that <span class="math inline">\(m\in\mathbb{Z}\)</span> in the definition above.
+Otherwise, any number <span class="math inline">\(b\)</span> would divide any other number <span class="math inline">\(a\)</span>, since
+<span class="math display">\[b\frac{a}{b}=a,\]</span> and then this notion would be pretty meaningless.
+Divisibility is related to the notion of <em>integer division</em>.</p>
+<div class="proposition">
+<p><span id="prp:unnamed-chunk-17" class="proposition"><strong>Proposition 6.1  (Integer division) </strong></span><em>Let <span class="math inline">\(a,b\in \mathbb{Z}\)</span>, with
+<span class="math inline">\(b\neq0\)</span>. Then, there exists a unique pair <span class="math inline">\(q,r\in\mathbb{Z}\)</span> such that
+<span class="math inline">\(0\leq r&lt;b\)</span> and <span class="math display">\[a=bq+r.\]</span> The integer <span class="math inline">\(q\)</span> is called the</em> quotient <em>of
+the division, and <span class="math inline">\(r\)</span> is called the</em> remainder.</p>
+</div>
+<p>In Sage, quotient and remainder can easily be computed with the commands
+<code>a // b</code> and <code>a % b</code>, (or <code>mod(a,b)</code>) respectively.</p>
+<p>By looking at the above proposition and the definition of divisibility,
+it is easy to see that <span class="math inline">\(a\mid b\)</span> if and only if the remainder of the
+division of <span class="math inline">\(a\)</span> by <span class="math inline">\(b\)</span> is <span class="math inline">\(0\)</span>.</p>
+<p>Divisibility allows us to identify a special type of integers that are
+the building blocks of any other integer number. Clearly, any integer
+<span class="math inline">\(n\in\mathbb{Z}\)</span> is always divisible by <span class="math inline">\(1,-1,n\)</span> and <span class="math inline">\(-n\)</span>, which are
+called its <em>trivial divisors</em>. Some numbers have more divisors, and some
+do not.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-84" class="definition"><strong>Definition 6.2  </strong></span><em>An integer <span class="math inline">\(p&gt;1\)</span> is said to be a</em> prime number <em>if
+its only divisors are the trivial divisors. A positive integer that is
+not prime is said to be</em> composite.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-85" class="exercise"><strong>Exercise 6.1  </strong></span><em>Decide whether each of these statements is true or
+false:</em></p>
+<ol style="list-style-type: decimal">
+<li><p><em><span class="math inline">\(35\)</span> is a divisor of <span class="math inline">\(7\)</span>.</em></p></li>
+<li><p><em><span class="math inline">\(4\)</span> is a factor of <span class="math inline">\(16\)</span>.</em></p></li>
+<li><p><em><span class="math inline">\(99\)</span> is divisible by <span class="math inline">\(9\)</span>.</em></p></li>
+<li><p><em>The remainder of dividing <span class="math inline">\(-21\)</span> by <span class="math inline">\(8\)</span> is <span class="math inline">\(-5\)</span>.</em></p></li>
+<li><p><em><span class="math inline">\(19\)</span> is a prime number.</em></p></li>
+<li><p><em><span class="math inline">\(41\)</span> is a composite number.</em></p></li>
+</ol>
+</div>
+<p>The following two results show some interesting properties of prime
+numbers. Informally, the first states that any number can be decomposed
+into its prime factors, and that this decomposition is essentially
+unique, and the second states that, asymptotically, the chance of
+choosing a random number smaller than <span class="math inline">\(n\)</span> and finding a prime is
+<span class="math inline">\(\log(n)/n\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:fta" class="proposition"><strong>Proposition 6.2  (Fundamental theorem of arithmetic) </strong></span><em>Let <span class="math inline">\(n\in\mathbb{Z}\)</span>. Then there exist prime numbers <span class="math inline">\(p_1,\dots,p_\ell\)</span> and integers <span class="math inline">\(e_1,\dots,e_\ell\)</span> such that
+<span class="math display">\[n=\pm p_1^{e_1}\dots p_\ell^{e_\ell}.\]</span> Moreover, this </em>decomposition<em>
+(or </em>factorization<em>) is unique, up to reordering of the factors.</em></p>
+</div>
+<div class="proposition">
+<p><span id="prp:pnt" class="proposition"><strong>Proposition 6.3  (Prime number theorem) </strong></span><em>Let <span class="math inline">\(n\in\mathbb{N}\)</span>, and
+let us denote by <span class="math inline">\(\pi(n)\)</span> the number of prime numbers smaller than <span class="math inline">\(n\)</span>.
+Then <span class="math display">\[\lim_{n\rightarrow\infty}\frac{\pi(n)}{n/\log(n)}=1.\]</span></em></p>
+</div>
+<p>On a computational level, one might think that the problem of
+determining whether a number is prime or composite and the problem of
+finding the factorization of said number are close problems. However,
+the surprising truth is that the second is believed to be much harder
+than the first! More precisely, there exist efficient algorithms for
+determining whether a number is prime, but no efficient factorization
+algorithm is known for numbers that are a product of two large primes,
+despite decades of huge efforts in finding one.<a href="#fn26" class="footnote-ref" id="fnref26"><sup>26</sup></a></p>
+<p>Sage contains implementations of the best algorithms known for each
+case. Try increasing the size of the numbers, and observe that the first
+algorithm is still very fast, but factorization becomes much slower.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="elementary-number-theory.html#cb5-1" tabindex="-1"></a>    <span class="im">from</span> sage.misc.prandom <span class="im">import</span> randrange</span>
+<span id="cb5-2"><a href="elementary-number-theory.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="elementary-number-theory.html#cb5-3" tabindex="-1"></a>    <span class="co"># Choose a security parameter, which will determine the size of our numbers.</span></span>
+<span id="cb5-4"><a href="elementary-number-theory.html#cb5-4" tabindex="-1"></a>    sec_param <span class="op">=</span> <span class="dv">160</span></span>
+<span id="cb5-5"><a href="elementary-number-theory.html#cb5-5" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="elementary-number-theory.html#cb5-6" tabindex="-1"></a>    <span class="co">### Primality testing</span></span>
+<span id="cb5-7"><a href="elementary-number-theory.html#cb5-7" tabindex="-1"></a>    <span class="co"># Pick a random number of bitlength sec_param</span></span>
+<span id="cb5-8"><a href="elementary-number-theory.html#cb5-8" tabindex="-1"></a>    n <span class="op">=</span> randrange(<span class="dv">2</span><span class="op">^</span>(sec_param<span class="op">-</span><span class="dv">1</span>),<span class="dv">2</span><span class="op">^</span>(sec_param))</span>
+<span id="cb5-9"><a href="elementary-number-theory.html#cb5-9" tabindex="-1"></a>    <span class="co"># Run a primality test</span></span>
+<span id="cb5-10"><a href="elementary-number-theory.html#cb5-10" tabindex="-1"></a>    <span class="op">%</span>time <span class="bu">print</span>(n <span class="kw">in</span> Primes())             <span class="co"># Sage contains the class Primes(). </span></span>
+<span id="cb5-11"><a href="elementary-number-theory.html#cb5-11" tabindex="-1"></a>                                           <span class="co"># By checking whether n is in Primes(),</span></span>
+<span id="cb5-12"><a href="elementary-number-theory.html#cb5-12" tabindex="-1"></a>                                           <span class="co"># it is actually running a primality test internally.</span></span>
+<span id="cb5-13"><a href="elementary-number-theory.html#cb5-13" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="elementary-number-theory.html#cb5-14" tabindex="-1"></a>    <span class="co">### Factorization</span></span>
+<span id="cb5-15"><a href="elementary-number-theory.html#cb5-15" tabindex="-1"></a>    <span class="co"># Pick two primes of bitlength half of sec_param.</span></span>
+<span id="cb5-16"><a href="elementary-number-theory.html#cb5-16" tabindex="-1"></a>    <span class="co"># This is so that their product has bitlength sec_param.</span></span>
+<span id="cb5-17"><a href="elementary-number-theory.html#cb5-17" tabindex="-1"></a>    p <span class="op">=</span> random_prime(<span class="dv">2</span><span class="op">^</span>((sec_param<span class="op">/</span><span class="dv">2</span>)<span class="op">-</span><span class="dv">1</span>),<span class="dv">2</span><span class="op">^</span>(sec_param<span class="op">/</span><span class="dv">2</span>))</span>
+<span id="cb5-18"><a href="elementary-number-theory.html#cb5-18" tabindex="-1"></a>    q <span class="op">=</span> random_prime(<span class="dv">2</span><span class="op">^</span>((sec_param<span class="op">/</span><span class="dv">2</span>)<span class="op">-</span><span class="dv">1</span>),<span class="dv">2</span><span class="op">^</span>(sec_param<span class="op">/</span><span class="dv">2</span>))</span>
+<span id="cb5-19"><a href="elementary-number-theory.html#cb5-19" tabindex="-1"></a>    <span class="co"># Compute their product</span></span>
+<span id="cb5-20"><a href="elementary-number-theory.html#cb5-20" tabindex="-1"></a>    n <span class="op">=</span> p<span class="op">*</span>q</span>
+<span id="cb5-21"><a href="elementary-number-theory.html#cb5-21" tabindex="-1"></a>    <span class="op">%</span>time <span class="bu">print</span>(factor(n))</span></code></pre></div>
+</div>
+<div id="the-euclidean-algorithm" class="section level2 hasAnchor" number="6.2">
+<h2><span class="header-section-number">6.2</span> The euclidean algorithm<a href="elementary-number-theory.html#the-euclidean-algorithm" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>With Proposition <a href="elementary-number-theory.html#prp:fta">6.2</a> in mind, we observe that two integers <span class="math inline">\(a,b\)</span> can
+have some factors in common in its prime factorization. This gives rise
+to the following notion.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-86" class="definition"><strong>Definition 6.3  </strong></span><em>Let <span class="math inline">\(a,b\in\mathbb{Z}\)</span> different from <span class="math inline">\(0\)</span>. The</em> greatest common divisor <em>of <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, denoted by <span class="math display">\[\gcd(a,b),\]</span> is
+the largest positive integer <span class="math inline">\(k\)</span> such that <span class="math inline">\(k\mid a\)</span> and <span class="math inline">\(k\mid b\)</span>. Two
+integers <span class="math inline">\(a,b\)</span> are said to be</em> coprime <em>(or</em> relatively prime<em>) when</em>
+<span class="math display">\[\gcd(a,b)=1.\]</span></p>
+</div>
+<p>Think about the relation between the notions of primality and
+coprimality. In particular, observe that being prime is a property of a
+single integer, whereas being coprime refers to a <em>pair</em> of integers.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-87" class="exercise"><strong>Exercise 6.2  </strong></span><em>Find a pair <span class="math inline">\(a,b\in\mathbb{Z}\)</span> for each of the
+following cells in this table:</em></p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center"><em><span class="math inline">\(a,b\)</span> prime</em></th>
+<th align="center"><em><span class="math inline">\(a\)</span> prime, <span class="math inline">\(b\)</span> composite</em></th>
+<th align="center"><em><span class="math inline">\(a,b\)</span> composite</em></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><em><span class="math inline">\(a,b\)</span> coprime</em></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td><em><span class="math inline">\(a,b\)</span> not coprime</em></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Computing the greatest common divisor of two integers can be achieved
+easily using the <em>Euclidean algorithm</em>, which we describe next. Let
+<span class="math inline">\(a,b\in\mathbb{Z}\)</span> different from <span class="math inline">\(0\)</span>. The following procedure outputs
+<span class="math inline">\(\gcd(a,b)\)</span>:</p>
+<ol style="list-style-type: decimal">
+<li><p>Compute the integer division of <span class="math inline">\(a\)</span> by <span class="math inline">\(b\)</span>, obtaining <span class="math inline">\(q,r\)</span> such
+that <span class="math inline">\(0\leq r&lt;b\)</span> and <span class="math display">\[a=bq+r.\]</span></p></li>
+<li><p>If <span class="math inline">\(r=0\)</span>, then output <span class="math inline">\(b\)</span>. Otherwise, return to the previous step,
+replacing <span class="math inline">\(a\)</span> by <span class="math inline">\(b\)</span> and <span class="math inline">\(b\)</span> by <span class="math inline">\(r\)</span>.</p></li>
+</ol>
+<p>We show an example for the numbers <span class="math inline">\(375\)</span> and <span class="math inline">\(99\)</span>. We start by
+performing the integer division of <span class="math inline">\(375\)</span> by <span class="math inline">\(99\)</span>, obtaining
+<span class="math display">\[375=99\cdot 3+78.\]</span> Since the remainder is not <span class="math inline">\(0\)</span>, we compute the
+integer division of <span class="math inline">\(99\)</span> by <span class="math inline">\(78\)</span>, obtaining <span class="math display">\[99=78\cdot 1+21.\]</span> We
+continue with this process until the remainder is <span class="math inline">\(0\)</span>: <span class="math display">\[\begin{aligned}
+    &amp; 78=21\cdot 3+15.\\
+    &amp; 21=15\cdot 1+6. \\
+    &amp; 15=6\cdot 2+3. \\
+    &amp; 6=3\cdot 2+0.\\
+\end{aligned}\]</span> Since the remainder is <span class="math inline">\(0\)</span>, the Euclidean algorithm
+outputs <span class="math inline">\(\gcd(375,99)=3\)</span>.</p>
+<p>The greatest common divisor satisfies the following property.</p>
+<div class="proposition">
+<p><span id="prp:unnamed-chunk-19" class="proposition"><strong>Proposition 6.4  </strong></span><em>Let <span class="math inline">\(a,b\in\mathbb{Z}\)</span> different from <span class="math inline">\(0\)</span>. There
+exist <span class="math inline">\(x,y\in\mathbb{Z}\)</span> such that <span class="math display">\[ax+by=\gcd(a,b).\]</span></em></p>
+</div>
+<p>It turns out that we can slightly tweak the Euclidean algorithm to
+compute the integers <span class="math inline">\(x,y\)</span> in the proposition above. This is called the
+<em>extended Euclidean algorithm</em>. The key idea is to use the Euclidean
+algorithm to compute the greatest common divisor, and then “walk back”
+through the computations. We illustrate it with the example of <span class="math inline">\(375\)</span> and
+<span class="math inline">\(99\)</span> from above.</p>
+<p>We got the sequence of remainders <span class="math inline">\(78,21,15,6,3,0\)</span>, so the last one
+before <span class="math inline">\(0\)</span>, in this case <span class="math inline">\(3\)</span>, was our greatest common divisor. We
+proceed by arranging the relations between them obtained above to write
+each in terms of the previous two. We start with <span class="math display">\[3=15-6\cdot 2.\]</span> We
+now write <span class="math inline">\(6\)</span> in terms of the two previous remainders, <span class="math inline">\(15\)</span> and <span class="math inline">\(21\)</span>:
+<span class="math display">\[6=21-15\cdot 1.\]</span> Combining these two expressions, we can obtain an
+expression of <span class="math inline">\(3\)</span> in terms of <span class="math inline">\(15\)</span> and <span class="math inline">\(21\)</span>:
+<span class="math display">\[3=15-(21-15\cdot 1)\cdot 2=-21\cdot 2+  15\cdot 3.\]</span> Iterating this
+process, we can work our way back through the sequence of remainders,
+until we arrive at the beginning, that is, an expression depending only
+on <span class="math inline">\(375\)</span> and <span class="math inline">\(99\)</span>: <span class="math display">\[\begin{aligned}
+3 &amp;= -21\cdot 2+ 15\cdot 3 = -21\cdot 2 + (78 - 21\cdot 3)\cdot 3 =  \\
+&amp; = 78\cdot 3 - 21\cdot 11 = 78\cdot 3 - (99 - 78)\cdot 11 = \\
+&amp; = -99\cdot 11 + 78\cdot 14 = -99\cdot 11 + (375 - 99\cdot 3)\cdot 14 = \\
+&amp; = 375\cdot 14 + 99\cdot (-53).
+\end{aligned}\]</span> Thus, we have found that
+<span class="math display">\[3=375\cdot 14+ 99\cdot(-53).\]</span></p>
+<p>From a computational point of view, both versions of the Euclidean
+algorithm are very efficient, even for large numbers, as you can check
+with the following Sage code.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="elementary-number-theory.html#cb6-1" tabindex="-1"></a>    <span class="im">from</span> sage.misc.prandom <span class="im">import</span> randrange</span>
+<span id="cb6-2"><a href="elementary-number-theory.html#cb6-2" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="elementary-number-theory.html#cb6-3" tabindex="-1"></a>    <span class="co"># Choose a security parameter, which will determine the size of our numbers.</span></span>
+<span id="cb6-4"><a href="elementary-number-theory.html#cb6-4" tabindex="-1"></a>    sec_param <span class="op">=</span> <span class="dv">128</span></span>
+<span id="cb6-5"><a href="elementary-number-theory.html#cb6-5" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="elementary-number-theory.html#cb6-6" tabindex="-1"></a>    <span class="co"># Choose a pair of integers of bitlength sec_param</span></span>
+<span id="cb6-7"><a href="elementary-number-theory.html#cb6-7" tabindex="-1"></a>    a <span class="op">=</span> randrange(<span class="dv">2</span><span class="op">^</span>(sec_param<span class="op">-</span><span class="dv">1</span>),<span class="dv">2</span><span class="op">^</span>(sec_param))</span>
+<span id="cb6-8"><a href="elementary-number-theory.html#cb6-8" tabindex="-1"></a>    b <span class="op">=</span> randrange(<span class="dv">2</span><span class="op">^</span>(sec_param<span class="op">-</span><span class="dv">1</span>),<span class="dv">2</span><span class="op">^</span>(sec_param))</span>
+<span id="cb6-9"><a href="elementary-number-theory.html#cb6-9" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="elementary-number-theory.html#cb6-10" tabindex="-1"></a>    <span class="co"># Euclidean algorithm</span></span>
+<span id="cb6-11"><a href="elementary-number-theory.html#cb6-11" tabindex="-1"></a>    <span class="op">%</span>time <span class="bu">print</span>(gcd(a,b))</span>
+<span id="cb6-12"><a href="elementary-number-theory.html#cb6-12" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="elementary-number-theory.html#cb6-13" tabindex="-1"></a>    <span class="co"># Extended euclidean algorithm. The three outputs correspond</span></span>
+<span id="cb6-14"><a href="elementary-number-theory.html#cb6-14" tabindex="-1"></a>    <span class="co"># to gcd(a,b), and the two numbers x,y such that gcd(a,b)=ax+by.</span></span>
+<span id="cb6-15"><a href="elementary-number-theory.html#cb6-15" tabindex="-1"></a>    <span class="op">%</span>time <span class="bu">print</span>(xgcd(a,b))</span></code></pre></div>
+</div>
+<div id="modular-arithmetic" class="section level2 hasAnchor" number="6.3">
+<h2><span class="header-section-number">6.3</span> Modular arithmetic<a href="elementary-number-theory.html#modular-arithmetic" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Modular arithmetic is, informally, clock arithmetic. Let us take the
+usual analog 12-hour clock, and say it is 11 o’clock now. After three
+hours, it is 2 o’clock. But wait a minute, shouldn’t it be <span class="math inline">\(11+3=14\)</span>?
+Furthermore, after a whole day, shouldn’t the clock show <span class="math inline">\(11+24=35\)</span>
+o’clock? But it is showing <span class="math inline">\(11\)</span> instead!</p>
+<p>This example shows that the usual integer arithmetic is not useful for
+modelling the behaviour of a clock. Let us see how we can modify it so
+that the passing of time makes sense again. We consider the following
+problem.</p>
+<div class="problem">
+<p><em>Let <span class="math inline">\(a\in\mathbb{N}\)</span>. Assume that the current position
+of the clock is <span class="math inline">\(12\)</span> o’clock. What is the position of the clock after
+<span class="math inline">\(a\)</span> hours?</em></p>
+</div>
+<p>The key observation is that full movements around the clock (that is,
+multiples of 12) do not matter, as they leave the clock in the same
+position. Recall that the algorithm of integer division tells us how to
+compute <span class="math inline">\(q,r\in\mathbb{Z}\)</span> such that <span class="math display">\[a=12\cdot q + r.\]</span> In the context
+of our problem, notice that <span class="math inline">\(q\)</span> is the number of full circles around the
+clock that happen in <span class="math inline">\(a\)</span> hours. Then, the only real change of position
+in the clock is determined by <span class="math inline">\(r\)</span>, and <span class="math inline">\(q\)</span> does not matter at all.<a href="#fn27" class="footnote-ref" id="fnref27"><sup>27</sup></a></p>
+<p>Generalizing this idea leads to the key concept of modular arithmetic,
+by replacing <span class="math inline">\(12\)</span> by any positive integer. Moreover, observe that there
+is no need for <span class="math inline">\(a\)</span> to be a positive integer, as a negative value of <span class="math inline">\(a\)</span>
+can be interpreted as moving counter-clockwise.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-88" class="definition"><strong>Definition 6.4  </strong></span><em>Let <span class="math inline">\(a, n\in \mathbb{Z}\)</span>, with <span class="math inline">\(n&gt;0\)</span>. We define the</em> remainder <em>(or</em> residue<em>) of <span class="math inline">\(a\)</span> modulo <span class="math inline">\(n\)</span> as the remainder of the
+integer division of <span class="math inline">\(a\)</span> by <span class="math inline">\(n\)</span>, and we denote it by</em> <span class="math display">\[a\bmod{n}.\]</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-89" class="exercise"><strong>Exercise 6.3  </strong></span><em>Compute the following values:
+<span class="math display">\[25\bmod 8, \qquad 1337\bmod 7, \qquad 7\bmod 13,\qquad -13\bmod 12.\]</span></em></p>
+</div>
+<p>Modular arithmetic behaves in a similar way to usual arithmetic, as
+reflected in the following result:</p>
+<div class="proposition">
+<p><span id="prp:modular" class="proposition"><strong>Proposition 6.5  </strong></span><em>Let <span class="math inline">\(a,b,n\in\mathbb{Z}\)</span>, with <span class="math inline">\(n&gt;0\)</span>. Then:
+<span class="math display">\[\begin{array}{rl}
+        (i) &amp; (a\bmod n) + (b\bmod n) = (a+b)\bmod n. \\
+        (ii) &amp; (a\bmod n) \cdot (b\bmod n) = (a\cdot b)\bmod n. \\
+        (iii) &amp; \text{If }b\geq0,\text{ then }(a\bmod n)^b=(a^b)\bmod{n}.\\
+    \end{array}\]</span></em></p>
+</div>
+<p>It is clear that, when working modulo <span class="math inline">\(n\)</span>, for some positive integer
+<span class="math inline">\(n\)</span>, the only numbers that matter are <span class="math inline">\(0,1,\dots, n-1\)</span>, since every
+other number can be identified with one of these by reducing modulo <span class="math inline">\(n\)</span>.
+For example, back to the clock example, we have that <span class="math inline">\(13\bmod12=1\)</span>,
+<span class="math inline">\(25\bmod{12}=1\)</span>, and so on. It is not chance that related numbers are
+precisely those that represent the same position!</p>
+<p>The above example seems to suggest that, modulo <span class="math inline">\(12\)</span>, the numbers
+<span class="math display">\[\phantom{a}\dotsc-23,-11,1,13,25\dotsc\]</span> are “the same”. This
+motivates the introduction of the idea of <em>congruence</em>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-90" class="definition"><strong>Definition 6.5  </strong></span><em>Let <span class="math inline">\(a,b,n\in\mathbb{Z}\)</span>, with <span class="math inline">\(n&gt;0\)</span>. We say that
+<span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are</em> congruent <em>if</em> <span class="math display">\[(a-b)\bmod{n}=0.\]</span> <em>In this case, we
+represent this fact by</em> <span class="math display">\[a\equiv b\pmod{n}.\]</span> <em>We define the</em> set of
+residue classes modulo <span class="math inline">\(n\)</span> <em>as the set</em>
+<span class="math display">\[\mathbb{Z}_n=\{0,1,\dotsc,n-1\},\]</span> <em>where the operations of addition
+and multiplication are reduced modulo <span class="math inline">\(n\)</span>, according to
+Proposition <a href="elementary-number-theory.html#prp:modular">6.5</a>.</em></p>
+</div>
+<p>Then, the above discussion can be rephrased as follows. We can say that
+any <span class="math inline">\(a\in \mathbb{Z}\)</span> is congruent to its residue modulo <span class="math inline">\(n\)</span>, that is,
+<span class="math inline">\(a\bmod n\)</span>. Thus, to work with arithmetic modulo <span class="math inline">\(n\)</span>, we can restrict
+ourselves to the set <span class="math inline">\(\mathbb{Z}_n\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:unnamed-chunk-21" class="proposition"><strong>Proposition 6.6  </strong></span><em>Let <span class="math inline">\(a,\alpha,b,n\in\mathbb{Z}\)</span>, with <span class="math inline">\(n&gt;0\)</span>. If
+<span class="math inline">\(a\equiv \alpha\pmod{n}\)</span>, then:</em></p>
+<p><span class="math display">\[\begin{array}{rl}
+        (i) &amp; a+b\equiv \alpha+b\pmod{n}. \\
+        (ii) &amp; a\cdot b\equiv \alpha\cdot b\pmod{n}. \\
+        (iii) &amp; \text{If }b\geq0,\text{ then }a^b\equiv \alpha^b\pmod{n}.\\
+    \end{array}\]</span>
+<em>In particular, this is true when</em> <span class="math inline">\(\alpha=a\bmod{n}\)</span>.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-91" class="exercise"><strong>Exercise 6.4  </strong></span><em>Prove that the logic <span class="math inline">\(\mathsf{XOR}\)</span> operation and
+addition modulo <span class="math inline">\(2\)</span> are the same operation, by checking the four
+possible cases.</em></p>
+</div>
+<p>We now introduce <em>modular inverses</em>. Let <span class="math inline">\(a\neq0\)</span> be a number, and
+consider the meaning of <span class="math inline">\(b\)</span> being the inverse of <span class="math inline">\(a\)</span>. Over the real
+numbers, we say that the inverse of <span class="math inline">\(3\)</span> is <span class="math inline">\(1/3\)</span>, because
+<span class="math display">\[3\cdot \frac{1}{3}=1.\]</span> That is, every nonzero number <span class="math inline">\(a\in\mathbb{R}\)</span>
+has an inverse <span class="math inline">\(1/a\in\mathbb{R}\)</span>. Consider now the same idea, but over
+<span class="math inline">\(\mathbb{Z}\)</span>. That is, given <span class="math inline">\(a\in\mathbb{Z}\)</span>, is there any other
+integer <span class="math inline">\(b\in\mathbb{Z}\)</span> such that <span class="math inline">\(ab=1\)</span>? It is clear that, unless
+<span class="math inline">\(a=\pm1\)</span>, there is no such thing as an “integer inverse”. However, the
+answer changes when we consider <span class="math inline">\(\mathbb{Z}_n\)</span> instead of <span class="math inline">\(\mathbb{Z}\)</span>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-92" class="definition"><strong>Definition 6.6  </strong></span><em>Let <span class="math inline">\(n\in\mathbb{N}\)</span>, and <span class="math inline">\(a\in\mathbb{Z}_n\)</span>. We say
+that <span class="math inline">\(b\in\mathbb{Z}_n\)</span> is the </em>inverse of <span class="math inline">\(a\)</span> modulo <span class="math inline">\(n\)</span>* if
+<span class="math display">\[ab\bmod n = 1.\]</span> If the inverse of <span class="math inline">\(a\)</span> modulo <span class="math inline">\(n\)</span> exists, we say that
+<span class="math inline">\(a\)</span> is <em>invertible</em>. We also say that <span class="math inline">\(a\)</span> is a <em>unit</em>.*</p>
+</div>
+<p>As an example, observe that in <span class="math inline">\(\mathbb{Z}_5\)</span> we have
+<span class="math display">\[(2\cdot 3)\bmod{5}=6\bmod{5}=1.\]</span> Therefore, <span class="math inline">\(2\)</span> and <span class="math inline">\(3\)</span> are inverses
+modulo <span class="math inline">\(5\)</span>. In <span class="math inline">\(\mathbb{Z}_3\)</span>, we have
+<span class="math display">\[(2\cdot 2)\bmod{3}=4\bmod{3}=1.\]</span> That is, <span class="math inline">\(2\)</span> is its own inverse
+modulo <span class="math inline">\(3\)</span>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-93" class="exercise"><strong>Exercise 6.5  </strong></span><em>Consider <span class="math inline">\(\mathbb{Z}_4\)</span>. Find which of its elements
+are invertible, and which are not.</em></p>
+</div>
+<p>When working with modular residues in Sage, one nice thing is that we
+can specify that we are working modulo some <span class="math inline">\(n\)</span>, and Sage will take care
+of the modular reductions for us, without having to specify every time
+that we want each operation reduced modulo <span class="math inline">\(n\)</span>. In the example below,
+you can see that, when asked about <span class="math inline">\(a+b\)</span>, we get <span class="math inline">\(7\)</span> because the
+operation is automatically reduced modulo <span class="math inline">\(17\)</span>, since we have specified
+that we want our operations involving <span class="math inline">\(a,b\)</span> to be reduced modulo <span class="math inline">\(n\)</span>.
+Similarly, the inverse of <span class="math inline">\(a\)</span> is automatically computed modulo <span class="math inline">\(n\)</span>,
+otherwise we would obtain <span class="math inline">\(1/11\)</span> instead of <span class="math inline">\(14\)</span>.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="elementary-number-theory.html#cb7-1" tabindex="-1"></a>n<span class="op">=</span><span class="dv">17</span></span>
+<span id="cb7-2"><a href="elementary-number-theory.html#cb7-2" tabindex="-1"></a>G<span class="op">=</span>Integers(n)</span>
+<span id="cb7-3"><a href="elementary-number-theory.html#cb7-3" tabindex="-1"></a>G</span>
+<span id="cb7-4"><a href="elementary-number-theory.html#cb7-4" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="elementary-number-theory.html#cb7-5" tabindex="-1"></a>a <span class="op">=</span> G(<span class="dv">11</span>)</span>
+<span id="cb7-6"><a href="elementary-number-theory.html#cb7-6" tabindex="-1"></a>b <span class="op">=</span> G(<span class="dv">13</span>)</span>
+<span id="cb7-7"><a href="elementary-number-theory.html#cb7-7" tabindex="-1"></a>a,b</span>
+<span id="cb7-8"><a href="elementary-number-theory.html#cb7-8" tabindex="-1"></a>a<span class="op">+</span>b</span>
+<span id="cb7-9"><a href="elementary-number-theory.html#cb7-9" tabindex="-1"></a>a<span class="op">^</span>(<span class="op">-</span><span class="dv">1</span>)</span></code></pre></div>
+<p>The above examples and exercise highlight that, given some <span class="math inline">\(n\)</span>, some
+elements of <span class="math inline">\(\mathbb{Z}_n\)</span> have an inverse, and some do not. This
+motivates the following definition.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-94" class="definition"><strong>Definition 6.7  </strong></span><em>Let <span class="math inline">\(n\in\mathbb{N}\)</span>. We denote by <span class="math inline">\(\mathbb{Z}_n^*\)</span>
+the subset of <span class="math inline">\(\mathbb{Z}_n\)</span> formed by all the invertible elements of
+<span class="math inline">\(\mathbb{Z}_n\)</span>. We define the function <span class="math inline">\(\varphi\)</span> that, on input <span class="math inline">\(n\)</span>,
+returns the size of <span class="math inline">\(\mathbb{Z}_n^*\)</span>. This function is called </em>Euler’s
+totient (or phi) function<em>.</em></p>
+</div>
+<p>In Sage, Euler’s function on input <span class="math inline">\(n\)</span> can be computed by
+<code>euler_phi(n)</code>.</p>
+<div class="proposition">
+<p><span id="prp:units" class="proposition"><strong>Proposition 6.7  </strong></span><em>Let <span class="math inline">\(n\in\mathbb{N}\)</span>. Then <span class="math inline">\(\mathbb{Z}_n^*\)</span> is
+composed of all the elements <span class="math inline">\(a\in\mathbb{Z}_n\)</span> such that are coprime to
+<span class="math inline">\(n\)</span>.</em></p>
+</div>
+<p>The value of the totient function, and thus the size of
+<span class="math inline">\(\mathbb{Z}_n^*\)</span>, is determined by the prime factorization of <span class="math inline">\(n\)</span>. More
+precisely, we have the following result.</p>
+<div class="proposition">
+<p><span id="prp:totient" class="proposition"><strong>Proposition 6.8  </strong></span><em>Let <span class="math inline">\(n\in\mathbb{N}\)</span>. Then:</em></p>
+<p><em>If <span class="math inline">\(n=p^e\)</span>, where <span class="math inline">\(p\)</span> is a prime and <span class="math inline">\(e\in\mathbb{N}\)</span>, we have
+<span class="math display">\[\varphi(n)=(p-1)p^{e-1}.\]</span></em></p>
+<p><em>If <span class="math inline">\(n=pq\)</span>, where <span class="math inline">\(p,q\)</span> are coprime, then
+<span class="math display">\[\varphi(n)=\varphi(p)\varphi(q).\]</span></em></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-95" class="exercise"><strong>Exercise 6.6  </strong></span><em>Use the result above to deduce a formula for
+<span class="math inline">\(\varphi(n)\)</span>, when <span class="math inline">\(n\)</span> is the product of two different prime numbers.</em></p>
+</div>
+<p>To actually find the inverse of an element <span class="math inline">\(a\)</span> modulo <span class="math inline">\(n\)</span>, we can use
+the extended Euclidean algorithm. The key idea is to run the extended
+Euclidean algorithm on <span class="math inline">\(a\)</span> and <span class="math inline">\(n\)</span>. The algorithm produces
+<span class="math inline">\(x,y\in\mathbb{Z}_n\)</span> such that <span class="math display">\[ax+ny=\gcd(a,n).\]</span> By reducing both
+sides of the equation above modulo <span class="math inline">\(n\)</span>, we get that
+<span class="math display">\[ax\equiv\gcd(a,n)\pmod{n}.\]</span> Due to
+Proposition <a href="elementary-number-theory.html#prp:units">6.7</a>, we know that <span class="math inline">\(a\)</span> will be invertible modulo <span class="math inline">\(n\)</span>
+if and only if <span class="math inline">\(\gcd(a,n)=1\)</span>. Thus, if this is the case, we would have
+<span class="math display">\[ax\equiv1\pmod{n},\]</span> which means that <span class="math inline">\(x\)</span> is the inverse of <span class="math inline">\(a\)</span> modulo
+<span class="math inline">\(n\)</span>. If we find that <span class="math inline">\(\gcd(a,n)\neq1\)</span>, then <span class="math inline">\(a\)</span> is not invertible modulo
+<span class="math inline">\(n\)</span>.</p>
+<p>We also introduce the <em>Chinese remainder theorem (CRT)</em>, which, in its
+simplest form, states the following.</p>
+<div class="proposition">
+<p><span id="prp:crt" class="proposition"><strong>Proposition 6.9  (Chinese remainder theorem) </strong></span><em>Let <span class="math inline">\(a,b\in\mathbb{N}\)</span>
+be coprime, and let <span class="math inline">\(n=ab\)</span>. Then, for each <span class="math inline">\(x\in\mathbb{Z}_n\)</span>, there
+exists a unique pair <span class="math inline">\((y,z)\in\mathbb{Z}_a\times\mathbb{Z}_b\)</span> such that
+<span class="math display">\[\begin{aligned}
+        &amp; x\equiv y\pmod{a}, \\
+        &amp; x\equiv z\pmod{b}. \\
+    \end{aligned}\]</span> Moreover, given
+<span class="math inline">\((y,z)\in\mathbb{Z}_a\times\mathbb{Z}_b\)</span>, we can explicitly recover the
+corresponding <span class="math inline">\(x\)</span> by computing
+<span class="math display">\[x=\left(by\left(b^{-1}\bmod{a}\right)+az\left(a^{-1}\bmod{b}\right)\right)\bmod{n}.\]</span></em></p>
+</div>
+<p>With the notations of the proposition above, the Sage command that
+computes the value <span class="math inline">\(x\)</span> given by the Chinese remainder theorem is
+<code>crt(y, z, a, b)</code>.</p>
+<p>The legend says that this theorem was used in ancient China to count
+troops, proceeding as follows. Say that you had <span class="math inline">\(200\)</span> troops before
+battle, and you want to count your losses.</p>
+<ol style="list-style-type: decimal">
+<li><p>Choose a pair of coprime numbers such that their product is at least
+the upper bound on the number of troops. In this case, we can use
+<span class="math inline">\(11\cdot19=209\)</span>.</p></li>
+<li><p>Order the troops to stand in columns of length <span class="math inline">\(11\)</span>. The last column
+(possibly incomplete) tells us the remainder modulo <span class="math inline">\(11\)</span>, say it is
+<span class="math inline">\(8\)</span>.</p></li>
+<li><p>Reorganize the troops in columns of length <span class="math inline">\(19\)</span>. Again, the last
+column tells us the remainder <span class="math inline">\(z\)</span> modulo <span class="math inline">\(19\)</span>, say it is <span class="math inline">\(2\)</span>.</p></li>
+<li><p>Using the Chinese remainder theorem, we know that there is a unique
+number <span class="math inline">\(x&lt;209\)</span> such that <span class="math display">\[\begin{aligned}
+        &amp; x\bmod 11 = 9, \\
+        &amp; x\bmod 19 = 2, \\
+    \end{aligned}\]</span> and the second part of the theorem allows us to
+explicitly compute this number. Since <span class="math display">\[\begin{aligned}
+        &amp; 19^{-1}\bmod 11 = 7, \\
+        &amp; 11^{-1}\bmod 19 = 7, \\
+    \end{aligned}\]</span> we have that
+<span class="math display">\[x=\left(11\cdot 9\cdot 7+19\cdot 2\cdot 7\right)\bmod{209}=97.\]</span></p></li>
+</ol>
+<p>Higher factors, or more than two of them, can be used to deal with
+larger numbers.</p>
+</div>
+<div id="efficient-modular" class="section level2 hasAnchor" number="6.4">
+<h2><span class="header-section-number">6.4</span> Modular arithmetic, but efficient<a href="elementary-number-theory.html#efficient-modular" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>There are different approaches to actually do computations modulo <span class="math inline">\(n\)</span>.
+The end result will not change, but some ways involve easier
+computations than others. As an example, say that we want to compute
+<span class="math display">\[3^{75}\bmod{191}.\]</span></p>
+<p>The straightforward approach is to compute <span class="math inline">\(3^{75}\)</span>, which is
+<span class="math display">\[608266787713357709119683992618861307,\]</span> by performing <span class="math inline">\(74\)</span>
+multiplications by <span class="math inline">\(3\)</span>, and then perform the division by <span class="math inline">\(191\)</span>. But
+clearly this is a lot of work. A better approach is to perform the
+exponentiation in smaller increments, and reduce modulo <span class="math inline">\(191\)</span> before
+numbers get too big. More precisely, let us write the base-2 expansion
+of <span class="math inline">\(75\)</span>:
+<span class="math display" id="eq:1">\[\begin{equation}
+        75=2^6+2^3+2^1+2^0.
+        \tag{6.1}
+\end{equation}\]</span>
+Then, we can rewrite
+<span class="math display" id="eq:2">\[\begin{equation}
+        3^{75}=3^{2^6}\cdot3^{2^3}\cdot3^{2^1}\cdot3^{2^0}.
+        \tag{6.2}
+\end{equation}\]</span> Now
+observe that, for any <span class="math inline">\(i\in\mathbb{N}\)</span>, we have that
+<span class="math display">\[3^{2^i}=\left(3^{2^{i-1}}\right)^2,\]</span> and thus each of these terms can
+be recursively computed from the previous by squaring. We also perform
+the reductions modulo <span class="math inline">\(191\)</span> at each step, to prevent the numbers from
+blowing-up in size. Note that this reduction can be done due to point
+(iii) in
+Proposition <a href="elementary-number-theory.html#prp:modular">6.5</a>. <span class="math display">\[\begin{aligned}
+    &amp; 3^{2^0}\equiv 3\pmod{191}, \\
+    &amp; 3^{2^1}\equiv \left(3^{2^0}\right)^2\equiv 9\pmod{191}, \\
+    &amp; 3^{2^2}\equiv \left(3^{2^1}\right)^2\equiv 81\pmod{191}, \\
+    &amp; 3^{2^3}\equiv \left(3^{2^2}\right)^2\equiv 6561\equiv 67\pmod{191},\\
+    &amp; 3^{2^4}\equiv \left(3^{2^3}\right)^2\equiv (67)^2\equiv 4489\equiv 96\pmod{191},\\
+    &amp; 3^{2^5}\equiv \left(3^{2^4}\right)^2\equiv (96)^2\equiv 9216 \equiv 48\pmod{191},\\
+    &amp; 3^{2^6}\equiv \left(3^{2^5}\right)^2\equiv (48)^2\equiv 2304 \equiv 12\pmod{191}.\\
+    \end{aligned}\]</span> Now it simply remains to multiply the four factors
+of
+equation <a href="elementary-number-theory.html#eq:2">(6.2)</a>. Again, to avoid big
+numbers, we reduce modulo 191 after each factor is multiplied:
+<span class="math display">\[\begin{aligned}
+    &amp; 3^{2^0}\cdot 3^{2^1}\equiv 9\cdot 81\equiv 729 \equiv 156 \pmod{191}, \\
+    &amp; \left(3^{2^0}\cdot 3^{2^1}\right)\cdot 3^{2^3}\equiv 156\cdot 67\equiv 10452 \equiv 138\pmod{191},\\
+    &amp; \left(3^{2^0}\cdot 3^{2^1}\cdot 3^{2^3}\right)\cdot 3^{2^6}\equiv 138\cdot 12\equiv 1656\equiv 128.\\
+    \end{aligned}\]</span> Therefore, we conclude that
+<span class="math display">\[3^{75}\bmod{191}=128\qquad\text{(or, equivalently, that $3^{75}\equiv 128\pmod{191}$).}\]</span></p>
+<p>This algorithm is known as <em>square-and-multiply</em>, and the reason behind
+the name is clear once we take a step back and slightly rewrite our
+solution. Observe that, from
+equation <a href="elementary-number-theory.html#eq:1">(6.1)</a>, we directly deduce that the binary expression of
+<span class="math inline">\(75\)</span> is <span class="math display">\[[75]_2=1001010.\]</span> Then, from the base number, in this case
+<span class="math inline">\(3\)</span>, and for each bit in <span class="math inline">\([75]_2\)</span>, starting from the right, we</p>
+<ul>
+<li><p><em>Squaring step:</em> compute the square of the previous power of <span class="math inline">\(3\)</span>.</p></li>
+<li><p><em>Multiplication step:</em> if the bit is <span class="math inline">\(1\)</span>, multiply the product so
+far by the new power of <span class="math inline">\(3\)</span>. Otherwise, skip this step.</p></li>
+</ul>
+<p>Take a moment to review the example above, and convince yourself that it
+matches the steps described.</p>
+</div>
+<div id="solved-exercises-5" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="elementary-number-theory.html#solved-exercises-5" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-96" class="exercise"><strong>Exercise 6.7  </strong></span><em>Compute by hand the value <span class="math inline">\(367^{234} \pmod 9\)</span>.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-97" class="solution"><em>Solution</em>. </span>Doing such computations without applying the properties of modular arithmetic can be tedious and inefficient. The most crucial point is that we need to keep our numbers small, so always
+reduce the modulo when you can!</p>
+<p>We start by noting that <span class="math inline">\(367\)</span> is way too big to handle. However note that we can write the above as <span class="math inline">\(367\cdot 367 \cdots 367\pmod 9\)</span>.</p>
+<p>Using the second property of Proposition <a href="elementary-number-theory.html#prp:modular">6.5</a>, we can first reduce <span class="math inline">\(367 \pmod 9\)</span> in the above equation. We get the first trick this way:</p>
+<div class="hint">
+<p><em>Trick 1: big numbers should first get reduced!</em></p>
+</div>
+<p>After a division we get that <span class="math inline">\(367\equiv 9\)</span>. Our new task is to compute <span class="math inline">\(7^{234} \pmod 9\)</span>.*</p>
+<p>Now, we need to do fast exponentiation. Basically, one can simply write the exponent as a sum of powers of 2. It is good to learn by hand the first powers of two
+<span class="math display">\[
+  1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, \ldots
+\]</span></p>
+<div class="hint">
+<p><em>Trick 2: Write exponents as powers of two!</em></p>
+</div>
+<p>We can write
+<span class="math display">\[
+  234 = 128 + 64 + 32 + 8 + 2 = 2^7 + 2^6 + 2^5 + 2^3 + 2^1
+\]</span></p>
+<p>so we can now rewrite
+<span class="math display">\[
+7^{234}\equiv 7^{2^7 + 2^6 + 2^5 + 2^3 + 2^1} \equiv 7^{2^7}  7^{2^6}  7^{2^5}  7^{2^3}  7^{2^1} \pmod 9
+\]</span></p>
+<p>At this point, if we new the values <span class="math inline">\(7^{2^i}\)</span> we could compute the result. But recall that the smaller the numbers, the easier it is to make computations! This gives the third trick:</p>
+<div class="hint">
+<p><em>Trick 3: when working <span class="math inline">\(\bmod n\)</span> add or subtract <span class="math inline">\(n\)</span> to make numbers easier to handle!</em></p>
+</div>
+<p>In our case, we have <span class="math inline">\(7 \equiv 7 - 9 \equiv -2 \pmod 9\)</span>.</p>
+<p>We now need to do the calculation
+<span class="math display">\[
+7^{2^7}  7^{2^6}  7^{2^5}  7^{2^3}  7^{2^1} \equiv {(-2)}^{2^7}  {(-2)}^{2^6}  {(-2)}^{2^5}  {(-2)}^{2^3}  {(-2)}^{2^1} \pmod 9
+\]</span></p>
+<p>We start computing them one by one. Remember to <em>always reduce</em> so your numbers remain small and the
+calculations easy! We have</p>
+<p><span class="math display">\[
+\begin{aligned}
+{(-2)}^{2^1} &amp;\equiv {(-2)}^{2} \equiv 4\pmod  9 \\
+{(-2)}^{2^2} &amp;\equiv {(-2)}^{2^1}{(-2)}^{2^1} \equiv 4 \cdot 4 \equiv 16 \equiv 7 \equiv -2 \pmod  9 \\
+{(-2)}^{2^3} &amp;\equiv {(-2)}^{2^2}{(-2)}^{2^2} \equiv (-2) \cdot (-2)\equiv 4\pmod  9 \\
+{(-2)}^{2^4} &amp;\equiv {(-2)}^{2^3}{(-2)}^{2^3} \equiv 4 \cdot 4 \equiv 16 \equiv 7 \equiv -2 \pmod  9 \\
+{(-2)}^{2^5} &amp;\equiv {(-2)}^{2^4}{(-2)}^{2^4} \equiv (-2) \cdot (-2)\equiv 4\pmod  9 \\
+{(-2)}^{2^6} &amp;\equiv {(-2)}^{2^5}{(-2)}^{2^5} \equiv 4 \cdot 4 \equiv 16 \equiv 7 \equiv -2 \pmod  9 \\
+{(-2)}^{2^7} &amp;\equiv {(-2)}^{2^6}{(-2)}^{2^6} \equiv (-2) \cdot (-2)\equiv 4\pmod  9 \\
+\end{aligned}
+\]</span></p>
+<p>We can now replace and do the final calculations. We have
+<span class="math display">\[
+\begin{aligned}
+{(-2)}^{2^7}  {(-2)}^{2^6}  {(-2)}^{2^5}  {(-2)}^{2^3}  {(-2)}^{2^1} &amp;\equiv 4\cdot (-2) \cdot 4 \cdot 4 \cdot 4 \pmod 9 \\
+                                                                     &amp;\equiv -8 \cdot 4 \cdot 4 \cdot 4 \pmod 9 \\
+                                                                     &amp;\equiv 1\cdot 4 \cdot 4 \cdot 4 \pmod 9 \\
+                                                                     &amp;\equiv 16\cdot 4 \pmod 9 \\
+                                                                     &amp;\equiv 7\cdot 4 \pmod 9 \\
+                                                                     &amp;\equiv 28 \pmod 9 \\
+                                                                     &amp;\equiv 1 \pmod 9 \\
+\end{aligned}
+\]</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-98" class="exercise"><strong>Exercise 6.8  </strong></span><em>Compute the following inverses:</em></p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(4^{-1} \pmod {79}\)</span></li>
+<li><span class="math inline">\(83^{-1} \pmod {3791}\)</span></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-99" class="solution"><em>Solution</em>. </span>Recall that the inverse of <span class="math inline">\(a \pmod n\)</span> exists if and only if the greatest common divisor
+of <span class="math inline">\(a, n\)</span> is 1. This value can be computed via the Extended Euclidian Algorithm.</p>
+<p>This algorithm is also the computational method to compute the inverse. Indeed, via this
+algorithm you find values <span class="math inline">\(x,y\)</span> s.t. <span class="math inline">\(ax+ny=1\)</span>. Reducing this equation <span class="math inline">\(\bmod n\)</span> gives
+<span class="math display">\[
+ax + ny \pmod n \equiv 1 \pmod n
+\Leftrightarrow
+ax \pmod n \equiv 1 \pmod n
+\]</span>
+and therefore the product of <span class="math inline">\(a\)</span> and <span class="math inline">\(x\)</span> (in <span class="math inline">\(\bmod n\)</span>) is 1. Therefore,
+<span class="math inline">\(a^{-1}\equiv x\pmod n\)</span>.</p>
+<p>We next run the EEA for the given <span class="math inline">\(a, n\)</span>. Recall the steps of the algorithm:
+1. do integer division of <span class="math inline">\(a,n\)</span> to get the remainder <span class="math inline">\(r\)</span>.
+2. run the EEA for <span class="math inline">\(a, r\)</span>
+The recursion stops when <span class="math inline">\(r=0\)</span>. Let’s do the steps for each.</p>
+<ol style="list-style-type: decimal">
+<li><p>We need to compute <span class="math inline">\(4^{-1} \pmod {79}\)</span>. It is a good idea to also write in each line the
+remainder as a <em>linear combination</em> of the values <span class="math inline">\(a, b\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(a\)</span></th>
+<th align="center"><span class="math inline">\(b\)</span></th>
+<th align="center">division</th>
+<th align="center">linear combination</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(79\)</span></td>
+<td align="center"><span class="math inline">\(4\)</span></td>
+<td align="center"><span class="math inline">\(79 = 19\cdot 4 + 3\)</span></td>
+<td align="center"><span class="math inline">\(3 = 1\cdot 79 + (- 19)\cdot 4\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(4\)</span></td>
+<td align="center"><span class="math inline">\(3\)</span></td>
+<td align="center"><span class="math inline">\(4 = 1\cdot 3 + 1\)</span></td>
+<td align="center"><span class="math inline">\(1 = 1\cdot 4 + (-1) \cdot 3\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(3\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"><span class="math inline">\(3 = 3\cdot 1 + 0\)</span></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>We now need to go “back”. It can be quite confusing not mixing the numbers. We start
+with the equation that has remainder 1. We work our way up by replacing the remainder of the previous equation.</p>
+<p><em>In each line, the equation should be a linear combination of the values <span class="math inline">\(a, b\)</span></em>.</p>
+<p>In what follows, we use blue to denote the linear combination elements (i.e. the <span class="math inline">\(a,b\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}
+a=\color{blue}{4},&amp;\quad b=\color{blue}{3}, &amp;\qquad 1 &amp;= {1}\cdot \color{blue}{4} + ({-1})\cdot \color{blue}{3} \\
+a=\color{blue}{79},&amp;\quad b=\color{blue}{4}, &amp;\qquad 1 &amp;= {1}\cdot \color{blue}{4} + ({-1})\cdot (1\cdot \color{blue}{79} + (- 19)\cdot \color{blue}{4}) \\
+     &amp; &amp; &amp;= (-1)\cdot \color{blue}{79} + 20\cdot \color{blue}{4} \\
+\end{aligned}
+\]</span>
+We end up with the equation <span class="math inline">\(1 = (-1)\cdot \color{blue}{79} + 20\cdot \color{blue}{4}\)</span>. Reducing this equation <span class="math inline">\(\bmod 79\)</span> gives <span class="math inline">\(4\cdot 20 \equiv 1 \pmod {79}\)</span>. Therefore,
+<span class="math inline">\(4^{-1} \equiv 20 \pmod {79}\)</span>.</p></li>
+<li><p>The numbers are a bit bigger here, but the steps remain exactly the same.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(a\)</span></th>
+<th align="center"><span class="math inline">\(b\)</span></th>
+<th align="center">division</th>
+<th align="center">linear combination</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(3791\)</span></td>
+<td align="center"><span class="math inline">\(83\)</span></td>
+<td align="center"><span class="math inline">\(3791 = 45\cdot 83 + 56\)</span></td>
+<td align="center"><span class="math inline">\(56 = 1\cdot 3791 + (- 45)\cdot 83\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(83\)</span></td>
+<td align="center"><span class="math inline">\(56\)</span></td>
+<td align="center"><span class="math inline">\(83 = 1\cdot 56 + 27\)</span></td>
+<td align="center"><span class="math inline">\(27 = 1\cdot 83 + (- 1)\cdot 56\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(56\)</span></td>
+<td align="center"><span class="math inline">\(27\)</span></td>
+<td align="center"><span class="math inline">\(56 = 2\cdot 27 + 2\)</span></td>
+<td align="center"><span class="math inline">\(2 = 1\cdot 56 + (- 2)\cdot 27\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(27\)</span></td>
+<td align="center"><span class="math inline">\(2\)</span></td>
+<td align="center"><span class="math inline">\(27 = 2\cdot 13 + 1\)</span></td>
+<td align="center"><span class="math inline">\(1 = 1\cdot 27 + (- 13)\cdot 2\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(2\)</span></td>
+<td align="center"><span class="math inline">\(1\)</span></td>
+<td align="center"><span class="math inline">\(1 = 2\cdot 1 + 0\)</span></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>We next start from the linear combination of <span class="math inline">\(1\)</span> and work our way back.</p>
+<p><span class="math display">\[
+\begin{aligned}
+a=\color{blue}{27},&amp;\quad b=\color{blue}{2},      &amp;\qquad 1 &amp;= {1}\cdot \color{blue}{27} + (-13)\cdot \color{blue}{2} \\
+a=\color{blue}{56},&amp;\quad b=\color{blue}{27},     &amp;\qquad 1 &amp;= {1}\cdot \color{blue}{27} + (-13)\cdot (1\cdot \color{blue}{56} + (- 2)\cdot \color{blue}{27}) \\
+     &amp; &amp; &amp;= (-13)\cdot \color{blue}{56} + 27\cdot \color{blue}{27} \\
+a=\color{blue}{83},&amp;\quad b=\color{blue}{56},     &amp;\qquad 1 &amp;= (-13)\cdot \color{blue}{56} + 27\cdot (1\cdot \color{blue}{83} + (- 1)\cdot \color{blue}{56}) \\
+     &amp; &amp; &amp;= 27\cdot \color{blue}{83} + (-40)\cdot \color{blue}{56} \\
+a=\color{blue}{3791},&amp;\quad b=\color{blue}{83},     &amp;\qquad 1 &amp;= 27\cdot \color{blue}{83} + (-40)\cdot (1\cdot \color{blue}{3791} + (- 45)\cdot \color{blue}{83}) \\
+     &amp; &amp; &amp;= -40\cdot \color{blue}{3791} + 1827\cdot \color{blue}{83} \\
+\end{aligned}
+\]</span>
+We end up with the equation <span class="math inline">\(-40\cdot \color{blue}{3791} + 1827\cdot \color{blue}{83}\)</span>. Reducing this equation <span class="math inline">\(\bmod 379179\)</span> gives
+<span class="math inline">\(1827\cdot 83 \equiv 1 \pmod {3791}\)</span>. Therefore,
+<span class="math inline">\(83^{-1} \equiv 1827 \pmod {3791}\)</span>.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-100" class="exercise"><strong>Exercise 6.9  </strong></span></p>
+<ol style="list-style-type: decimal">
+<li><em>Consider the linear equation <span class="math inline">\(ax\equiv b\pmod n\)</span></em>. When does it have a solution?</li>
+<li><em>Solve the equation <span class="math inline">\(6x = 10 \pmod {23}\)</span></em>.</li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-101" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>To solve such exercises, it is enough to remember that the normal operations behave as one should expect. This means that we can consider the equation to be defined over the <span class="math inline">\(\mathbb{R}\)</span> and perform any operations “the correct way”, here <span class="math inline">\(\mod n\)</span>. This means that here, we can solve this linear equation as <span class="math inline">\(x = b \cdot a^{-1} \pmod {n}\)</span>. This equation admits a solution iff <span class="math inline">\(a\)</span> has an invert <span class="math inline">\(\pmod n\)</span>. This happens iff <span class="math inline">\({gcd}(a, n)=1\)</span>.</p></li>
+<li><p>By the previous question, the solution either does not exist or is equal to <span class="math inline">\(10\cdot 6^{-1}\pmod{23}\)</span>. In this case <span class="math inline">\(23\)</span> is a prime which means that the inverse exists (in the general case, one can compute the <span class="math inline">\(gcd\)</span> and check if the result is 1 or not). Therefore, we need to compute the inverse of <span class="math inline">\(6\)</span> <span class="math inline">\(\pmod{23}\)</span> and multiply it with 10 <span class="math inline">\(\pmod {23}\)</span>.</p>
+<p>We first compute the inverse. We have
+<span class="math display">\[
+\begin{aligned}
+   23 &amp;= 3\cdot 6 + 5  \\
+   6 &amp;= 1\cdot 5 + 1  \\
+\end{aligned}
+\]</span>
+Therefore we have:
+<span class="math display">\[
+1 = 1\cdot 6 - 1\cdot 5 =
+     1\cdot 6 - 1(1\cdot 23 - 3\cdot 6) = -1 \cdot 23 + 4 \cdot 6
+\]</span>
+Reducing the above equation <span class="math inline">\(\pmod {23}\)</span> we get <span class="math inline">\(6^{-1}\equiv 4 \pmod{23}\)</span>. Finally <span class="math inline">\(4\cdot 10 \equiv 40 \equiv 17\pmod{23}\)</span>. The solution is <span class="math inline">\(x\equiv 17\pmod{23}\)</span>.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-102" class="exercise"><strong>Exercise 6.10  </strong></span><em>Consider the following problem: given as input <span class="math inline">\(N=p\cdot q\)</span> where <span class="math inline">\(p,q\)</span> are large primes, compute the value <span class="math inline">\(\phi(N)\)</span>. Do you think this is a tractable problem.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-103" class="solution"><em>Solution</em>. </span>These kind of problems have two possible approaches: either it is tractable, which can be shown by presenting an efficient algorithm for it, or it is (probably)<a href="#fn28" class="footnote-ref" id="fnref28"><sup>28</sup></a> intractable,
+which can be shown by showing that an efficient algorithm for it implies an efficient algorithm for another (assumingly) hard problem. Unfortunately, aside intuition, there is no way to
+know which is the case, so it must be trial and error.</p>
+<p>To prove hardness, you should consider a related problem. In this case, the obvious related problem is factoring products of large primes. Recall this is assumed to be hard.
+We will assume the existence of an algorithm <span class="math inline">\(\mathcal{A}_\phi\)</span> that solves this problem and use it to construct an algorithm <span class="math inline">\(\mathcal{A}_{\text{fact}}\)</span> that solves the factoring problem. If we succeed, either our assumption is wrong (the existence of <span class="math inline">\(\mathcal{A}_\phi\)</span>) is wrong, or factoring is easy. It is widely believed that this is not the case, so it must be the case
+that the problem is indeed hard.</p>
+<p>Our strategy for factoring is the following: assuming we know <span class="math inline">\(\phi(N)\)</span>, we have two equations for two unknowns <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>, specifically,
+<span class="math display">\[
+N = p\cdot q,\qquad \phi(N) = (p-1)(q-1)
+\]</span>
+We can set in the latter <span class="math inline">\(q = N/p\)</span> and solve for <span class="math inline">\(p\)</span>. This will result in a quadratic equation which we can solve efficiently! Now, out of the two possible solutions we will choose the
+one that corresponds to an integer, prime number. Note that such a number must exist (we assume <span class="math inline">\(N=p\cdot q\)</span>) so we will indeed find it! And of course, knowing <span class="math inline">\(p\)</span> means we can also
+compute <span class="math inline">\(q=N/p\)</span>.</p>
+<p>We present the result a bit more formally.</p>
+<p>Assume there exists an algorithm <span class="math inline">\(\mathcal{A}_\phi\)</span> that</p>
+<ul>
+<li>takes input <span class="math inline">\(N=p\cdot q\)</span> where <span class="math inline">\(p,q\)</span> are large primes, and</li>
+<li>outputs the value <span class="math inline">\(\phi(N)\)</span>.</li>
+</ul>
+<p>We build an algorithm <span class="math inline">\(\mathcal{A}_{\text{fact}}\)</span> that takes input <span class="math inline">\(N=p\cdot q\)</span> where <span class="math inline">\(p,q\)</span> are large primes, and outputs <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span>.
+The algorithm <span class="math inline">\(\mathcal{A}_{\text{fact}}(N)\)</span> does the following</p>
+<ul>
+<li>Compute <span class="math inline">\(\phi\gets \mathcal{A}_{\phi}(N)\)</span>.</li>
+<li>Define the equation
+<span class="math display">\[
+  (p-1)(N/p - 1) = \phi \Leftrightarrow(p-1)(N/p - 1) = \phi
+  \]</span></li>
+<li>Solve the equation <span class="math inline">\(p^2 + (\phi - N - 1)p + N = 0\)</span>.</li>
+<li>Let <span class="math inline">\(p_1, p_2\)</span> be the solutions to the equation.</li>
+<li>Choose the solution <span class="math inline">\(p_b\)</span> where <span class="math inline">\(p_b\)</span> is a prime number.</li>
+<li>Set <span class="math inline">\(p = p_b\)</span> and <span class="math inline">\(q = N/p_b\)</span>.</li>
+<li>Output <span class="math inline">\((p,q)\)</span>.</li>
+</ul>
+<p>The algorithm is correct: as we argued before, there exists a <span class="math inline">\(p\)</span> that satisfies <span class="math inline">\((p-1)(N/p - 1) = \phi\)</span> and in particular one of the (at most two) solutions will necessarily be
+a prime integer number. This number must be one of the two divisors of <span class="math inline">\(N\)</span>. And clearly, the other divisor is <span class="math inline">\(N/p\)</span>. So we indeed compute the unique factorization of <span class="math inline">\(N\)</span>.</p>
+<p>Furthermore, the algorithm <span class="math inline">\(\mathcal{A}_{\text{fact}}(N)\)</span> is efficient if <span class="math inline">\(\mathcal{A}_{\phi}(N)\)</span> is efficient. Indeed all steps can be performed efficiently.</p>
+<p>We conclude that we have an efficient algorithm for factoring assuming an efficient algorithm for computing <span class="math inline">\(\phi\)</span>. Therefore, finding <span class="math inline">\(\phi\)</span> is <em>at least as hard</em> as factoring.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-104" class="exercise"><strong>Exercise 6.11  </strong></span><em>Alice bought a set of 120 balls but it seems a lot of them are missing. When she arranges the balls in rows of length 13 there are 2 balls on the last row and when she arranges them in rows of length 11 there are 5 on the last row. How many balls are missing?</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-105" class="solution"><em>Solution</em>. </span>Let’s call <span class="math inline">\(x\)</span> the number of balls. The fact that 2 balls are on the last row in the 13 ball arrangement means that <span class="math inline">\(x\pmod {13} = 2\)</span> and equivalently for the other case <span class="math inline">\(x\pmod {11} = 5\)</span>. Since <span class="math inline">\(13,11\)</span> are prime numbers they are also coprime.</p>
+<p>We can apply the Chinese remainder theorem. We have that
+<span class="math display">\[
+x = (11\cdot 2 (11^{-1} \mod 13)) + (13\cdot 5(13^{-1}\mod 11) ) \mod (11\cdot 13)
+\]</span>
+Since the numbers are small we can compute the inverses by trial and error. Noting that <span class="math inline">\(13\equiv 2 \pmod {11}\)</span> we have
+<span class="math display">\[
+6\cdot 11 \equiv 66 \equiv 5\cdot 13 + 1\equiv 1 \pmod{13}, \qquad
+6\cdot 2 \equiv 11+1 \equiv 1 \pmod{11}
+\]</span>
+or equivalently
+<span class="math display">\[
+6 \equiv 2^{-1} \pmod{13}, \qquad
+6 \equiv 2^{-1} \pmod{11}
+\]</span>
+We therefore have
+<span class="math display">\[
+\begin{aligned}
+x &amp;= (11\cdot 2 (11^{-1} \mod 13)) + (13\cdot 5(2^{-1}\mod 11) ) \mod (11\cdot 13) \\
+  &amp;= (11\cdot 2 \cdot 6 + 13\cdot 5\cdot 6) \mod (11\cdot 13) \\
+  &amp;= (132 + 390) \mod (143) \\
+  &amp;= 93 \mod (143) \\
+\end{aligned}
+\]</span>
+The number of balls must be 93. Indeed expressing the <span class="math inline">\(\text{mod}\)</span> as an Euclidian division, we have
+<span class="math display">\[x = n\cdot 143 + 93\]</span>
+but since <span class="math inline">\(x\leq 120 &lt; 143\)</span> it must be the case that <span class="math inline">\(n=0\)</span> which means <span class="math inline">\(x = 93\)</span> and therefore <span class="math inline">\(27\)</span> balls are missing.</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="26">
+<li id="fn26"><p>For those with a background in complexity theory, primality is a
+problem in P and factorization is a problem in NP.<a href="elementary-number-theory.html#fnref26" class="footnote-back">↩︎</a></p></li>
+<li id="fn27"><p>The only small caveat is that, when <span class="math inline">\(a\)</span> is a multiple of <span class="math inline">\(12\)</span>,
+the remainder will be <span class="math inline">\(0\)</span>, not <span class="math inline">\(12\)</span>, although both of these
+represent the same position. So, to be precise, let us assume that
+our clock has a <span class="math inline">\(0\)</span> instead of <span class="math inline">\(12\)</span>, so that it perfectly aligns
+with the remainders.<a href="elementary-number-theory.html#fnref27" class="footnote-back">↩︎</a></p></li>
+<li id="fn28"><p>Note the wording. It is currently unknown how to prove that computational problems are hard or whether they actually are for that matter. What we can show is show relations
+between problems, i.e. if problem A is hard so is problem B.<a href="elementary-number-theory.html#fnref28" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="hash-functions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="algebraic-structures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

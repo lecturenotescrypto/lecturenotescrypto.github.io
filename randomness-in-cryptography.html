@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Randomness in cryptography | Cryptography lecture notes</title>
+  <meta name="description" content="2 Randomness in cryptography | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Randomness in cryptography | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Randomness in cryptography | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction-to-security.html"/>
+<link rel="next" href="block-ciphers.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="randomness-in-cryptography" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">2</span> Randomness in cryptography<a href="randomness-in-cryptography.html#randomness-in-cryptography" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>As we saw above, and made explicit in
+<a href="introduction-to-security.html#principle:3" reference-type="ref" reference="principle:3">Principle 3</a>, we require randomness to guarantee secure
+cryptography. In this section, we will give some thought to how to
+obtain this randomness in the first place, and what to do when we do not
+have enough of it. As a motivating example, we will start by describing
+a well-known encryption scheme.</p>
+<p>We will learn about:</p>
+<ol style="list-style-type: decimal">
+<li><p>The one-time pad encryption scheme;</p></li>
+<li><p>Pseudorandom generators;</p></li>
+<li><p>Sources of randomness.</p></li>
+</ol>
+<div id="one-time-pad" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> One-time pad<a href="randomness-in-cryptography.html#one-time-pad" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <em>one-time pad (OTP)</em> is an old encryption scheme, which was already
+known in the late 19th century, and was widely used in the 20th century
+for many military and intelligence operations.</p>
+<p>The idea is extremely simple. Let us first recall the <em>exclusive or</em>
+(<span class="math inline">\(\mathsf{XOR}\)</span>) logic operation. Given two bits <span class="math inline">\(b_0,b_1\in\{0,1\}\)</span>,
+the operation is defined as
+<span class="math display">\[\mathsf{XOR}(b_0,b_1)=b_0\oplus b_1=\left\{\begin{array}{ll}
+    0 &amp; \text{if }b_0=b_1, \\
+    1 &amp; \text{if }b_0\neq b_1. \\
+\end{array}\right.\]</span> Equivalently, the operation corresponds to the
+following truth table:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(b_0\)</span></th>
+<th align="center"><span class="math inline">\(b_1\)</span></th>
+<th align="center"><span class="math inline">\(b_0\oplus b_1\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0</td>
+<td align="center">0</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center">0</td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center">1</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>We extend the notation to bitstrings of any length, i.e., given two
+bitstrings <span class="math inline">\(\mathbf b_0\)</span> and <span class="math inline">\(\mathbf b_1\)</span> of the same length, we define
+<span class="math display">\[\mathbf b_0 \oplus \mathbf b_1\]</span> to be the bitstring that results from
+<span class="math inline">\(\mathsf{XOR}\)</span>’ing each bit of <span class="math inline">\(\mathbf b_0\)</span> with the bit in the same
+position of <span class="math inline">\(\mathbf b_1\)</span>.</p>
+<p>Assume that Alice wants to send an encrypted message to Bob. The
+one-time pad works as follows. Key generation consists of choosing as a
+secret key a uniformly random bitstring of length <span class="math inline">\(\lambda\)</span> as the key:
+<span class="math display">\[\mathsf{k}=k_1k_2\dots k_\lambda.\]</span> We denote this process by
+<span class="math inline">\(\mathsf{k}\gets\{0,1\}^\lambda\)</span>. Let <span class="math inline">\(m\)</span> be a message that Alice wants
+to encrypt, written as a bitstring<a href="#fn7" class="footnote-ref" id="fnref7"><sup>7</sup></a>
+<span class="math display">\[\mathsf{m}=m_1m_2\dots m_\lambda\]</span> of the same length. Then, the
+one-time pad encryption scheme works by <span class="math inline">\(\mathsf{XOR}\)</span>’ing each message
+bit with the corresponding key bit. More precisely, for the <span class="math inline">\(i\)</span>th bit of
+the message, we compute <span class="math display">\[\mathsf{c}= \mathsf{m}\oplus \mathbf k,\]</span>
+which is sent to Bob. Note that, because the <span class="math inline">\(\mathsf{XOR}\)</span> operation is
+its own inverse, the decryption algorithm works exactly like encryption.
+That is, Bob can recover the message by computing
+<span class="math display">\[\mathsf{m}= \mathsf{c}\oplus\mathsf{k}.\]</span></p>
+<p>The first property that we want from any encryption scheme is
+<em>correctness</em>, which means that for any message <span class="math inline">\(\mathsf{m}\)</span> and any key
+<span class="math inline">\(\mathsf{k}\)</span>, we have that
+<span class="math display">\[\mathsf{Dec}_{\mathsf{k}}(\mathsf{Enc}_{\mathsf{k}}(\mathsf{m}))=\mathsf{m},\]</span>
+that is, if we encrypt and decrypt, we should recover the same message.
+Otherwise Alice and Bob will not be able to communicate.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-13" class="proposition"><strong>Proposition 2.1  </strong></span><em>The one-time pad is a correct encryption scheme.</em></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-14" class="proof"><em>Proof</em>. </span>Using the definitions of encryption and decryption, we have
+that
+<span class="math display">\[\mathsf{Dec}_{\mathsf{k}}(\mathsf{Enc}_{\mathsf{k}}(\mathsf{m}))=\mathsf{Dec}_{\mathsf{k}}(\mathsf{m}\oplus\mathsf{k})=(\mathsf{m}\oplus\mathsf{k})\oplus \mathsf{k}= \mathsf{m}\oplus (\mathsf{k}\oplus\mathsf{k})=\mathsf{m}\oplus\mathbf 0=\mathsf{m},\]</span>
+where <span class="math inline">\(\mathbf 0\)</span> means the string of zeroes of size <span class="math inline">\(\lambda\)</span>. In the
+last two steps, we used, respectively, that <span class="math inline">\(\mathsf{XOR}\)</span>’ing any
+string with itself produces <span class="math inline">\(\mathbf 0\)</span>, and that <span class="math inline">\(\mathsf{XOR}\)</span>’ing any
+string with <span class="math inline">\(\mathbf 0\)</span> does not change the string.</p>
+</div>
+<p>Here is a straightforward implementation of the one-time pad. In this
+example, we want to send a message with <span class="math inline">\(12\)</span> ASCII characters, so each
+character will require <span class="math inline">\(8\)</span> bits. Thus, we choose a key length of <span class="math inline">\(96\)</span>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="randomness-in-cryptography.html#cb2-1" tabindex="-1"></a><span class="im">from</span> sage.crypto.util <span class="im">import</span> ascii_integer</span>
+<span id="cb2-2"><a href="randomness-in-cryptography.html#cb2-2" tabindex="-1"></a><span class="im">from</span> sage.crypto.util <span class="im">import</span> bin_to_ascii</span>
+<span id="cb2-3"><a href="randomness-in-cryptography.html#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="randomness-in-cryptography.html#cb2-4" tabindex="-1"></a><span class="co"># Set a security parameter</span></span>
+<span id="cb2-5"><a href="randomness-in-cryptography.html#cb2-5" tabindex="-1"></a>sec_param <span class="op">=</span> <span class="dv">96</span></span>
+<span id="cb2-6"><a href="randomness-in-cryptography.html#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="randomness-in-cryptography.html#cb2-7" tabindex="-1"></a><span class="co"># Define the XOR operation:</span></span>
+<span id="cb2-8"><a href="randomness-in-cryptography.html#cb2-8" tabindex="-1"></a><span class="kw">def</span> xor(a,b):</span>
+<span id="cb2-9"><a href="randomness-in-cryptography.html#cb2-9" tabindex="-1"></a>    <span class="cf">return</span> mod(<span class="bu">int</span>(a)<span class="op">+</span><span class="bu">int</span>(b),<span class="dv">2</span>) <span class="co"># You will learn why this is equivalent</span></span>
+<span id="cb2-10"><a href="randomness-in-cryptography.html#cb2-10" tabindex="-1"></a>                                <span class="co"># to XOR later in the course</span></span>
+<span id="cb2-11"><a href="randomness-in-cryptography.html#cb2-11" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="randomness-in-cryptography.html#cb2-12" tabindex="-1"></a><span class="co">### KEY GENERATION </span></span>
+<span id="cb2-13"><a href="randomness-in-cryptography.html#cb2-13" tabindex="-1"></a><span class="co"># Generate a random key of length sec_param</span></span>
+<span id="cb2-14"><a href="randomness-in-cryptography.html#cb2-14" tabindex="-1"></a>k <span class="op">=</span> random_vector(GF(<span class="dv">2</span>),sec_param)</span>
+<span id="cb2-15"><a href="randomness-in-cryptography.html#cb2-15" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="randomness-in-cryptography.html#cb2-16" tabindex="-1"></a><span class="co">### ENCRYPTION </span></span>
+<span id="cb2-17"><a href="randomness-in-cryptography.html#cb2-17" tabindex="-1"></a><span class="co"># Choose a message</span></span>
+<span id="cb2-18"><a href="randomness-in-cryptography.html#cb2-18" tabindex="-1"></a>m <span class="op">=</span> <span class="st">&quot;Hello there.&quot;</span></span>
+<span id="cb2-19"><a href="randomness-in-cryptography.html#cb2-19" tabindex="-1"></a><span class="co"># Process the message into a bitstring</span></span>
+<span id="cb2-20"><a href="randomness-in-cryptography.html#cb2-20" tabindex="-1"></a>m_bin <span class="op">=</span> <span class="bu">str</span>(BinaryStrings().encoding(m))</span>
+<span id="cb2-21"><a href="randomness-in-cryptography.html#cb2-21" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="randomness-in-cryptography.html#cb2-22" tabindex="-1"></a><span class="co"># Encrypt the message bit by bit</span></span>
+<span id="cb2-23"><a href="randomness-in-cryptography.html#cb2-23" tabindex="-1"></a>c <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb2-24"><a href="randomness-in-cryptography.html#cb2-24" tabindex="-1"></a><span class="cf">if</span> (<span class="bu">len</span>(m_bin)<span class="op">&lt;=</span>sec_param):</span>
+<span id="cb2-25"><a href="randomness-in-cryptography.html#cb2-25" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(m_bin)):</span>
+<span id="cb2-26"><a href="randomness-in-cryptography.html#cb2-26" tabindex="-1"></a>        c <span class="op">+=</span> <span class="bu">str</span>(xor(m_bin[i],k[i]))</span>
+<span id="cb2-27"><a href="randomness-in-cryptography.html#cb2-27" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Ciphertext: &quot;</span><span class="op">+</span>c)</span>
+<span id="cb2-28"><a href="randomness-in-cryptography.html#cb2-28" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb2-29"><a href="randomness-in-cryptography.html#cb2-29" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Message too long. Need a longer key.&quot;</span>)</span>
+<span id="cb2-30"><a href="randomness-in-cryptography.html#cb2-30" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="randomness-in-cryptography.html#cb2-31" tabindex="-1"></a><span class="co">### DECRYPTION </span></span>
+<span id="cb2-32"><a href="randomness-in-cryptography.html#cb2-32" tabindex="-1"></a><span class="co"># We use the same ciphertext obtained in the encryption part. </span></span>
+<span id="cb2-33"><a href="randomness-in-cryptography.html#cb2-33" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="randomness-in-cryptography.html#cb2-34" tabindex="-1"></a><span class="co"># Decrypt the ciphertext bit by bit</span></span>
+<span id="cb2-35"><a href="randomness-in-cryptography.html#cb2-35" tabindex="-1"></a>m_bin <span class="op">=</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb2-36"><a href="randomness-in-cryptography.html#cb2-36" tabindex="-1"></a><span class="cf">if</span> (<span class="bu">len</span>(c)<span class="op">&lt;=</span>sec_param):</span>
+<span id="cb2-37"><a href="randomness-in-cryptography.html#cb2-37" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(c)):</span>
+<span id="cb2-38"><a href="randomness-in-cryptography.html#cb2-38" tabindex="-1"></a>        m_bin <span class="op">+=</span> <span class="bu">str</span>(xor(c[i],k[i]))</span>
+<span id="cb2-39"><a href="randomness-in-cryptography.html#cb2-39" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Plaintext: &quot;</span><span class="op">+</span>bin_to_ascii(m_bin))</span>
+<span id="cb2-40"><a href="randomness-in-cryptography.html#cb2-40" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb2-41"><a href="randomness-in-cryptography.html#cb2-41" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Ciphertext too long. Need a longer key.&quot;</span>)</span></code></pre></div>
+<p>The one-time pad receives its name from the fact that, when the key is
+used only once, the scheme has <em>perfect secrecy</em>. This means that the
+ciphertext produced reveals absolutely no information about the
+underlying plaintext, besides its length. We formalize this by saying
+that, given a ciphertext and two messages, the ciphertext has the same
+probability of corresponding to each of the messages.</p>
+<div class="definition">
+<p><span id="def:perfectsecrecy" class="definition"><strong>Definition 2.1  </strong></span><em>An encryption scheme has</em> perfect secrecy <em>when, for
+a uniformly random key <span class="math inline">\(\mathsf{k}\)</span>, all ciphertexts <span class="math inline">\(\mathsf{c}\)</span> and all pairs of
+messages <span class="math inline">\(\mathsf{m}_0,\mathsf{m}_1\)</span>,</em>
+<span class="math display">\[\Pr[\mathsf{c}=\mathsf{Enc}_{\mathsf{k}}(\mathsf{m}_0)]=\Pr[\mathsf{c}=\mathsf{Enc}_{\mathsf{k}}(\mathsf{m}_1)].\]</span></p>
+</div>
+<p>Intuitively, the perfect secrecy of the OTP stems from these two
+observations:</p>
+<ul>
+<li><p>Look again at the truth table of the <span class="math inline">\(\mathsf{XOR}\)</span> operation, and
+observe that a <span class="math inline">\(0\)</span> in the plaintext could equally come from a <span class="math inline">\(0\)</span> or
+a <span class="math inline">\(1\)</span> in the plaintext, depending on the key bit. Similarly, a <span class="math inline">\(1\)</span>
+in the ciphertext could also come from a <span class="math inline">\(0\)</span> or a <span class="math inline">\(1\)</span> in the
+plaintext. In other words, if the key is chosen uniformly at random,
+each bit of the ciphertext has a probability of <span class="math inline">\(1/2\)</span> of coming from
+a <span class="math inline">\(0\)</span>, and a probability <span class="math inline">\(1/2\)</span> of coming from a <span class="math inline">\(1\)</span>.</p></li>
+<li><p>Because of the above, an adversary that intercepts a ciphertext
+<span class="math inline">\(c_1c_2\dots c_\lambda\)</span> cannot know the corresponding plaintext, as
+any given plaintext can be encrypted to <em>any</em> bitstring of length
+<span class="math inline">\(\lambda\)</span>. In other words, for every ciphertext <span class="math inline">\(\mathsf{c}\)</span> and
+every message <span class="math inline">\(\mathsf{m}\)</span>, there exists a key <span class="math inline">\(\mathsf{k}\)</span> and a
+message such that
+<span class="math display">\[\mathsf{Enc}_{\mathsf{k}}(m)=\mathsf{c}\qquad\text{and}\qquad\mathsf{Dec}_{\mathsf{k}}(\mathsf{c})=m.\]</span>
+So any ciphertext could correspond to any message, and there is no
+way to do better, regardless of the computational power of the
+attacker!</p></li>
+</ul>
+<p>We formalize the above discussion in the following result.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-15" class="proposition"><strong>Proposition 2.2  </strong></span><em>The one-time pad encryption scheme has perfect
+secrecy.</em></p>
+</div>
+<div class="proof">
+<p><span id="unlabeled-div-16" class="proof"><em>Proof</em>. </span>By the discussion above, we have that for any key <span class="math inline">\(\mathsf{k}\)</span>,
+message <span class="math inline">\(\mathsf{m}\)</span> and ciphertext <span class="math inline">\(\mathsf{c}\)</span>,
+<span class="math display">\[\Pr[\mathsf{c}=\mathsf{Enc}_{\mathsf{k}}(\mathsf{m})]=\frac{\#\{\text{keys $\mathsf{k}$ such that } \mathsf{c}=\mathsf{Enc}_{\mathsf{k}}(\mathsf{m})\}}{\#\{\text{possible keys}\}}=\frac{1}{2^\lambda}.\]</span></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-17" class="exercise"><strong>Exercise 2.1  </strong></span><em>We said above that for every message <span class="math inline">\(\mathsf{m}\)</span> and any
+ciphertext <span class="math inline">\(\mathsf{c}\)</span>, there is always exactly one key <span class="math inline">\({\mathsf{k}}\)</span>
+such that
+<span class="math display">\[\mathsf{Enc}_{\mathsf{k}}(m)=\mathsf{c}\qquad\text{and}\qquad\mathsf{Dec}_{\mathsf{k}}(\mathsf{c})=m.\]</span>
+For arbitrary <span class="math inline">\(\mathsf{m}\)</span> and <span class="math inline">\(\mathsf{c}\)</span>, which is that key,
+expressed in terms of <span class="math inline">\(\mathsf{m}\)</span> and <span class="math inline">\(\mathsf{c}\)</span>?</em></p>
+</div>
+<p>This is all well and good, but obviously there’s a catch. While the
+security of one-time pad is as good as it gets, it is simply impractical
+for a very simple reason: we need a key as large as the message, and
+moreover, we need a new key for each message. Moreover, if we want
+perfect secrecy, this is unavoidable.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-18" class="proposition"><strong>Proposition 2.3  </strong></span><em>Any encryption scheme with perfect secrecy requires a
+key that is as long as the message, and it cannot be reused.</em></p>
+</div>
+<p>One reason that highlights how reusing keys in OTP breaks perfect
+secrecy is the following. Assume that we use the same key <span class="math inline">\(\mathsf{k}\)</span>
+for two messages <span class="math inline">\(\mathsf{m}_0,\mathsf{m}_1\)</span>. Then, an attacker
+intercepts the ciphertexts
+<span class="math display">\[\mathsf{c}_0=\mathsf{m}_0\oplus\mathsf{k}, \qquad \mathsf{c}_1=\mathsf{m}_1\oplus\mathsf{k}.\]</span>
+The adversary can compute
+<span class="math display">\[\mathsf{c}_0\oplus\mathsf{c}_1=(\mathsf{m}_0\oplus\mathsf{k})\oplus (\mathsf{m}_1\oplus\mathsf{k})= \mathsf{m}_0\oplus\mathsf{m}_1\oplus(\mathsf{k}\oplus\mathsf{k})=\mathsf{m}_0\oplus\mathsf{m}_1\oplus\mathbf 0=\mathsf{m}_0\oplus m_1.\]</span>
+That is, the adversary can get the <span class="math inline">\(\mathsf{XOR}\)</span> result of the two
+messages. Even if they do not know any of the messages on their own,
+this leaks partial information (e.g. a <span class="math inline">\(0\)</span> in any position means that
+the two messages have the same value on that position).</p>
+<p>So it’s clear that for OTP to work we need keys as long as the messages,
+and there is no way around that. But how much of a big deal is that? An
+issue that we have not addressed yet is the fact that, for any of this
+to happen, the two parties involved need to agree on a common key
+<span class="math inline">\({\mathsf{k}}\)</span>, that must remain secret for anyone else. If an insecure
+channel is the only medium for communication available:</p>
+<ul>
+<li><p>they cannot share the key unencrypted, since an attacker could be
+listening, and grab the key to decrypt everything that comes
+afterwards.</p></li>
+<li><p>they cannot encrypt the key, since they don’t have a shared key to
+use encryption yet!</p></li>
+</ul>
+<p>Later in the course, we will see that there are ways to securely share a
+key over an insecure channel. But for now, it suffices to say that these
+methods exist. However, sharing a new key of the size of the message,
+and a new one for each message, is simply not practical most of the
+time. Imagine the key sizes for sending audio or video over the
+Internet. This, ultimately, is what kills the one-time pad.</p>
+</div>
+<div id="sec:prngs" class="section level2 hasAnchor" number="2.2">
+<h2><span class="header-section-number">2.2</span> Pseudorandom generators<a href="randomness-in-cryptography.html#sec:prngs" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Before we move on, let us see if there is still some hope for the
+one-time pad. What if we start from a short uniformly random key
+<span class="math inline">\(\mathsf{k}\)</span>, and try to expand it to a longer key?</p>
+<p>Let us assume that Alice and Bob wish to communicate using the one-time
+pad, and Alice wants to send a message of length <span class="math inline">\(h\)</span>. But they have only
+shared a key <span class="math inline">\({\mathsf{k}}\in\{0,1\}^\ell\)</span>, for some <span class="math inline">\(\ell&lt;h\)</span>, so they
+proceed as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>They agree on a public function
+<span class="math display">\[G:\{0,1\}^\ell\rightarrow\{0,1\}^{h}.\]</span> That is, <span class="math inline">\(G\)</span> receives a
+bitstring of length <span class="math inline">\(\ell\)</span> and outputs another of length <span class="math inline">\(h\)</span>.</p></li>
+<li><p>Since the function is deterministic, they can both compute
+<span class="math display">\[{\mathsf{k}}&#39;=G({\mathsf{k}})\]</span> on their own. Now they both know
+<span class="math inline">\({\mathsf{k}}&#39;\in\{0,1\}^{h}\)</span>.</p></li>
+<li><p>They use the one-time pad with key <span class="math inline">\({\mathsf{k}}&#39;\)</span>.</p></li>
+</ol>
+<p>Observe that, since they have already “stretched” the key once, they
+could potentially take parts of <span class="math inline">\(\mathsf{k}&#39;\)</span> and apply the function <span class="math inline">\(G\)</span>
+again to generate new keys on demand. The scheme that results from
+stretching the randomness of a short shared key to an arbitrary length
+and encrypt the message through the <span class="math inline">\(\mathsf{XOR}\)</span> operation is known as
+a <em>stream cipher</em>. The initial key used is called the <em>seed</em>, and the
+subsequent keys generated are called the <em>key stream</em>.</p>
+<p>The function <span class="math inline">\(G\)</span> must be deterministic, otherwise Alice and Bob will not
+arrive at the same key, and they will not be able to communicate. Also
+note that, although <span class="math inline">\(G\)</span> is public, <span class="math inline">\({\mathsf{k}}\)</span> is not, so an attacker
+has no way of learning the new key <span class="math inline">\({\mathsf{k}}&#39;\)</span>.</p>
+<p>However, there are some caveats to this. Since the input of the function
+is a set of size <span class="math inline">\(2^\ell\)</span>, there are at most <span class="math inline">\(2^\ell\)</span> outputs, whereas
+if we had used a uniformly random key of length <span class="math inline">\(h\)</span>, we would have
+<span class="math inline">\(2^{h}\)</span> potential keys. Recall that perfect secrecy strongly relied on
+the keys being uniformly random, which clearly will not be the case
+here.</p>
+<p>But, what if the output of <span class="math inline">\(G\)</span> looks “close enough” to random? By this,
+we mean that no efficient algorithm can distinguish the output
+distribution of <span class="math inline">\(G\)</span> and the uniform distribution in <span class="math inline">\(\{0,1\}^{h}\)</span>. Then,
+if an adversary cannot tell that we are using a non-uniform
+distribution, they will not be able to exploit this fact in their
+attacks, and so our scheme will remain secure. Is any function <span class="math inline">\(G\)</span> good
+enough for our purposes?</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-19" class="exercise"><strong>Exercise 2.2  </strong></span><em>Consider the stream cipher presented above, with the
+following choices for the function <span class="math inline">\(G\)</span>, for <span class="math inline">\(h=2\ell\)</span>.</em></p>
+<ol style="list-style-type: decimal">
+<li><p><em><span class="math inline">\(G\)</span> outputs a string of <span class="math inline">\(2\ell\)</span> zeroes.</em></p></li>
+<li><p><em><span class="math inline">\(G\)</span> outputs the input, followed by a string of <span class="math inline">\(\ell\)</span> zeroes.</em></p></li>
+<li><p><em><span class="math inline">\(G\)</span> outputs two concatenated copies of the input.</em></p></li>
+</ol>
+<p><em>In each of these cases, discuss whether the scheme is still secure.</em></p>
+</div>
+<p>The above exercise shows that we need to be careful when choosing our
+function <span class="math inline">\(G\)</span>. This leads us to the following definition.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-20" class="definition"><strong>Definition 2.2  </strong></span><em>A</em> pseudorandom number generator (PRNG) <em>is a
+function <span class="math display">\[G:\{0,1\}^\ell\rightarrow\{0,1\}^h\]</span>such that no efficient
+adversary can distinguish the output distribution of <span class="math inline">\(G\)</span> from the
+uniform distribution on</em> <span class="math inline">\(\{0,1\}^h\)</span>.</p>
+</div>
+<p>We emphasize the importance of randomness here. A function <span class="math inline">\(G\)</span> whose
+output cannot be distinguished from uniform randomness by any
+(efficient) algorithm implies that, for all practical purposes, the
+output of <span class="math inline">\(G\)</span> can be considered uniformly random in <span class="math inline">\(\{0,1\}^h\)</span>. In
+particular, informally this means that a key stream generated with a
+PRNG is <em>unpredictable</em>, i.e., given some output bits of <span class="math inline">\(G\)</span>, there is
+no way to predict the next in polynomial time, with a success rate
+higher than <span class="math inline">\(50\%\)</span>. This contrasts with non-cryptographic PRNGs, in
+which it is enough that the output passes some statistical tests, but
+might not be completely unpredictable.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-21" class="exercise"><strong>Exercise 2.3  </strong></span><em>Assume that there is a very bad PRNG that outputs one
+bit at a time, and that bit is a <span class="math inline">\(0\)</span> with probability <span class="math inline">\(3/4\)</span>. This PRNG is
+used in a stream cipher to produce a ciphertext <span class="math display">\[c=01.\]</span> In OTP, the
+probability of the corresponding plaintext being <span class="math inline">\(00\)</span>, <span class="math inline">\(01\)</span>, <span class="math inline">\(10\)</span> or
+<span class="math inline">\(11\)</span> would be <span class="math inline">\(1/4\)</span> each. Compute the corresponding probabilities when
+the bad PRNG described above is in use.</em></p>
+</div>
+<p>An interesting property of PRNGs is that, if we manage to build one that
+stretches the key by just a little, then we can produce an infinitely
+large key stream, and still maintain essentially the same security
+guarantees. To illustrate this, let us again consider a function
+<span class="math display">\[G:\{0,1\}^\ell\rightarrow\{0,1\}^{2\ell},\]</span> and let us assume that it
+is a PRNG.<a href="#fn8" class="footnote-ref" id="fnref8"><sup>8</sup></a> Consider the following construction of a new function
+<span class="math display">\[H:\{0,1\}^\ell\rightarrow\{0,1\}^{3\ell},\]</span> which works as follows: on
+input <span class="math inline">\({\mathsf{k}}\)</span>,</p>
+<ol style="list-style-type: decimal">
+<li><p>First compute <span class="math inline">\(G({\mathsf{k}})\in\{0,1\}^{2\ell}\)</span>.</p></li>
+<li><p>Split the result in two halves <span class="math inline">\(\mathbf{x},\mathbf{y}\)</span>, each of
+length <span class="math inline">\(\ell\)</span>.</p></li>
+<li><p>Compute <span class="math inline">\(\mathbf{z}=G(\mathbf{y})\in\{0,1\}^{2\ell}\)</span>.</p></li>
+<li><p>Output <span class="math inline">\((\mathbf{x},\mathbf{z})\in\{0,1\}^{3\ell}\)</span>.</p></li>
+</ol>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-22" class="proposition"><strong>Proposition 2.4  </strong></span><em>If <span class="math inline">\(G\)</span> is a PRNG, then <span class="math inline">\(H\)</span>, constructed as described
+above, is also a PRNG.</em></p>
+</div>
+<p>We have already seen some bad PRNGs, so what about the good ones?
+Although there exist some proposals of PRNGs that are believed to be
+secure and are built “from scratch” (for example <a href="https://en.wikipedia.org/wiki/Salsa20#ChaCha_variant">Salsa20 and ChaCha20</a>), what happens in practice is that,
+when one wants a PRNG, it is common to build it from a block cipher,
+which is a topic that we will cover later in the course, so we delay the
+examples of cryptographic PRNGs until then.</p>
+<!-- For completeness, we next look at a function that is enough for most applications of pseudorandom generation, but is not secure for -->
+<!-- cryptographic use. -->
+<!---->
+<!-- ## Linear feedback shift registers {#sec:examples} -->
+<!---->
+<!-- A *linear feedback shift register* is a type of "stretching function" -->
+<!-- that produces an output that looks quite random, and it passes some -->
+<!-- statistical tests, although it is still weak from a cryptographic point -->
+<!-- of view. We will start with a particular example. Assume that we have a -->
+<!-- seed $k$, written as a bitstring ${\mathsf{k}}=k_1k_2k_3$. The linear -->
+<!-- feedback shift register recursively produces each new element of the key -->
+<!-- according to the formula: $$k_{i+3}=k_{i+1}\oplus k_i.$$ For example, if -->
+<!-- the seed is $011$, the key stream will be -->
+<!-- $$0111001\quad 0111001\quad 0111001\quad 0111001\quad 0111001 \quad \dots$$ -->
+<!-- We included the spaces to emphasize the fact that, after a while, the -->
+<!-- output seems to repeat. This is not something specific to this example, -->
+<!-- but actually happens to any linear feedback shift register. -->
+<!---->
+<!-- Indeed, let us define a general *linear feedback shift register (LFSR) -->
+<!-- of length $\ell$*. It starts with a seed ${\mathsf{k}}$, expressed as a -->
+<!-- bitstring $${\mathsf{k}}=k_1k_2\dots k_\ell,$$ and derives each new -->
+<!-- element of the key stream according to the following: for $$i>\ell$$: -->
+<!-- $$k_{i}=p_{1}k_{i-1}\oplus \dots \oplus p_\ell k_{i-\ell},$$ for some -->
+<!-- coefficients $p_j\in\{0,1\}$, for $j=1,\dots,\ell$. -->
+<!---->
+<!-- ::: {.proposition} -->
+<!-- *The output of an LFSR of length $\ell$ repeats -->
+<!-- periodically, with a period of at most $2^{\ell}-1$.* -->
+<!-- ::: -->
+<!---->
+<!-- Note the "at most" in the statement. For some choices of the -->
+<!-- coefficients $p_j$, the period could be much shorter. However, for -->
+<!-- well-chosen coefficients, we can meet the bound, thus obtaining a period -->
+<!-- that is exponential in the length of the initial key. The output of a -->
+<!-- well-chosen LFSR has some good statistical properties. In particular, -->
+<!-- the output looks "random enough" for most applications. However, there -->
+<!-- are attacks that allow an adversary to distinguish the output from -->
+<!-- uniformly random, and thus LFSRs are not suited for cryptography. -->
+<!---->
+<!-- Still, a clever combination of a few LFSRs, with a couple of extra -->
+<!-- details, seems to be enough to realize the stream cipher Trivium, which, -->
+<!-- to this date, is believed to be secure.[^9] -->
+<!---->
+<!-- Below is a direct implementation of an LFSR. You can try different sets of feedback coefficients, and see how this impacts the period of the key stream.  -->
+<!---->
+<!-- ```{python, eval=FALSE} -->
+<!-- # Define the XOR operation: -->
+<!-- def xor(a,b): -->
+<!--     return mod(int(a)+int(b),2) -->
+<!---->
+<!-- # Set a vector of feedback coefficients [p_1, ... , p_n] -->
+<!-- feedback_coeffs = [1, 1, 0, 0, 0, 0, 0, 0] -->
+<!-- seed_length = len(feedback_coeffs) -->
+<!---->
+<!-- # Sample a uniformly random seed of the same length. -->
+<!-- seed = list(random_vector(GF(2),seed_length)) -->
+<!-- print(seed) -->
+<!---->
+<!-- # Choose the length of the required key stream -->
+<!-- k = 16 -->
+<!---->
+<!-- # Run the LFSR -->
+<!-- key_stream=seed -->
+<!-- for i in range(seed_length,seed_length+k): -->
+<!--     key_stream_temp=0 -->
+<!--     for j in range(seed_length): -->
+<!--         key_stream_temp = xor(key_stream_temp,(feedback_coeffs[j]*key_stream[i-j-1])) -->
+<!--     key_stream.append(key_stream_temp) -->
+<!-- print(key_stream) -->
+<!-- ``` -->
+</div>
+<div id="true-randomness" class="section level2 hasAnchor" number="2.3">
+<h2><span class="header-section-number">2.3</span> True randomness<a href="randomness-in-cryptography.html#true-randomness" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We have dealt with the problem of stretching a tiny bit of randomness
+into something usable. But where does this initial randomness come from?
+It cannot really come from our computers, since these are deterministic,
+so the answer lies out in the physical world.<a href="#fn9" class="footnote-ref" id="fnref9"><sup>9</sup></a> The general idea is to
+look for unpredictable processes from which to extract randomness. Some
+examples are radioactive decay, cosmic radiation, hardware processes
+like the least significant bit of the timestamp of a keystroke.</p>
+<p>These processes might not produce uniformly random outputs, but from our
+perspective we have little to none information about their output
+distribution. These values are not used raw, but processed by a <em>random
+number generator (RNG)</em>, which refines them into what we assume to be
+uniformly random outputs. These can now be fed into our PRNGs to stretch
+them.</p>
+</div>
+<div id="solved-exercises-1" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="randomness-in-cryptography.html#solved-exercises-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-23" class="exercise"><strong>Exercise 2.4  </strong></span></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Consider someone uses OTP to encrypt a single bit. They make a mistake and use the same key to encrypt two bits. You observe the ciphertexts 1 and 0. What can you say about the two messages?</em></p></li>
+<li><p><em>Assume you intercept a ciphertext <span class="math inline">\(\mathbf{c}\)</span> produced by OTP. You know that this message corresponds to a known message <span class="math inline">\(\mathbf{m}\)</span> (for example you know that the first message of Bob is “hello there!”). You now receive a second ciphertext <span class="math inline">\(\mathbf{c}&#39;\)</span> encrypted using the same key (this should have not happened!). How can you retrieve the second message?</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-24" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\(k\)</span> be the common key used <span class="math inline">\(m_1 \oplus k = 0\)</span> and <span class="math inline">\(m_2\oplus k_2=1\)</span>. Applying <span class="math inline">\(\oplus k\)</span> in both sides of equation 1, we get<a href="#fn10" class="footnote-ref" id="fnref10"><sup>10</sup></a>
+<span class="math display">\[ m_1 \oplus k \oplus k=  0 \oplus k \]</span>
+Noting that <span class="math inline">\(k\oplus k = 0\)</span> and <span class="math inline">\(k\oplus 0 = k\)</span> we get that <span class="math inline">\(k = m_1\)</span>. Replacing this in the second equation we get
+<span class="math inline">\(m_2\oplus m_1 = 1\)</span>. This means that the messages <span class="math inline">\(m_1, m_2\)</span> are different.</p></li>
+<li><p>One approach is to use the answer of question 1 (after generalizing it to many bits). We present another way. You know that for some <span class="math inline">\(\mathbf{k}\)</span>, <span class="math inline">\(\mathbf{c} = \mathbf{m}\oplus\mathbf{k}\)</span>. Applying <span class="math inline">\(\oplus \mathbf{m}\)</span> on both sides we get
+<span class="math display">\[
+\mathbf{m}\oplus\mathbf{c} = \mathbf{m}\oplus\mathbf{m}\oplus\mathbf{k} = \mathbf{k}
+\]</span>
+Therefore, xor-ing the message with the ciphertext gives us the full key <span class="math inline">\(\mathbf{k}\)</span>! Therefore, we can now decrypt <span class="math inline">\(\mathbf{m}&#39; = \mathbf{c}&#39;\oplus \mathbf{k}\)</span>.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-25" class="exercise"><strong>Exercise 2.5  </strong></span><em>Suppose you want to encrypt messages over the English alphabet. To do this you use a substitution cipher. Such a cipher works as follows: the key consists of a random permutation
+<span class="math inline">\(\pi\)</span> of the alphabet. To encrypt a message you apply the permutation on each letter and to decrypt you apply the inverse permutation. For example, if the permutation defines</em>
+<span class="math display">\[
+\pi(c) = q,\ \pi(d) = l,\ \pi(e) = a,\ \pi(o) = y,\ \ldots
+\]</span>
+<em>we have</em>
+<span class="math display">\[
+\textsf{Enc}_{\pi}({code}) = {qyla},\qquad  
+\textsf{Dec}_{\pi}({qyla}) = {code}
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Describe a real world example where the substitution cipher is not sufficient for security.</em></p></li>
+<li><p><em>Prove that the substitution cipher is not perfectly secure.</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-26" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>Assume you know that a super secret party starts at either “five” or “nine”. You intercept a message that corresponds to “partyatfive” or “partyatnine”. With a substitution cipher,
+<strong>same letters always maps to the same cryptogram</strong>. Noting that “nine” has the first and third letter the same while five does not, the intercepted ciphertext will look like</p>
+<p><span class="math display">\[
+\_\ \_\ \_\ \_\ \_\ \_\ \_\ X\ \_\ Y\ \_ \text{ or }
+\_\ \_\ \_\ \_\ \_\ \_\ \_\ X\ \_\ X\ \_
+\]</span>
+where <span class="math inline">\(X\neq Y\)</span> are alphabet letters. In the first case the party is at five and in the second at nine.</p></li>
+<li><p>Recall the definition for perfect secrecy. Definition <a href="randomness-in-cryptography.html#def:perfectsecrecy">2.1</a> requires that for any ciphertext <span class="math inline">\(\mathsf{c}\)</span> and <em>any pair</em> of messages
+<span class="math inline">\(\mathsf{m}_0,\mathsf{m}_1\)</span>, the probability (over the choice of key) that <span class="math inline">\(\mathsf{c}\)</span> is an encryption of <span class="math inline">\(\mathsf{m}_0\)</span> is the same as the probability that it is an
+encryption of <span class="math inline">\(\mathsf{m}_1\)</span>. We will use the attack we described before to show that it is not the case.</p>
+<p>Since the property must hold for <em>any ciphertext</em> and <em>any pair</em> of messages it is enough to find such values that do not satisfy it (this is like a counterexample). Let’s choose the
+messages “five” and “nine” and the ciphertext “hghq”. First, note that there exists no key such that “five” is encrypted to “hghq” since f and v <strong>must</strong> map to different elements.
+So, <span class="math inline">\(\Pr[\text{hghq} = \textsf{Enc}(\text{five})] = 0\)</span>. On the other hand, there exist keys such that “nine” is an encryption of “hghq”. In particular, any permutation <span class="math inline">\(\pi\)</span> for which
+<span class="math display">\[
+\pi(\text{n}) = \text{h},\quad
+\pi(\text{i}) = \text{g},\quad
+\pi(\text{e}) = \text{q},\quad
+\]</span>
+will do. There are many such keys but we don’t need to compute the exact probability, since it is already not zero. Therefore,
+<span class="math display">\[
+\Pr[\text{hghq} = \textsf{Enc}(\text{five})] = 0 &lt;  \Pr[\text{hghq} = \textsf{Enc}(\text{nine})]
+\]</span>
+which concludes the proof.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-27" class="exercise"><strong>Exercise 2.6  </strong></span><em>Alice has found a map to a secret treasure and she prepares to go on a quest to find it! She doesn’t care about the treasure but rather the adventure itself! If she manages to find it she wants her good friends Bob and Carol to keep it. However, she knows that Bob and Carol are greedy and they might rush to keep the treasure for themselves. How can she use cryptography to make sure she can communicate the location of the map in a way that neither Bob nor Carol alone can rush to the map?</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-28" class="solution"><em>Solution</em>. </span>Before she leaves, Alice picks two one time pad keys <span class="math inline">\(\mathsf{k}_B, \mathsf{k}_C\)</span> that are long enough to encrypt coordinates. She gives the first to Bob and the second to Carol. If she finds the treasure
+she encrypts the coordinates with the key <span class="math inline">\(\mathsf{k}=\mathsf{k}_B\oplus \mathsf{k}_C\)</span>, that is she computes <span class="math inline">\(\mathsf{c} = \mathsf{m}\oplus \mathsf{k}\)</span>. She then sends the ciphertext
+to both (or simply posts it online). Together, Bob and Carol can compute the one-time pad key <span class="math inline">\(\mathsf{k}\)</span> and learn the coordinates. Could one of them learn something on its own? The answer is no.</p>
+<p>To see this, note that that <span class="math inline">\(\mathsf{k_B}=\mathsf{k}\oplus \mathsf{k}_C\)</span>, so the key part that Bob has is a one time pad encryption of the key <span class="math inline">\(\mathsf{k}\)</span> that can only be decrypted by the key that Carol has. This means that Bob alone has <em>no information</em> about the key <span class="math inline">\(\mathsf{k}\)</span> and therefore no information about the sent message <span class="math inline">\(\mathsf{m}\)</span> when he only sees the ciphertext <span class="math inline">\(\mathsf{c}\)</span>. Similarly, we can write <span class="math inline">\(\mathsf{k_C}=\mathsf{k}\oplus \mathsf{k}_B\)</span> and make the same argument for Carol.</p>
+<p>Therefore, their only hope of success is to collaborate to learn the key <span class="math inline">\(\mathsf{k}\)</span> and use it to decrypt <span class="math inline">\(\mathsf{c}\)</span>.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-29" class="exercise"><strong>Exercise 2.7  </strong></span><em>Alice loves OTP because it has perfect secrecy. But she does not want -understandably- to use a different key for each message. She knows she cannot use the same key, but she comes up with the following idea: when she sends the <span class="math inline">\(i\)</span>-th ciphertext
+<span class="math inline">\(\mathbf{c}_i = \mathbf{m}_i \oplus \mathbf{k}_i\)</span>, she will use the <span class="math inline">\(i\)</span>-th message as the next key, that is, she will set <span class="math inline">\(\mathbf{k}_{i+1} = \mathbf{m}_i\)</span> and she will encrypt
+<span class="math inline">\(\mathbf{m}_{i+1}\)</span> as <span class="math inline">\(\mathbf{c}_{i+1} =  \mathbf{m}_{i+1} \oplus \mathbf{k}_{i+1} = \mathbf{m}_{i+1} \oplus \mathbf{m}_i\)</span>. She claims that since OTP is perfectly secret, no information is leaked about <span class="math inline">\(\mathbf{m}_i\)</span> and therefore it is like a fresh key. </em></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Is she correct? If yes, prove it. If not, what information is leaked?</em></p></li>
+<li><p><em>If an attacker knows any message, can he learn any other messages?</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-30" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>Consider the <span class="math inline">\((i+1)\)</span>-th ciphertext. They will be computed as
+<span class="math display">\[
+\begin{aligned}
+\mathbf{c}_{i+1} &amp;=  \mathbf{m}_{i+1} \oplus \mathbf{k}_{i+1} = \mathbf{m}_{i+1} \oplus \mathbf{m}_{i} \\
+\end{aligned}
+\]</span>
+and so on, so each ciphertext is the XOR of the previous two messages.</p></li>
+<li><p>Assume the attacker knows the <span class="math inline">\(j\)</span>-th message.</p>
+<ul>
+<li><p>If <span class="math inline">\(j = 1\)</span> she learns the key since <span class="math inline">\(\mathbf{k}_1 = \mathbf{m}_1 \oplus \mathbf{c}_1\)</span> and she can decrypt all next messages
+(she knows the key for the second message (<span class="math inline">\(\mathbf{m}_1\)</span>) then it gets <span class="math inline">\(\mathbf{m}_2\)</span> which is the key for the 3rd message and so on).</p></li>
+<li><p>If <span class="math inline">\(j &gt; 1\)</span>, working as in the previous case, the attacker can get the messages for any <span class="math inline">\(i&gt;j\)</span>. What about the rest? It is enough to show how to get the <span class="math inline">\((j-1)\)</span>-th message.
+If we do this, we can continue in the same way until the first. Recall that</p></li>
+</ul>
+<p><span class="math display">\[
+\mathbf{c}_{j} =  \mathbf{m}_{j} \oplus \mathbf{k}_{j} = \mathbf{m}_{j} \oplus \mathbf{m}_{j-1}
+\]</span>
+From this we get <span class="math inline">\(\mathbf{m}_{j-1} = \mathbf{m}_j\oplus \mathbf{c}_j\)</span>. Note that we know both
+values so we can indeed compute <span class="math inline">\(\mathbf{m}_{j-1}\)</span>. Therefore an attacker that intercepts the
+ciphertexts and knows a single message can decrypt all other messages, deeming the scheme not secure.</p></li>
+</ol>
+</div>
+<!-- ::: {.exercise} -->
+<!---->
+<!-- *A function $f:\mathcal{S}\times \mathcal{S} \mapsto \mathcal{S}$ is a bijection (1-to-1 and onto) on both arguments if and only if  -->
+<!-- for all $s\in \mathcal{S}$, the functions $g_s(X) = f(X, s)$ and $h_s(Y) = f(s, Y)$ are both bijection. Assume that inverse functions $h_s^{-1}$ is efficiently computable for all $s\in\mathcal{S}$. Construct  -->
+<!-- a perfectly secure encryption scheme using the function $f$. The message space of your scheme should be $\mathcal{S}$.* -->
+<!---->
+<!-- Hint: *the XOR function is a bijection in both arguments*. -->
+<!---->
+<!-- ::: -->
+<!---->
+<!-- ::: {.solution} -->
+<!---->
+<!-- We will work as in the OTP case. We will use the left argument of as the key and the right as the message. The ciphertext will be the output of the function.  -->
+<!---->
+<!-- - We sample a key uniformly from the set $\mathcal{S}$ (each $s\in\mathcal{S}$ is sampled with $1/|\mathcal{S}|$ probability). -->
+<!-- - To encrypt a message we compute $c = f(k, m) = h_k(m)$. -->
+<!-- - To decrypt a message we compute $m = h_k^{-1}(c)$ (note we can compute this since we assumed the inverse function is efficiently computable). -->
+<!---->
+<!-- Next we show correctness holds. We need to show that decrypting an encrypted message gives you the original one. We have  -->
+<!-- $$ -->
+<!-- m' = h_k^{-1}(c)=h_k^{-1}(h_k(m)) = m -->
+<!-- $$ -->
+<!---->
+<!-- We will now show that the construction is also perfectly secret. Recall from definition  -->
+<!-- \@ref(def:perfectsecrecy) that for any two messages $\mathsf{m_0}, \mathsf{m_1}$, we need to show that  -->
+<!-- $$ -->
+<!-- \Pr[\mathsf{c} = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_0})] =  -->
+<!-- \Pr[\mathsf{c} = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_1})] -->
+<!-- $$ -->
+<!-- What are the above probabilities? Fix any message/ciphertext pair -->
+<!-- $(\mathsf{m},\mathsf{c})$. We want for fixed $\mathsf{m},\mathsf{c}\in\mathcal{S}$ to compute the probability[^sol2] -->
+<!---->
+<!-- $$ -->
+<!-- \Pr_{\mathsf{k}\gets\mathcal{S}}[\mathsf{c} = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_0})]  -->
+<!-- $$ -->
+<!-- We have that  -->
+<!-- $$ -->
+<!-- c = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_0})=f(\mathsf{k},\mathsf{m})=g_\mathsf{m}(\mathsf{k}) -->
+<!-- $$ -->
+<!-- Since $g_{\mathsf{m}}$ is a bijective function from $\mathcal{S}$ to $\mathcal{S}$ there is  -->
+<!-- exactly one choice of $\mathsf{k}$ that maps to our fixed $\mathsf{c}$ (there is one because the function is onto and this is unique because it is 1-to-1). Since we sample $\mathsf{k}$ uniformly from $\mathcal{S}$, we sample this $\mathsf{k}$ with probability $p = 1/|\mathcal{S}|$. This means that for all $\mathsf{m}, \mathsf{k}\in\mathcal{S}$ -->
+<!-- $$ -->
+<!-- \Pr_{\mathsf{k}\gets\mathcal{S}}[\mathsf{c} = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_0})] = p  -->
+<!-- $$ -->
+<!-- and therefore for all $\mathsf{c}, \mathsf{m}_0,\mathsf{m}_1\in\mathcal{S}$ we have -->
+<!-- $$ -->
+<!-- \Pr_{\mathsf{k}\gets\mathcal{S}}[\mathsf{c} = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_0})] =  -->
+<!-- \Pr_{\mathsf{k}\gets\mathcal{S}}[\mathsf{c} = \mathsf{Enc}_{\mathsf{k}}(\mathsf{m_1})] = p -->
+<!-- $$ -->
+<!-- therefore our construction is perfectly secret. -->
+<!---->
+<!-- ::: -->
+<!---->
+<!-- ::: {.remark} -->
+<!---->
+<!-- The above construction is a *black box* construction. Such constructions are used extensively in cryptography. The idea is the following: we assume that a mathematical object -->
+<!-- exists without explicitly specifying it. We rather describe a set of properties this object must satisfy and use it in a "black box" way, i.e. without caring about how exactly this works.  -->
+<!-- Then we build some construction that is based on our black box and prove things about it. Next we can choose *any* object that satisfies these properties and directly use it. Importantly, we don't need to make the analysis again (apart from showing it satisfies the required properties). Think of the OTP for example. Instead of directly showing it has correctness and perfect -->
+<!-- secrecy, we can simply argue that the XOR function is a bijection in both arguments and *instantiate* the construction of the exercise with this function. We don't need to do any further  -->
+<!-- arguing. Now, you can choose your favorite function that is (1) a bijection in both arguments and (2) has an efficiently computable inverse function on one of them and build your own  -->
+<!-- perfectly secure encryption scheme! -->
+<!---->
+<!-- ::: -->
+<div class="exercise">
+<p><span id="exr:unlabeled-div-31" class="exercise"><strong>Exercise 2.8  </strong></span><strong>(*)</strong></p>
+<p>Let <span class="math inline">\(G: \{0,1\}^{\ell} \rightarrow \{0,1\}^{2\ell}\)</span> be a pseudorandom generator. You do the following experiment: flip a coin and if it is heads you are given a value
+<span class="math inline">\(\mathsf{k} = G(s)\)</span> for a random <span class="math inline">\(s\in\{0,1\}^{\ell}\)</span>. If it is tails you are given a
+random <span class="math inline">\(\mathsf{k}\in\{0,1\}^{2\ell}\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><p>Describe an algorithm that decides what was the coin flip. The algorithm does not need to be efficient (i.e. polynomial time) and does not need to always give the correct result, but rather guess with a good probability.</p></li>
+<li><p>What is the probability that your algorithm succeeds if the coin flip is heads? If the coin flip is tails?</p></li>
+<li><p>What is the success probability of your algorithm in general?</p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-32" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>The algorithm does the following: for all <span class="math inline">\(s\in\{0,1\}^\ell\)</span>, it computes <span class="math inline">\(G(s)\)</span> and saves the result in a (big) table <span class="math inline">\(T\)</span>. Then it receives the value <span class="math inline">\(\mathsf{k}\)</span> and it outputs “heads” if <span class="math inline">\(\mathsf{k}\in T\)</span> and “tails” otherwise. The intuition why this is a good strategy is that there are <em>way</em> less elements in <span class="math inline">\(T\)</span> than in <span class="math inline">\(s\in\{0,1\}^{2\ell}\)</span>. Therefore, if the coin is tails, it is <em>very unlikely</em> that an element of <span class="math inline">\(T\)</span> was chosen.</p></li>
+<li><p>If the coin is “heads” the algorithm always succeeds. Indeed, the result is always in T and the algorithm always guesses “heads”. If it “tails”, the algorithm fails if some value <span class="math inline">\(\mathsf{k}\)</span> is chosen such that there exists an <span class="math inline">\(s\in\{0,1\}^\ell\)</span> for which <span class="math inline">\(G(s)=\mathsf{k}\)</span>. We need to count how many elements exists in this set and how many in total. The small set contains at most <span class="math inline">\(2^{\ell}\)</span> (each element <span class="math inline">\(s\)</span> can correspond to at most one) and the big one <span class="math inline">\(2^{2\ell}\)</span>. Thus, the probability that we sample an element of the small set is at most <span class="math inline">\(2^{\ell}/2^{2\ell} = 1/2^{\ell}\)</span>. This is the probability that our algorithm fails. It guesses correctly with probability at least <span class="math inline">\(1- 1/2^{\ell}\)</span>. More formally, denoting <span class="math inline">\(b\)</span> the coin and <span class="math inline">\(\mathcal{A}\)</span> our algorithm, we have:</p></li>
+</ol>
+<p><span class="math display">\[
+\begin{aligned}
+\Pr_{\mathsf{k}}[\mathcal{A}(\mathsf{k}) = \text{&quot;heads&quot;}\mid b = \text{&quot;heads&quot;}] &amp;= 1 \\
+\Pr_{\mathsf{k}}[\mathcal{A}(\mathsf{k}) = \text{&quot;tails&quot;}\mid b = \text{&quot;tails&quot;}] &amp;\geq 1- 1/2^{\ell}
+\end{aligned}
+\]</span></p>
+<ol start="3" style="list-style-type: decimal">
+<li>At this point, the question can be answered by a “simple” probabilistic analysis. We want to find the probability
+<span class="math display">\[\Pr_{\mathsf{k},b}[\mathcal{A}(\mathsf{k}) = b]\]</span>
+By the law of total probability, we get
+<span class="math display">\[
+\begin{aligned}
+  \Pr_{\mathsf{k},b}[\mathcal{A}(\mathsf{k}) = b]  &amp;=
+  \Pr_{\mathsf{k}}[\mathcal{A}(\mathsf{k}) = b | b = \text{&quot;tails&quot;}]\cdot\Pr_{b}[ b = \text{&quot;tails&quot;}]\\  &amp;+
+  \Pr_{\mathsf{k}}[\mathcal{A}(\mathsf{k}) = b | b = \text{&quot;heads&quot;}]\cdot\Pr_{b}[ b = \text{&quot;heads&quot;}]
+\end{aligned}
+\]</span>
+We can rewrite this as
+<span class="math display">\[
+\begin{aligned}
+  \Pr_{\mathsf{k},b}[\mathcal{A}(\mathsf{k}) = b]  &amp;=
+  \Pr_{\mathsf{k}}[\mathcal{A}(\mathsf{k}) = \text{&quot;tails&quot;} | b = \text{&quot;tails&quot;}]\cdot\Pr_{b}[ b = \text{&quot;tails&quot;}] \\  &amp;+
+  \Pr_{\mathsf{k}}[\mathcal{A}(\mathsf{k}) = \text{&quot;heads&quot;}  | b = \text{&quot;heads&quot;}]\cdot\Pr_{b}[ b = \text{&quot;heads&quot;}]
+\end{aligned}
+\]</span>
+Noting that <span class="math inline">\(\Pr_{b}[ b = \text{&quot;heads&quot;}] = \Pr_{b}[ b = \text{&quot;tails&quot;}] = 1/2\)</span> and using the result of the previous question, we get:
+<span class="math display">\[
+\begin{aligned}
+  \Pr_{\mathsf{k},b}[\mathcal{A}(\mathsf{k}) = b]  &amp;\geq \frac{1}{2}(1+1-1/2^{\ell}) = 1 - \frac{1}{2}\frac{1}{2^{\ell}} = 1 - \frac{1}{2^{\ell+1}}
+\end{aligned}
+\]</span>
+Observe that as <span class="math inline">\(\ell\)</span> grows, the algorithms succeeds with growing probability. It fails with <em>negligible</em> probability in <span class="math inline">\(\ell\)</span>.</li>
+</ol>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-33" class="remark"><em>Remark</em>. </span>The exercise tells us on a more “philosophical” level that we cannot hope to have unconditionally good PRGs.
+We need to base such construction on <em>computational assumptions</em>. This means that a
+pseudorandom string is always “distinguishable” from a random one but not <em>efficiently distinguishable</em>. Since we are able to only make efficient computations, the pseudorandom string “looks” random to us for all practical purposes.</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="7">
+<li id="fn7"><p>If the message is written with a different set of characters, like
+English letters, it is first processed into a bitstring, e.g. by
+associating to each letter its ASCII code in binary
+(<a href="https://en.wikipedia.org/wiki/ASCII" class="uri">https://en.wikipedia.org/wiki/ASCII</a>).<a href="randomness-in-cryptography.html#fnref7" class="footnote-back">↩︎</a></p></li>
+<li id="fn8"><p>We set the output length to be <span class="math inline">\(2\ell\)</span> for simplicity, but the
+idea could easily be adapted to any other output length.<a href="randomness-in-cryptography.html#fnref8" class="footnote-back">↩︎</a></p></li>
+<li id="fn9"><p>Assuming, of course, that the universe is not completely
+deterministic.<a href="randomness-in-cryptography.html#fnref9" class="footnote-back">↩︎</a></p></li>
+<li id="fn10"><p>Recall the XOR operation is associative, that is
+<span class="math inline">\((a\oplus b )\oplus c = a\oplus (b \oplus c)\)</span>. Therefore, we omit the parenthesis since the order of the operations do not matter.<a href="randomness-in-cryptography.html#fnref10" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction-to-security.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="block-ciphers.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

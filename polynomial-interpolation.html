@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>C Polynomial interpolation | Cryptography lecture notes</title>
+  <meta name="description" content="C Polynomial interpolation | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="C Polynomial interpolation | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="C Polynomial interpolation | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="primality-testing.html"/>
+<link rel="next" href="refreshers.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="polynomial-interpolation" class="section level1 hasAnchor" number="15">
+<h1><span class="header-section-number">C</span> Polynomial interpolation<a href="polynomial-interpolation.html#polynomial-interpolation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>We start from a very well-known idea: two different points in a plane
+determine a line. Or equivalently: given two different points in a
+plane, there is exactly one line that contains both.</p>
+<p>More formally, let <span class="math inline">\((x_0,y_0)\)</span> and <span class="math inline">\((x_1,y_1)\)</span> be points in
+<span class="math inline">\(\mathbb{R}^2\)</span>, such that <span class="math inline">\(x_0\neq x_1\)</span>.<a href="#fn54" class="footnote-ref" id="fnref54"><sup>54</sup></a> Then there is a unique
+polynomial <span class="math inline">\(p(X)\)</span> of degree at most <span class="math inline">\(1\)</span> such that
+<span class="math display">\[p(x_0)=y_0,\qquad \text{and} \qquad p(x_1)=y_1.\]</span> Although can find
+this polynomial by finding the slope of the line, we will show another
+approach that yields the same result, that we will later generalize to a
+higher number of points. Consider the following simpler problem.</p>
+<div class="problem">
+<p><strong>Problem 7</strong>. <em>Given <span class="math inline">\(x_0,x_1\in\mathbb{R}\)</span>, find a polynomial
+<span class="math inline">\(\ell_0(X)\)</span> of degree at most <span class="math inline">\(1\)</span> such that
+<span class="math display">\[\ell_0(x_0)=1,\qquad\text{ and }\ell_0(x_1)=0.\]</span></em></p>
+</div>
+<p>The simplest idea to achieve the second condition is to make <span class="math inline">\(x_1\)</span> a
+root of the polynomial. Note that, since the degree must be at most <span class="math inline">\(1\)</span>,
+the polynomial will have at most one root, making <span class="math inline">\(x_1\)</span> the only root.
+Let us then consider the polynomial <span class="math display">\[\hat\ell_0(X)=X-x_1.\]</span> Clearly
+this polynomial satisfies the second condition, but it fails at the
+first, since <span class="math display">\[\hat\ell_0(x_1)=x_0-x_1,\]</span> which might be different from
+<span class="math inline">\(1\)</span>. Thus, to ensure the second condition, we rescale the polynomial by
+dividing by the value at <span class="math inline">\(x_0\)</span>: <span class="math display">\[\ell_0(X)=\frac{X-x_1}{x_0-x_1}.\]</span>
+This new polynomial is indeed a solution for the problem. Similarly, we
+can find another polynomial <span class="math inline">\(\ell_1(X)\)</span> that is <span class="math inline">\(0\)</span> at <span class="math inline">\(x_0\)</span> and <span class="math inline">\(1\)</span> at
+<span class="math inline">\(x_1\)</span>. Finally, the solution to our original problem will be
+<span class="math display">\[p(X)=y_0\ell_0(X)+y_1\ell_1(X).\]</span></p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-206" class="exercise"><strong>Exercise C.1  </strong></span><em>Check that this polynomial has degree at most <span class="math inline">\(1\)</span>,
+that <span class="math inline">\(p(x_0)=y_0\)</span> and <span class="math inline">\(p(x_1)=y_1\)</span>.</em></p>
+</div>
+<p>It is easy to check that this polynomial verifies the conditions above.
+We say that this line is an <em>interpolation</em> of the points. This idea can
+be generalized to polynomial of any degree. That is, there is a unique
+parabola (polynomial of degree <span class="math inline">\(2\)</span>) that contains three given points in
+the plane. There is a degree-<span class="math inline">\(3\)</span> polynomial that contains four given
+points, and so on. Moreover, this also works over a finite field
+<span class="math inline">\(\mathbb{F}_p\)</span> for any prime <span class="math inline">\(p\)</span>, when the operations are considered
+modulo <span class="math inline">\(p\)</span> and division is inversion modulo <span class="math inline">\(p\)</span>.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-207" class="proposition"><strong>Proposition C.1  </strong></span><em>Let <span class="math inline">\(n\in\mathbb{N}\)</span>, and let <span class="math inline">\(p\in\mathbb{Z}\)</span> be a
+prime number. Consider <span class="math inline">\(n+1\)</span> pairs <span class="math inline">\((x_i,y_i)\)</span>, for <span class="math inline">\(i=0,\dots,n\)</span>, of
+points in <span class="math inline">\(\mathbb{F}_p\)</span>, such that the <span class="math inline">\(x_i\)</span> are pairwise different.
+Then, there is a unique polynomial <span class="math inline">\(p(X)\)</span> of degree at most <span class="math inline">\(n\)</span> such
+that <span class="math display">\[p(x_i)=y_i,\qquad\text{ for all }i=0,\dots,n.\]</span> The polynomial
+<span class="math inline">\(p(X)\)</span> is called the</em> Lagrange interpolation polynomial <em>of degree <span class="math inline">\(n\)</span>
+relative to the points <span class="math inline">\((x_i,y_i)\)</span> for</em> <span class="math inline">\(i=0,\dots,n\)</span>.</p>
+</div>
+<p>The strategy to build this polynomial explicitly is to generalize what
+we have done before for two points. That is, we first want to solve the
+following problem.</p>
+<div class="problem">
+<p><strong>Problem 8</strong>. <em>Given <span class="math inline">\(x_0,\dots,x_n\in\mathbb{F}_p\)</span>, find polynomials
+<span class="math inline">\(\ell_i(X)\)</span>, for <span class="math inline">\(i=0,\dots,n\)</span>, of degree at most <span class="math inline">\(n\)</span> such that
+<span class="math display">\[\ell_i(x_i)=1,\qquad\text{ and }\ell_i(x_j)=0, \qquad \text{ for all }j\neq i.\]</span></em></p>
+</div>
+<p>That is, we want polynomials such that each of them is <span class="math inline">\(1\)</span> at at one of
+the points and <span class="math inline">\(0\)</span> at the rest of the points. For the polynomial
+<span class="math inline">\(\ell_i(X)\)</span>, we ensure that all <span class="math inline">\(x_j\neq x_i\)</span> are roots of the
+polynomial. We consider: <span class="math display">\[\hat\ell_i(X)=\prod_{j\neq i}(X-x_j).\]</span> This
+polynomial has degree <span class="math inline">\(n\)</span>, since it has <span class="math inline">\(n\)</span> factors, each of degree <span class="math inline">\(1\)</span>.
+Moreover, it clearly satisfies that <span class="math inline">\(\hat\ell_i(x_j)=0\)</span> if <span class="math inline">\(j\neq i\)</span>.
+However, we still run into the problem that it produces the wrong value
+at <span class="math inline">\(x_i\)</span>. Indeed, <span class="math display">\[\hat\ell_i(x_i)=\prod_{j\neq i}(x_i-x_j).\]</span> We solve
+the issue by dividing the polynomial by this value, and thus we consider
+the polynomial
+<span class="math display">\[\ell_i(X)=\frac{\prod_{j\neq i}(X-x_j)}{\prod_{j\neq i}(x_i-x_j)}=\prod_{j\neq i}\frac{(X-x_j)}{x_i-x_j}.\]</span>
+The polynomials <span class="math inline">\(\ell_i(X)\)</span> are known as the <em>Lagrange basis
+polynomials</em>, as we can now use them as a basis for building any
+interpolation polynomial relative to the points <span class="math inline">\(x_0,\dots,x_n\)</span>. Indeed,
+we consider the linear combination <span class="math display">\[p(X)=\sum_{i=0}^n y_i\ell_i(X).\]</span>
+It is easy to check that this polynomial satisfies that <span class="math display">\[p(x_i)=y_i\]</span>
+for all <span class="math inline">\(i=0,\dots,n\)</span>. Moreover, since the degree of the <span class="math inline">\(\ell_i(X)\)</span> is
+<span class="math inline">\(n\)</span>, and addition of the polynomials or multiplication by constant do
+not increase the degree (although they might reduce it), the polynomial
+<span class="math inline">\(p(X)\)</span> will have degree at most <span class="math inline">\(m\)</span>. Therefore, this is the Lagrange
+interpolation polynomial that we were looking for.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-208" class="exercise"><strong>Exercise C.2  </strong></span><em>Compute the Lagrange interpolation polynomial
+corresponding to the points <span class="math inline">\((0,1),(1,-1),(2,2),(3,8)\)</span>.</em></p>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="54">
+<li id="fn54"><p>We require the <span class="math inline">\(x\)</span>-coordinates to be different because we want to
+formulate this in terms of functions, and a function cannot have two
+outputs for the same input.<a href="polynomial-interpolation.html#fnref54" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="primality-testing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="refreshers.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

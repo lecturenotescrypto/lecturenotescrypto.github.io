@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>4 Security definitions | Cryptography lecture notes</title>
+  <meta name="description" content="4 Security definitions | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="4 Security definitions | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="4 Security definitions | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="block-ciphers.html"/>
+<link rel="next" href="hash-functions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="security-definitions" class="section level1 hasAnchor" number="4">
+<h1><span class="header-section-number">4</span> Security definitions<a href="security-definitions.html#security-definitions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>So far we are a bit informal about what a “secure” cryptosystem means. For example one-time-pad is “perfectly secure”, but if we reuse the same key it is completely broken. Or ECB mode (never use ECB mode!) could be used if the same message is not encrypted twice.</p>
+<p>It seems so far that we define schemes and later consider “caveats”; certain use cases and scenarios where the constructions are broken. However, the stakes are often too high to allow such ad-hoc arguing. What happens for example if we fail to identify a specific “misuse” until it is too late? In the end, everything is secure until it isn’t!</p>
+<p>Modern cryptography aims to overcome such issues by introducing formal, well defined properties a scheme should satisfy and then <em>proving</em> (in a mathematical sense) that a scheme indeed satisfies them. Such a proof is <em>indisputable evidence</em> that the scheme is secure<a href="#fn14" class="footnote-ref" id="fnref14"><sup>14</sup></a>. Or to be more precise, <em>it is not vulnerable</em> to the class of attacks that are prevented in the framework the scheme is analyzed in.</p>
+<p>But how can one define “security” in a formal sense? This seems difficult since the security notion depends on the intended use. For example, do we intend to send a single message or encrypt multiple messages with the same key? Or what if some eavesdropper knows information about the encrypted messages (for example that they are either an encryption of “YES” or “NO”)?</p>
+<p>The way cryptographers have solved this problem is by “abstraction”. The general idea is as follows: define an “experiment” that involves two parties, the <em>challenger</em> that uses the encryption scheme and the <em>adversary</em> that tries to break it. In these experiments, both parties must follow some rules and at the end the adversary tries to solve a challenge. If it succeeds the scheme is insecure (under the specific experiment). On the other hand, if <em>all possible adversaries fail</em> then the scheme is secure!</p>
+<p>This might sound a bit confusing at first. To make things clearer, in this section we first present two such experiments to warm up: the <em>Key recovery experiment</em> and the <em>Indistinguishability under ciphertext only</em> experiment. After that we present two more experiments that are widely used in practice: <em>Indistinguishability under chosen plaintext attack</em> and <em>Indistinguishability under chosen ciphertext attack</em>.</p>
+<div id="key-recovery-experiment" class="section level2 hasAnchor" number="4.1">
+<h2><span class="header-section-number">4.1</span> Key recovery experiment<a href="security-definitions.html#key-recovery-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The most basic requirement to characterize an encryption scheme as secure is that an eavesdropper, observing transmitted ciphertexts, cannot guess the secret key. Indeed, if this was possible, the used scheme would be completely useless, since recovering the key gives the ability to encrypt/decrypt any message! Let’s try to formalize this as an experiment between a challenger and an adversary.
+The two entities play the following game:</p>
+<ol style="list-style-type: decimal">
+<li>The challenger samples a secret key <span class="math inline">\(k\)</span> and encrypts a message <span class="math inline">\(m\)</span> of its choice.</li>
+<li>It sends the ciphertext <span class="math inline">\(c\)</span> to the adversary.</li>
+<li>The adversary provides a guess for the secret key <span class="math inline">\(k&#39;\)</span>.</li>
+</ol>
+<p>The adversary wins if and only if the guess is correct, that is if <span class="math inline">\(k=k&#39;\)</span>. We next present the key recovery experiment (KR) schematically:</p>
+<center>
+<img src="assets/experiments/kr.png" style="width:95.0%" />
+</center>
+<p><br />
+Note that the experiment is probabilistic. Specifically, the challenger samples a secret key which is a probabilistic event and uses the encryption algorithm which might be probabilistic as well<a href="#fn15" class="footnote-ref" id="fnref15"><sup>15</sup></a>. We also allow the adversary to be probabilistic. Thus, when we talk about the outcome of the experiment, we care about <em>the probability that an adversary succeeds</em>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-47" class="exercise"><strong>Exercise 4.1  </strong></span><em>Consider the one-time-pad encryption scheme for encrypting a message of length <span class="math inline">\(\lambda\)</span>. Describe an adversary that succeeds in key recovery with probability <span class="math inline">\(1/2^{\lambda}\)</span>.</em></p>
+</div>
+<p>Clearly, an adversary can sample a key at random and with probability <span class="math inline">\(1/2^{\lambda}\)</span> this will be the correct key! In fact, note that this is true for <em>any encryption scheme</em>: sample a random key and use it to answer the challenge. This is basically a trivial attack that applies everywhere. An encryption scheme should be considered secure if there is no significantly better attack than the trivial one. We next give the formal definition.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-48" class="definition"><strong>Definition 4.1  </strong></span>An encryption scheme <span class="math inline">\((\mathsf{KeyGen}, \mathsf{Enc}, \mathsf{Dec})\)</span> is secure under KR if for any probabilistic polynomial time adversary <span class="math inline">\(\mathcal{A}\)</span>, the probability that the adversary succeeds in the KR experiment is at most <span class="math inline">\(1/2^\lambda + \mathsf{negl}(\lambda)\)</span>.</p>
+</div>
+<p>Let’s now consider how this definition could be used to assess security of a scheme. Suppose we try to test some cryptosystem X secure under key recovery attacks. There are two possible ways to proceed:</p>
+<ul>
+<li>either describe a concrete adversary <span class="math inline">\(\mathcal{A}\)</span>, that acts in a specific way that results in a successful key recovery with “good” probability,</li>
+<li>or show that <em>all possible adversaries</em> fails to win the experiment with “good” probability.</li>
+</ul>
+<p>The first way aims to show that the scheme is insecure by demonstrating a <em>concrete attack</em>, while the latter proves that the scheme is secure by proving that <em>no attack exists</em>.</p>
+<div class="remark">
+<p><span id="unlabeled-div-49" class="remark"><em>Remark</em>. </span><em>Note the “for all” quantifier in the second case. This is an extremely powerful statement. If the second case is proven, it means not only that all currently known attacks of the scheme fail, but also that <strong>any possible attack</strong> -including attacks we have not even though of- will fail! The statement is so strong, that it essentially rules out the possibility that in the future some clever strategy will leak the key!</em></p>
+</div>
+<p>Let’s now try to reflect on what the definition actually means in the real world. Let’s assume that a scheme is secure under the key recovery experiment. What is the implication of such a statement? Unfortunately, this does not give us too many guarantees. Essentially, we can only deduce that an eavesdropper (for example our internet service provider that transmits our messages) <em>cannot learn the secret key if it sees a single message</em>.</p>
+<p>This is not a very good model in the sense that it <em>does not abstract well</em> the reality. In particular, the definition does not capture many possibilities that could happen in the real world:</p>
+<ul>
+<li>What happens if we send many messages using the same key?</li>
+<li>What if the eavesdropper knows some part of the plaintext (for example our plaintext might start with a date)?</li>
+<li>What if the eavesdropper can successfully guess part of the key (for example the last bit)?</li>
+<li>What if the eavesdropper can actually learn the message by looking at the ciphertext <em>without using the key at all</em>?</li>
+</ul>
+<p>It seems that to abstract reality we need <em>stronger models</em> that capture more complex use-cases. Essentially, we need to change the “rules” of the experiment in favour of the adversary. If our scheme remains secure, then we get more guarantees about the security of our scheme!</p>
+<p>Consider for example the first issue. We could modify the experiment by requiring the challenger to send two (or more) ciphertexts to the adversary. This is clearly a <em>stronger</em> experiment!</p>
+<p>We next present a stronger experiment, aiming at abstracting the last two bullets.</p>
+</div>
+<div id="indistinguishability-under-ciphertext-only-experiment" class="section level2 hasAnchor" number="4.2">
+<h2><span class="header-section-number">4.2</span> Indistinguishability under ciphertext only experiment<a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>When using an encryption scheme, our ultimate goal is not to protect the secret key but rather to hide the plaintexts that we encrypt. Keeping the secret key secret is in fact a means and not the goal.</p>
+<p>We can try to capture this directly in an experiment. In fact, this is a good idea since there is no need to believe that knowing the secret key is the only way to decrypt a message!</p>
+<p>The most natural way to proceed would be to modify the KR experiment by requiring the adversary to output the plaintext <span class="math inline">\(m\)</span> instead of the key <span class="math inline">\(k\)</span>.</p>
+<p>However, this is a week definition that still leaves a lot of attack possibilities open. For example, it does not capture that the adversary might have partial information about the message or that it might be able to deduce small parts of it!</p>
+<p>Let’s try to make the definition stronger so that it captures also the above scenarios. Instead of requiring the adversary to guess the message, we present it with two possible messages <span class="math inline">\(m_0, m_1\)</span> and we give the encryption of one of them. The challenge of the adversary is to <em>guess which message we encrypted</em>. Clearly this is a much easier task than decrypting the message and therefore an encryption scheme satisfying this definition is better!</p>
+<p>In fact, we will make the task of the adversary even easier: we allow the adversary to <em>choose the two challenge messages <span class="math inline">\(m_0, m_1\)</span></em>! We only add the restriction that the messages are of the same length.
+We present the <em>indistinguishability under ciphertext only experiment</em> (IND-CO) experiment next.</p>
+<center>
+<img src="assets/experiments/ind-co.png" style="width:95.0%" />
+</center>
+<p> </p>
+<p>Before diving in the details of the experiment, let us focus on a somewhat subtle point: we require that the adversary outputs messages of the same length. This means that in the real world <em>we don’t intend to hide the length of the encrypted messages!</em> Indeed, by observing the traffic of a network we can learn information about the message sizes since in most (if not all) applications, the ciphertext size depends linearly on the plaintext size. Note that this is neither good nor bad. The system designers and users set the requirements of an application and in encryption, it is standard to require that the contents of transmitted messages are hidden but their sizes are not. And our abstract model cleanly captures this by requiring the adversary to output challenge messages of equal sizes.</p>
+<p>Let’s now define security more formally. As in the previous game, there is a trivial attack that succeeds with probability 1/2: simply guess the bit <span class="math inline">\(b\)</span> at random! We quantify the success of an adversary <span class="math inline">\(\mathcal{A}\)</span> by measuring how much better <span class="math inline">\(\mathcal{A}\)</span> can do compared to this trivial attack.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-50" class="definition"><strong>Definition 4.2  </strong></span>Consider an execution of the experiment IND-CO with an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> and with an adversary <span class="math inline">\(\mathcal{A}\)</span>. Let <span class="math inline">\(p(\lambda)\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> wins the experiment. We define the advantage of the adversary as <span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CO}}^{\mathcal{A}}(\lambda) = |p(\lambda) - 1/2|\)</span>.</p>
+</div>
+<p>There is also an equivalent definition, that is easier to use when proving schemes secure.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-51" class="definition"><strong>Definition 4.3  </strong></span>Consider an execution of the following experiments with an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> and with an adversary <span class="math inline">\(\mathcal{A}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\text{IND-CO}_0\)</span> which is the same as IND-CO where we always choose <span class="math inline">\(b=0\)</span>,</li>
+<li><span class="math inline">\(\text{IND-CO}_1\)</span> which is the same as IND-CO where we always output <span class="math inline">\(b=1\)</span>.</li>
+</ul>
+<p>Let <span class="math inline">\(W_0\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> outputs 1 in <span class="math inline">\(\text{IND-CO}_0\)</span> and
+<span class="math inline">\(W_1\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> outputs 1 in <span class="math inline">\(\text{IND-CO}_1\)</span> and let <span class="math inline">\(p_0(\lambda)\)</span> and <span class="math inline">\(p_1(\lambda)\)</span> be the probability that <span class="math inline">\(W_0, W_1\)</span> happen respectively. We Define
+the advantage as <span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CO}}^{\mathcal{A}}(\lambda) = \frac{1}{2}|p_0(\lambda) - p_1(\lambda)|\)</span>.</p>
+</div>
+<p>Why are these definitions equivalent? We can show it with a simple probabilistic arguement. Recall that <span class="math inline">\(p(\lambda)\)</span> is the probability that <span class="math inline">\(\mathcal{A}\)</span> guesses correctly, that is, <span class="math inline">\(b&#39;=b\)</span>. We have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+p(\lambda)  &amp;= \Pr[\mathcal{A} \text{ guesses } b&#39;=b] \\
+            &amp;= \Pr[\mathcal{A} \text{ guesses } b&#39;=1|b=1]\Pr[b=1] + \Pr[\mathcal{A} \text{ guesses } b&#39;=0|b=0]\Pr[b=0]  \\
+            &amp;= \frac{1}{2}\Pr[\mathcal{A} \text{ guesses } b&#39;=1|b=1] + \frac{1}{2}\Pr[\mathcal{A} \text{ guesses } b&#39;=0|b=0] \\
+            &amp;= \frac{1}{2}\Pr[\mathcal{A} \text{ guesses } b&#39;=1|b=1] + \frac{1}{2}(1 -  \Pr[\mathcal{A} \text{ guesses } b&#39;=1|b=0]) \\
+            &amp;= \frac{1}{2} + \frac{1}{2}\Pr[\mathcal{A} \text{ guesses } b&#39;=1|b=1] - \frac{1}{2}\Pr[\mathcal{A} \text{ guesses } b&#39;=1|b=0]) \\
+            &amp;= \frac{1}{2} + \frac{1}{2}(p_1(\lambda) - p_0(\lambda))
+\end{aligned}
+\]</span></p>
+<p>and therefore
+<span class="math display">\[
+\left|p(\lambda) - \frac{1}{2}\right| = \left|\frac{1}{2} + \frac{1}{2}(p_1(\lambda) - p_0(\lambda)) -\frac{1}{2} \right| =
+\frac{1}{2}\left|p_1(\lambda) - p_0(\lambda)\right|
+\]</span></p>
+<p>Finally, we are ready to define what it means for an encryption scheme to satisfy IND-CO security. Essentially, we require that the advantage of <em>any probabilistic polynomial time adversary</em> is negligible in <span class="math inline">\(\lambda\)</span>. In other words, no adversary can do noticably better than simply guessing the bit <span class="math inline">\(b\)</span>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-52" class="definition"><strong>Definition 4.4  </strong></span>An encryption scheme <span class="math inline">\(\mathcal{E}\)</span> is IND-CO secure if for all PPT adversaries <span class="math inline">\(\mathcal{A}\)</span>, their advantage is negligible in <span class="math inline">\(\lambda\)</span>, that is,
+<span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CO}}^{\mathcal{A}}(\lambda) = \textsf{negl}(\lambda)\)</span>.</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-53" class="remark"><em>Remark</em>. </span>For security, we require that the advantage of the adversary is negligible. The factor <span class="math inline">\(\frac{1}{2}\)</span> in the alternative definition is not important for this:
+<span class="math inline">\(\frac{1}{2}\left|p_1(\lambda) - p_0(\lambda)\right|\)</span> is negligible in <span class="math inline">\(\lambda\)</span> if and only if
+<span class="math inline">\(\left|p_1(\lambda) - p_0(\lambda)\right|\)</span> is negligible in <span class="math inline">\(\lambda\)</span>. Therefore, one can also define the adversary’s advantage as<br />
+<span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CO}}^{\mathcal{A}}(\lambda) = |p_0(\lambda) - p_1(\lambda)|\)</span>.</p>
+</div>
+<p>Again, let’s reflect a bit on the experiment and its relation to the real world.</p>
+<p>Clearly, if an adversary cannot win the IND-CO experiment with good probability, it means it cannot guess the decryption of a ciphertext <span class="math inline">\(c\)</span>. Indeed, if it could guess the decryption, it would see if <span class="math inline">\(\textsf{Dec}_k(c) = m_0\)</span> or <span class="math inline">\(\textsf{Dec}_k(c) = m_1\)</span> and easily answer the challenge!</p>
+<p>In fact, we get much stronger guarantees! The adversary can deduce <em>no information</em> about the plaintext by looking at the ciphertext (with good probability). To see this, consider the following: assume the adversary can learn <em>any property <span class="math inline">\(P\)</span> </em> of the underlying message. Then it can simply do the following:</p>
+<ul>
+<li>Select <span class="math inline">\(m_0\)</span> that has the property <span class="math inline">\(P\)</span> and <span class="math inline">\(m_1\)</span> that does not.</li>
+<li>Examine the ciphertext <span class="math inline">\(c\)</span> and deduce if the underlying plaintext satisfies <span class="math inline">\(P\)</span> or not.</li>
+<li>If it does, answer the challenge with <span class="math inline">\(b&#39;=0\)</span> and otherwise <span class="math inline">\(b&#39;=1\)</span>.</li>
+</ul>
+<p>If some adversary could learn anything about the underlying plaintext with some probability, it would win the IND-CO experiment with the same probability. Which in turn means that if an encryption scheme is secure under IND-CO, <em>no information of the plaintext is leaked by the ciphertext</em>.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-54" class="exercise"><strong>Exercise 4.2  </strong></span><em>Show that if an encryption scheme is secure under IND-CO, then it secure under KR.</em></p>
+</div>
+<p>This definition is quite strong. However, we should be careful when interpreting the real world consequences. Here, we can only guarantee that an encryption scheme satisfying this definition implies that no information is leaked about a message <em>as long as this is the only message used!</em> No guarantee is given for the case where the same key is used to encrypt more messages.</p>
+</div>
+<div id="indistinguishability-under-chosen-plaintext-attack" class="section level2 hasAnchor" number="4.3">
+<h2><span class="header-section-number">4.3</span> Indistinguishability under chosen plaintext attack<a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section we will present a stronger experiment. In particular we will modify the IND-CO experiment by allowing the adversary to ask for encryptions of messages of its choice before sending the messages <span class="math inline">\(m_0, m_1\)</span> to be challenged on<a href="#fn16" class="footnote-ref" id="fnref16"><sup>16</sup></a>.</p>
+<p>Note that this is clearly a stronger requirement than IND-CO. Therefore, it should be harder to come up with schemes that satisfy the stronger definition and if we do, the security guarantees are better.</p>
+<p>Before presenting the details though, it would be worthy to reflect on the choice of allowing an adversary to get encryptions. After all, it seems unrealistic since one needs the secret key to encrypt messages<a href="#fn17" class="footnote-ref" id="fnref17"><sup>17</sup></a>.</p>
+<p>The reason is because in the real world, the adversary <em>might predict what messages are encrypted</em> and therefore collect valid plaintext-ciphertext pairs. As a good measure, we consider the worst possible scenario in our abstraction: the adversary has full control over these pair of messages.</p>
+<p>This is not a far-fetched scenario or cryptographers being unjustifiably conservative, but rather something that has happened in various occasions! We first briefly present one such occasion and then we formally define the IND-CPA experiment.</p>
+<div id="casestudy-the-battle-of-midway" class="section level3 hasAnchor" number="4.3.1">
+<h3><span class="header-section-number">4.3.1</span> Casestudy: the battle of Midway<a href="security-definitions.html#casestudy-the-battle-of-midway" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In May 1942 the <a href="https://en.wikipedia.org/wiki/Battle_of_Midway">battle of Midway</a> took place. Midway is a small island in the middle of the Pacific ocean with important strategic significance. The Battle of Midway is widely considered a turning point in the Pacific War. And this turning point is in big parts due to cryptography.</p>
+<p>The US Navy cryptanalysts, after having intercept various Japan communication, had partially broken the Japanese Navy’s <a href="https://en.wikipedia.org/wiki/Japanese_naval_codes#JN-25">JN-25b code</a>. They had concluded that there was going to be an upcoming operation on location “AF” but where unsure what “AF” stood for.</p>
+<p>Suspecting “AF” might refer to the Midway island, the US Navy came up with a devious plan: they broadcast unencrypted messages stating that Midway’s water purification system had broken down. The Japanese -ignoring the fact that these communication was unencrypted- starting sharing the news amongst them and the “AF” was present in various communications, asserting that “AF” indeed corresponding to Midway island!</p>
+<p>With this information at hand, the US Navy prepared for the upcoming operation leading them to the victory.</p>
+<p>How is this connected with our abstract experiments? In an abstract level, what the US Navy actually did was to “ask” for an encryption of Midway and the Japan Navy naively responded with “AF”. It is such situations we will capture in our IND-CPA experiment next.</p>
+</div>
+<div id="the-ind-cpa-experiment" class="section level3 hasAnchor" number="4.3.2">
+<h3><span class="header-section-number">4.3.2</span> The IND-CPA experiment<a href="security-definitions.html#the-ind-cpa-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We are now ready to define our experiment. Essentially, it is the same as IND-CO but enhanced: the adversary can ask encryptions of arbitrary messages and the challenger provides them. We present the experiment in the next figure.</p>
+<center>
+<img src="assets/experiments/ind-cpa.png" style="width:95.0%" />
+</center>
+<p> </p>
+<p>The experiment starts with the adversary asking encryptions of messages of its choice and the challenger provides them. This is referred to as the query phase. When the adversary is happy with the pairs of messages it has, the challenge phase starts: the adversary sends two equal-length messages and the challenger flips a coin and encrypts the corresponding message. The adversary wins if it finds what was the coin flip (or equivalently which message was encrypted).</p>
+<p>We define security similarly to the IND-CO case. First we define the advantage of the adversary, i.e. how much better it is than simply guessing <span class="math inline">\(b\)</span> at random, and we characterize a scheme as secure if this advantage is negligible. We present the two definitions next.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-55" class="definition"><strong>Definition 4.5  </strong></span>Consider an execution of the experiment IND-CPA with an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> and with an adversary <span class="math inline">\(\mathcal{A}\)</span>. Let <span class="math inline">\(p(\lambda)\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> wins the experiment. We define the advantage of the adversary as <span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CPA}}^{\mathcal{A}}(\lambda) = |p(\lambda) - 1/2|\)</span>.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-56" class="definition"><strong>Definition 4.6  </strong></span>An encryption scheme <span class="math inline">\(\mathcal{E}\)</span> is IND-CPA secure if for all PPT adversaries <span class="math inline">\(\mathcal{A}\)</span>, their advantage is negligible in <span class="math inline">\(\lambda\)</span>, that is,
+<span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CPA}}^{\mathcal{A}}(\lambda) = \textsf{negl}(\lambda)\)</span>.</p>
+</div>
+<p>We also present the alternative definition:</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-57" class="definition"><strong>Definition 4.7  </strong></span>Consider an execution of the following experiments with an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> and with an adversary <span class="math inline">\(\mathcal{A}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\text{IND-CPA}_0\)</span> which is the same as IND-CO where we always choose <span class="math inline">\(b=0\)</span>,</li>
+<li><span class="math inline">\(\text{IND-CPA}_1\)</span> which is the same as IND-CO where we always output <span class="math inline">\(b=1\)</span>.</li>
+</ul>
+<p>Let <span class="math inline">\(W_0\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> outputs 1 in <span class="math inline">\(\text{IND-CPA}_0\)</span> and
+<span class="math inline">\(W_1\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> outputs 1 in <span class="math inline">\(\text{IND-CPA}_1\)</span> and let <span class="math inline">\(p_0(\lambda)\)</span> and <span class="math inline">\(p_1(\lambda)\)</span> be the probability that <span class="math inline">\(W_0, W_1\)</span> happen respectively. We Define
+the advantage as <span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CPA}}^{\mathcal{A}}(\lambda) = \frac{1}{2}|p_0(\lambda) - p_1(\lambda)|\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="indistinguishability-under-chosen-ciphertext-attack" class="section level2 hasAnchor" number="4.4">
+<h2><span class="header-section-number">4.4</span> Indistinguishability under chosen ciphertext attack<a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The reader at this point might suspect where we are heading. We started with a single indistinguishability experiment and “enhanced” it by allowing the adversary to ask for encryptions of messages of its choice. Why not also allow it to ask for decryptions of ciphertexts?</p>
+<p>This is exactly what we will do, but it would be usefull at first to reflect on whether this makes any sense at all. In the end, how would someone in the real world get ciphertext decryptions without the secret key? In the previous case we saw that this models some partial knowledge of what the messages correspond to, but in this case it remains unclear. And we better have a good reason since making our experiments stronger means it is harder to come up with schemes that are secure under them and usually such schemes are less efficient.</p>
+<p>Before we present the new experiment, we will show a devastating attack on block ciphers under CBC mode. The attack essentially takes advantage the an adversary can <em>learn partial information</em> about plaintexts by manipulating the ciphertexts. This partial information is enough to <em>completely break</em> security.</p>
+<p>This attack is a real world example (among others) that actually leads us to consider a broader class of attacks which the new model will cover.</p>
+<div id="malleability-of-cbc-mode" class="section level3 hasAnchor" number="4.4.1">
+<h3><span class="header-section-number">4.4.1</span> Malleability of CBC mode<a href="security-definitions.html#malleability-of-cbc-mode" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before we present the attack, we will first show that CBC mode is malleable. This means that we can <em>manipulate the ciphertext</em> in a way that causes a <em>predictable effect on the plaintext</em>.</p>
+<p>Consider encrypting a single block using CBC mode. To encrypt the message <span class="math inline">\(m\)</span>, we first sample a random <span class="math inline">\(IV\)</span> and compute <span class="math inline">\(c = \textsf{Enc}_k(m\oplus IV)\)</span>. The final ciphertext is <span class="math inline">\((IV, c)\)</span>. To decrypt the message we need to compute <span class="math inline">\(m = \textsf{Dec}_k(c)\oplus IV\)</span></p>
+<p>Now, what happens if we try to decrypt the ciphertext <span class="math inline">\((IV\oplus x, c)\)</span> for some <span class="math inline">\(x\)</span>? The decryption will give
+<span class="math display">\[
+\textsf{Dec}_k(c)\oplus (IV \oplus x) = (\textsf{Dec}_k(c)\oplus IV) \oplus x = m\oplus x
+\]</span>
+This means that manipulating the ciphertext <span class="math inline">\((IV, c)\)</span> by <em>XORing the <span class="math inline">\(IV\)</span> with some value <span class="math inline">\(x\)</span></em> causes
+a predictable change to the underlying plaintext <span class="math inline">\(m\)</span>: it results in <em>the plaintext <span class="math inline">\(m\)</span> XORed with the same value <span class="math inline">\(x\)</span></em>!</p>
+</div>
+<div id="padding-oracle-attack" class="section level3 hasAnchor" number="4.4.2">
+<h3><span class="header-section-number">4.4.2</span> Padding oracle attack<a href="security-definitions.html#padding-oracle-attack" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The <a href="https://en.wikipedia.org/wiki/Padding_oracle_attack">padding oracle attack</a> allows to <em>decrypt any message</em> that was encrypted with CBC mode using only minimal information: given a ciphertext, we need to know if the underlying plaintext is well formed!</p>
+<p>Let’s now give some meaning to the “well formed” part. As we show in the previous sections, block ciphers only work with messages of specific lengths: multiples of the block size. But what happens if our message is not such a multiple? In this case we need to pad the message, i.e. fill the missing bytes with some default values.</p>
+<p>There are many ways to do such padding. We will focus on the <a href="https://en.wikipedia.org/wiki/Padding_(cryptography)#ANSI_X9.23">ANSI X.923 standard</a>. This is a very simple padding: fill the missing bytes with zeros and use the last byte to say how many bytes were padding bytes. Note that it is easy to “undo” the padding and get the actual message.</p>
+<p>Let’s see some examples: the following messages with length 16 bytes are correctly padded:</p>
+<p><span class="math display">\[
+\begin{array}{cccccccccccccccc}
+\textsf{83} &amp; \textsf{14} &amp; \textsf{A8} &amp; \textsf{3F} &amp; \textsf{BA} &amp; \textsf{CD} &amp; \textsf{3C} &amp; \textsf{D7} &amp; \textsf{D3} &amp; \textsf{34} &amp; \textsf{93} &amp; \textsf{A8} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{04} \\
+\textsf{2A} &amp; \textsf{BA} &amp; \textsf{9F} &amp; \textsf{A9} &amp; \textsf{91} &amp; \textsf{34} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{00} &amp; \textsf{0A} \\
+\textsf{3A} &amp; \textsf{FF} &amp; \textsf{43} &amp; \textsf{AC} &amp; \textsf{D9} &amp; \textsf{DD} &amp; \textsf{45} &amp; \textsf{9B} &amp; \textsf{FD} &amp; \textsf{F8} &amp; \textsf{32} &amp; \textsf{19} &amp; \textsf{00} &amp; \textsf{23} &amp; \textsf{14} &amp; \textsf{01}
+\end{array}
+\]</span></p>
+<p>while the following are not
+<span class="math display">\[
+\begin{array}{cccccccccccccccc}
+\textsf{A9} &amp; \textsf{93} &amp; \textsf{32} &amp; \textsf{00} &amp; \textsf{0F} &amp; \textsf{03} &amp; \textsf{1A} &amp; \textsf{BB} &amp; \textsf{CA} &amp; \textsf{DA} &amp; \textsf{F9} &amp; \textsf{91} &amp; \textsf{EF} &amp; \textsf{E9} &amp; \textsf{A0} &amp; \textsf{23} \\
+\textsf{93} &amp; \textsf{88} &amp; \textsf{7A} &amp; \textsf{03} &amp; \textsf{50} &amp; \textsf{00} &amp; \textsf{01} &amp; \textsf{85} &amp; \textsf{92} &amp; \textsf{AB} &amp; \textsf{B1} &amp; \textsf{54} &amp; \textsf{52} &amp; \textsf{99} &amp; \textsf{00} &amp; \textsf{03}
+\end{array}
+\]</span></p>
+<p>The first is invalid because the standard requires <em>at least one padding byte</em><a href="#fn18" class="footnote-ref" id="fnref18"><sup>18</sup></a> while the second is invalid because it claims it uses 3 padding bytes but the ending is not 00 00 03.</p>
+<p>Now consider a server that uses a block cipher in CBC mode to communicate with its clients. The above padding is used. Assume that the server receives a message. If the message is correctly padded it replies with “OK” and if it is not, it assumes there was an error during transmission and replies with “BAD REQUEST”.</p>
+<p>This is our <em>oracle</em>! We can manipulate intercepted ciphertexts, send them to the server and learn if they are well formed or not! This in combination with the XOR malleability of CBC mode will be enough to completely break the encryption!</p>
+<p>We will “decrypt” the message byte by byte.</p>
+<p>Consider we intercept a ciphertext
+<span class="math inline">\((IV, c_1, c_2, \ldots, c_\ell)\)</span>. We will first learn the message corresponding to <span class="math inline">\(c_1\)</span>.</p>
+<p>First, note that <span class="math inline">\((IV, c_1)\)</span> is also a CBC ciphertext. Now, let’s assume the 15-th byte of <span class="math inline">\(m_1\)</span> <em>is not</em> zero. That is, the message is of the form
+<span class="math display">\[
+??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ ??\ \text{YY}\ \text{XX}
+\]</span>
+with YY being non-zero. In this case, the server <em>will reply BAD REQUEST unless XX=01</em>!
+Now, consider we send the following messages to the server:
+<span class="math display">\[
+\begin{aligned}
+&amp;(IV\oplus 00\ 00\ \ldots\ 00\ 00, c)\\
+&amp;(IV\oplus 00\ 00\ \ldots\ 00\ 01, c)\\
+&amp;(IV\oplus 00\ 00\ \ldots\ 00\ 02, c)\\
+&amp;\qquad\qquad\qquad\vdots\\
+&amp;(IV\oplus 00\ 00\ \ldots\ 00\ FE, c)\\
+&amp;(IV\oplus 00\ 00\ \ldots\ 00\ FF, c)\\
+\end{aligned}
+\]</span>
+and note that the corresponding decryption for <span class="math inline">\((IV\oplus 00\ 00\ \ldots\ 00\ b, c)\)</span> is <span class="math inline">\(m\oplus 00\ 00\ \ldots\ 00\ b\)</span> due to the malleability of CBC mode!</p>
+<p>Since only the message ending with 01 will cause the server to answer with OK, we know that exactly 1 out of the 256 messages we sent will cause this! It is now enough to see which message it was that caused this response. Say that the malformed IV XORed with <span class="math inline">\(00\ \ldots\ 00\ b\)</span> caused this response and denote the 16th byte of <span class="math inline">\(m_1\)</span> as <span class="math inline">\(m_{1,16}\)</span>. Then, it must be the case that <span class="math inline">\(m_{1, 16}\oplus b = 01\)</span> and therefore <span class="math inline">\(m_{1,16} = b \oplus 01\)</span>! In this case we successfully learn the last byte of the first block.</p>
+<p>What happens if <span class="math inline">\(YY=00\)</span> though? In that case both messages ending in <span class="math inline">\(01\)</span> and <span class="math inline">\(02\)</span> (and maybe more depending on the previous bytes) will cause the server to reply “OK”.</p>
+<p>We handle this as follows: we send the 256 message as described above and if we get a single “OK” reply, we know <span class="math inline">\(YY\neq 00\)</span> and we compute <span class="math inline">\(m_{1,16}\)</span> as described above. If more than one values yield “OK” we know that <span class="math inline">\(YY=00\)</span> and we repeat the above while forcing <span class="math inline">\(YY\)</span> to become non-zero. Specifically, we now send the messages
+<span class="math display">\[
+\begin{aligned}
+&amp;(IV\oplus 00\ 00\ \ldots\ 01\ 00, c)\\
+&amp;(IV\oplus 00\ 00\ \ldots\ 01\ 01, c)\\
+&amp;\qquad\qquad\qquad\vdots\\
+&amp;(IV\oplus 00\ 00\ \ldots\ 01\ FF, c)\\
+\end{aligned}
+\]</span>
+Now it is guaranteed that <span class="math inline">\(YY\neq 00\)</span> and arguing as before we can retrieve the last byte of the first block! Note that we needed to do only <span class="math inline">\(512\)</span> tries.</p>
+<p>How do we continue from here though? Well, at this point we know <span class="math inline">\(m_{1,16}\)</span>. We will now try to make the initial message end in <span class="math inline">\(00\ 02\)</span>! To do this we send to the server the messages
+<span class="math display">\[
+(IV\oplus 00\ 00\ \ldots\ b\ \ m_{1,16}\oplus 02, c)\\
+\]</span>
+for all possible <span class="math inline">\(b\)</span>. Note that the last byte now will correspond to</p>
+<p><span class="math display">\[
+m_{1,16}\oplus m_{1,16}\oplus 02 = 00\oplus 02 = 02
+\]</span></p>
+<p>There will be a single value <span class="math inline">\(b\)</span> that will cause the server to send “OK” -the value causing the modified plaintext to be <span class="math inline">\(00\)</span>- and then we can compute <span class="math inline">\(m_{1,15}=b\oplus 00 = b\)</span>.</p>
+<p>We can now continue in this fashion inductively, to retrieve every single byte of the first block! And we can in fact continue block by block to retrieve the whole message. To see this,
+consider the ciphertext <span class="math inline">\((IV, c_1, c_2,\ldots, c_\ell)\)</span>. Assume we already know that <span class="math inline">\(c_1\)</span> corresponds to <span class="math inline">\(m_1\)</span>. Then we can construct the valid CBC ciphertext <span class="math inline">\((m_1, c_2, \ldots, c_\ell)\)</span>, that is we set the new IV as <span class="math inline">\(m_1\)</span> and we delete the first part of the ciphertext <span class="math inline">\(c_1\)</span>. We can now follow the same procedure to learn the decryption of the second block and continue this way until <em>we decrypt the whole message</em>!</p>
+<p>Let’s now consider whether the attack is efficient or not. Let’s focus on the case of a single block. Assuming block length <span class="math inline">\(\ell\)</span> bytes, a bruteforce attack would require
+<span class="math inline">\(256^\ell\)</span> tries since we need to try all possible bytes (256) for each position (<span class="math inline">\(\ell\)</span>). The padding oracle attack needs (roughly) <span class="math inline">\(256\ell\)</span> tries for each block. This is an <em>exponential improvement</em> compared to the bruteforce! This does not only makes the attack practical, it actually makes it a <em>devastating one</em><a href="#fn19" class="footnote-ref" id="fnref19"><sup>19</sup></a>!</p>
+<p>It is worthwhile at this point to reflect a bit and see what actually made this attack possible. It essentially boils down on two things:</p>
+<ol style="list-style-type: decimal">
+<li>the malleability of the CBC mode, which allows us to predict how the plaintext will change if we perform certain operations on the ciphertext,</li>
+<li>the <em>minimal information</em> we received about the decryption of a ciphertext: whether the underlying ciphertext is correctly padded or not! Note that each query to the server conveys a single bit of information: valid/invalid.</li>
+</ol>
+</div>
+<div id="the-ind-cca-experiment" class="section level3 hasAnchor" number="4.4.3">
+<h3><span class="header-section-number">4.4.3</span> The IND-CCA experiment<a href="security-definitions.html#the-ind-cca-experiment" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The padding oracle attack shows that even minimal information about the ciphertexts can deem an encryption scheme insecure. Since it is always better to be conservative when defining experiments, we capture this by allowing the adversary to decrypt arbitrary ciphertexts of its choice. This not only covers the case that the adversary has some partial knowledge, but rather a very powerful adversary that can learn all the information about arbitrary ciphertexts that it is allowed to choose.</p>
+<p>There is however a caveat: we restrict the adversary from asking the decryption of the challenge ciphertext. If we don’t do this the definition is unsatisfiable: no matter the encryption scheme we are using, the adversary can simply ask to decrypt the challenge and win with probability 1.</p>
+<p>We present next the experiment. First there is a CPA phase, where the adversary asks for <em>encryptions</em> of messages of its choice, then we have the challenge phase where the adversary chooses two messages to be challenged on and finally we have the CCA phase, where the adversary gets decryption of <em>any ciphertext it chooses apart from the challenge ciphertext</em>.</p>
+<p>We note that, as in the IND-CPA case, there are more complex version of this experiment where the CPA and CCA queries can happen both before and after the challenge phase but we omit this for the shake of simplicity.</p>
+<p>We present the experiment in the next figure.</p>
+<center>
+<img src="assets/experiments/ind-cca.png" style="width:95.0%" />
+</center>
+<p> </p>
+<p>We define security similarly to the IND-CO and IND-CPA cases. First we define the advantage of the adversary, i.e. how much better it is than simply guessing <span class="math inline">\(b\)</span> at random, and we characterize a scheme as secure if this advantage is negligible. We present the two definitions next.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-58" class="definition"><strong>Definition 4.8  </strong></span>Consider an execution of the experiment IND-CCA with an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> and with an adversary <span class="math inline">\(\mathcal{A}\)</span>. Let <span class="math inline">\(p(\lambda)\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> wins the experiment. We define the advantage of the adversary as <span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CCA}}^{\mathcal{A}}(\lambda) = |p(\lambda) - 1/2|\)</span>.</p>
+</div>
+<p>We also present the alternative definition:</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-59" class="definition"><strong>Definition 4.9  </strong></span>Consider an execution of the following experiments with an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> and with an adversary <span class="math inline">\(\mathcal{A}\)</span>:</p>
+<ul>
+<li><span class="math inline">\(\text{IND-CCA}_0\)</span> which is the same as IND-CO where we always choose <span class="math inline">\(b=0\)</span>,</li>
+<li><span class="math inline">\(\text{IND-CCA}_1\)</span> which is the same as IND-CO where we always output <span class="math inline">\(b=1\)</span>.</li>
+</ul>
+<p>Let <span class="math inline">\(W_0\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> outputs 1 in <span class="math inline">\(\text{IND-CCA}_0\)</span> and
+<span class="math inline">\(W_1\)</span> be the probability that <span class="math inline">\(\mathcal{A}\)</span> outputs 1 in <span class="math inline">\(\text{IND-CCA}_1\)</span> and let <span class="math inline">\(p_0(\lambda)\)</span> and <span class="math inline">\(p_1(\lambda)\)</span> be the probability that <span class="math inline">\(W_0, W_1\)</span> happen respectively. We Define
+the advantage as <span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CCA}}^{\mathcal{A}}(\lambda) = \frac{1}{2}|p_0(\lambda) - p_1(\lambda)|\)</span>.</p>
+</div>
+<div class="definition">
+<p><span id="def:unlabeled-div-60" class="definition"><strong>Definition 4.10  </strong></span>An encryption scheme <span class="math inline">\(\mathcal{E}\)</span> is IND-CCA secure if for all PPT adversaries <span class="math inline">\(\mathcal{A}\)</span>, their advantage is negligible in <span class="math inline">\(\lambda\)</span>, that is,
+<span class="math inline">\(\textsf{Adv}_{\mathcal{E},\text{IND-CCA}}^{\mathcal{A}}(\lambda) = \textsf{negl}(\lambda)\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="notes-on-defining-and-interpreting-security" class="section level2 hasAnchor" number="4.5">
+<h2><span class="header-section-number">4.5</span> Notes on defining and interpreting security<a href="security-definitions.html#notes-on-defining-and-interpreting-security" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>It should be clear at this point that abstracting the real world into simple experiments that are easier to analyze is no easy task. In fact, one can argue that it is more of an art rather than some systematic process!</p>
+<p>The goal of a security definition is to abstract the real world. To devise a “good” experiment, one should first understand the real world: what are the intended use cases, how the actors behave, what is the resources of real world adversaries etc. Then, it must show that the proposed abstraction sufficiently captures the above parameters. While the analysis under the models is systematic, the definition on the models themselves requires to some extent intuition and insights.</p>
+<p>Also, how strong should a model be? In general, cryptographers try to be “conservative” in their definitions. It is better to use a stronger definition since the stronger the definition, the more attacks it rules out. However, if one uses a very strong definition, it might be impossible (or very impractical) to construct a scheme to satisfy it!</p>
+<p>Furthermore, it is always crucial to understand what a definition implies. Recall that an encryption scheme is never proven just “secure” but rather prover “secure under experiment X”. When actually using the encryption scheme for some real world application, you must make sure that the intended use and the security requirements are actually captured by the experiment X. Failing to do so results in <em>no security guarantees whatsoever!</em> Think for example the one-time-pad. It can be easily shown IND-CO secure. If one, however, uses it in a context where many messages are encrypted under the same key, it is -as we have seen multiple times- completely insecure.</p>
+</div>
+<div id="solved-exercises-3" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="security-definitions.html#solved-exercises-3" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-61" class="exercise"><strong>Exercise 4.3  </strong></span><em>Construct an insecure encryption scheme (meaning that we can decrypt any message) that is KR secure.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-62" class="solution"><em>Solution</em>. </span>We will rely on the fact that it could be in principle possible to decrypt messages without using the secret key. Consider the following encryption scheme <span class="math inline">\(\mathcal{E}\)</span> that works as follows:</p>
+<ul>
+<li><span class="math inline">\(\mathsf{KeyGen}(1^\lambda)\)</span>: Sample a random key in <span class="math inline">\(\{0,1\}^\lambda\)</span>.</li>
+<li><span class="math inline">\(\mathsf{Enc}_k(m)\)</span>: Output <span class="math inline">\(c:=m\)</span>.</li>
+<li><span class="math inline">\(\mathsf{Dec}_k(c)\)</span>: Output <span class="math inline">\(m:=c\)</span>.</li>
+</ul>
+<p>It is evident that the scheme is <em>insecure</em>. In particular, it uses the identity function to encrypt/decrypt. Nevertheless we can easily prove that it is KR secure! In particular, consider any adversary <span class="math inline">\(\mathcal{A}\)</span> playing the KR game with a challenger using <span class="math inline">\(\mathcal{E}\)</span>. The challenger presents a encryption <span class="math inline">\(c\)</span> of an arbitrary message <span class="math inline">\(m\)</span>. By constuction of <span class="math inline">\(\mathcal{E}\)</span> <span class="math inline">\(m=c\)</span> and during the experiment <em>no information of the sample key is reveled</em>. Therefore, the only possible strategy for <span class="math inline">\(\mathcal{A}\)</span> is to make a random guess as to what key was sampled. Therefore, the probability that <span class="math inline">\(\mathcal{A}\)</span> succeeds is exactly <span class="math inline">\(1/2^\lambda\)</span> and the construction KR secure.</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-63" class="remark"><em>Remark</em>. </span><em>Of course this is a contrived example that noone would ever use in practice. The point of the exercise is to demonstrate limitations of the KR experiment: as demonstrated above, even schemes that are</em> provably secure <em>under this definition are completely insecure in reality</em>.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-64" class="exercise"><strong>Exercise 4.4  </strong></span><em>Show that if an encryption scheme is deterministic, it is not CPA secure.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-65" class="solution"><em>Solution</em>. </span>Consider an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> where the <span class="math inline">\(\mathsf{Enc}\)</span> algorithm is deterministic. We will construct an adversary <span class="math inline">\(\mathcal{A}\)</span> that wins the IND-CPA experiment with probability 1.</p>
+<p>The adversary <span class="math inline">\(\mathcal{A}\)</span> works as follows:</p>
+<ol style="list-style-type: decimal">
+<li>It samples two messages <span class="math inline">\(m_0\neq m_1 \in \mathcal{M}\)</span>.</li>
+<li>In the query phase it asks the challenger to give the encryption of <span class="math inline">\(m_0\)</span>. It receives <span class="math inline">\(c_0\)</span> from the challenger.</li>
+<li>It presents <span class="math inline">\(m_0, m_1\)</span> as its challenge. The challenger flips a coin and encrypts <span class="math inline">\(m_b\)</span>. It sends <span class="math inline">\(c\)</span> to <span class="math inline">\(\mathcal{A}\)</span>.</li>
+<li>The adversary replies to the challenge with <span class="math inline">\(b&#39;=0\)</span> if <span class="math inline">\(c=c_0\)</span> and with <span class="math inline">\(b&#39;=1\)</span> otherwise.</li>
+</ol>
+<p>It is easy to see that <span class="math inline">\(\mathcal{A}\)</span> wins with probability 1. Indeed, since the encryption scheme is deterministic, everytime <span class="math inline">\(m_0\)</span> is encrypted it results in the same ciphertext. Therefore if the challenge ciphertext <span class="math inline">\(c\)</span> equals <span class="math inline">\(c_0\)</span> then it must be the case that the challenger encrypted the first message <span class="math inline">\(m_0\)</span> (therefore <span class="math inline">\(b=0\)</span>) and if it is not it must have encrypted <span class="math inline">\(m_1\)</span> (therefore <span class="math inline">\(b=1\)</span>).</p>
+</div>
+<div class="remark">
+<p><span id="unlabeled-div-66" class="remark"><em>Remark</em>. </span><em>Note how this generic argument automatically captures in an elegant way cases we have already analyzed in the course:</em></p>
+<ul>
+<li><em>OTP is a deterministic scheme and therefore it cannot be CPA secure. Indeed we have seen that reusing the same key for two messages reveals information about the encrypted plaintexts (try turn this into an explicit IND-CPA attack!). </em></li>
+<li><em>An encryption scheme based on a block cipher in ECB mode is deterministic and therefore not CPA secure. Note that the attack uses the exact same vulnerability we saw on ECB mode: encrypting the same message twice results in the same ciphertext. </em></li>
+</ul>
+<p><em>It is crucial to only use</em> randomized encryption <em>for real world applications, since CPA security is the absolute minimum requirement an encryption scheme must satisfy.</em></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-67" class="exercise"><strong>Exercise 4.5  </strong></span><em>Consider an encryption scheme <span class="math inline">\(\mathcal{E}\)</span> that uses a blockcipher <span class="math inline">\(F\)</span> in CBC mode. Show that if the selection of the <span class="math inline">\(IV\)</span> is predictable <span class="math inline">\(\mathcal{E}\)</span> is not secure.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-68" class="solution"><em>Solution</em>. </span>Recall than in CBC mode encryption is done by computing <span class="math inline">\(c_i = F_k(m_i\oplus c_{i-1})\)</span> where <span class="math inline">\(c_0\)</span> is the <span class="math inline">\(IV\)</span>.</p>
+<p>The idea is to use the knowledge of the IV to manipulate how the ciphertext looks like. Specifically, consider encrypting a message with a single block. If we know that a specific IV will be used, we can “cancel” the effect of the <span class="math inline">\(IV\)</span>: the encryption of <span class="math inline">\(m\oplus IV\)</span> will be
+<span class="math display">\[
+(IV, F_k(m\oplus IV\oplus IV) = (IV, F_k(m))
+\]</span>
+We construct an adversary <span class="math inline">\(\mathcal{A}\)</span> that uses the above fact to win the IND-CPA experiment by utilizing this fact. We next present how <span class="math inline">\(\mathcal{A}\)</span> works:</p>
+<ol style="list-style-type: decimal">
+<li>First, <span class="math inline">\(\mathcal{A}\)</span> makes a CPA query to get an encryption of <span class="math inline">\(m=0\)</span>. The challenger responds with <span class="math inline">\((IV_0, F_k(IV_0\oplus 0)) = (IV_0, F_k(IV_0))\)</span>.</li>
+<li>It then makes another CPA query to get again an encryption of <span class="math inline">\(m=0\)</span>. Note that in each query the challenger uses fresh randomness. It replies with <span class="math inline">\((IV_1, F_k(IV_1))\)</span></li>
+<li>Then <span class="math inline">\(\mathcal{A}\)</span> defines the challenge messages as follows:
+<span class="math display">\[
+m_0 = IV\oplus IV_0, \qquad m_1 = IV\oplus IV_1
+\]</span>
+where <span class="math inline">\(IV\)</span> is the value that will be used to produce the challenge ciphertext. The challenger replies with <span class="math inline">\((IV, c)\)</span>.</li>
+<li><span class="math inline">\(\mathcal{A}\)</span> replies to the challenge with <span class="math inline">\(b=0\)</span> if <span class="math inline">\(c=F_k(IV_0)\)</span> and with <span class="math inline">\(b=1\)</span> if <span class="math inline">\(c=F_k(IV_0)\)</span>. The adversary knows the values <span class="math inline">\(F_k(IV_0)\)</span> and <span class="math inline">\(F_k(IV_1)\)</span> from its CPA queries.</li>
+</ol>
+<p>We claim that these are the only two possibilities and that <span class="math inline">\(\mathcal{A}\)</span> will win with probability 1. To see this let’s observe what happens for each of the cases <span class="math inline">\(b=0\)</span> and <span class="math inline">\(b=1\)</span>.</p>
+<ul>
+<li>Case <span class="math inline">\(b=0\)</span>: the challenger computes the encryption of <span class="math inline">\(m_0 = IV\oplus IV_0\)</span> using <span class="math inline">\(IV\)</span> as the initialization vector. It therefore produces the ciphertext
+<span class="math display">\[
+(IV, c) = (IV, F_k((IV\oplus IV_0)\oplus IV)) = (IV, F_k(IV_0))
+\]</span>
+and the adversary seeing <span class="math inline">\(c=F_k(IV_0)\)</span> replies with <span class="math inline">\(b&#39;=0\)</span> and wins the challenge.</li>
+<li>Case <span class="math inline">\(b=1\)</span> is similar: the challenger computes the encryption of <span class="math inline">\(m_1 = IV\oplus IV_1\)</span> using <span class="math inline">\(IV\)</span> as the initialization vector. It therefore produces the ciphertext
+<span class="math display">\[
+(IV, c) = (IV, F_k((IV\oplus IV_1)\oplus IV)) = (IV, F_k(IV_1))
+\]</span>
+and the adversary seeing <span class="math inline">\(c=F_k(IV_1)\)</span> replies with <span class="math inline">\(b&#39;=1\)</span> and wins the challenge.</li>
+</ul>
+<p>In both cases <span class="math inline">\(\mathcal{A}\)</span> successfully guesses <span class="math inline">\(b\)</span> and therefore wins the IND-CPA experiment with probability 1.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-69" class="exercise"><strong>Exercise 4.6  </strong></span><em>Show that if an encryption scheme is malleable, it is not CCA secure.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-70" class="solution"><em>Solution</em>. </span>Recall that malleability means that a change in the ciphertext causes a predictable change on the underlying plaintext.</p>
+<p>We first present the high level idea and then write it a bit more formally. In the IND-CCA experiment, the adversary is <em>not allowed</em> to query the challenge ciphertext <span class="math inline">\(c\)</span>. However, it can slightly modify the ciphertext <span class="math inline">\(c\)</span> to some <span class="math inline">\(c&#39;\)</span> and then ask its decryption <span class="math inline">\(m&#39;\)</span>. Due to malleability, the effect on the plaintext is predictable. Now there are two cases:</p>
+<ul>
+<li>either applying the change to <span class="math inline">\(m_1\)</span> gives <span class="math inline">\(m&#39;\)</span>,</li>
+<li>or applying the change to <span class="math inline">\(m_2\)</span> gives <span class="math inline">\(m&#39;\)</span>.</li>
+</ul>
+<p>Seeing which is the case reveals which ciphertext was encrypted and <span class="math inline">\(\mathcal{A}\)</span> wins with probability <span class="math inline">\(1\)</span>!</p>
+<p>We will first define malleability more formally with the help of a pair of non-trivial functions <span class="math inline">\(f:\mathcal{M}\rightarrow\mathcal{M}\)</span> and <span class="math inline">\(g:\mathcal{C}\rightarrow\mathcal{C}\)</span>. An encryption scheme is malleable if for any key <span class="math inline">\(k\)</span> and message <span class="math inline">\(m\)</span> s.t. <span class="math inline">\(c=\mathsf{Enc}_k(m)\)</span> it holds that:
+<span class="math display">\[
+\mathsf{Dec}_k(g(c)) = f(m)
+\]</span></p>
+<p>Now assume some encryption scheme <span class="math inline">\(\mathcal{E}\)</span> is malleable w.r.t. to functions <span class="math inline">\(f\)</span>, <span class="math inline">\(g\)</span> as defined above. We construct an adversary <span class="math inline">\(\mathcal{A}\)</span> that wins the IND-CCA experiment.</p>
+<p>The adversary <span class="math inline">\(\mathcal{A}\)</span> works as follows:</p>
+<ol style="list-style-type: decimal">
+<li>In makes no CPA queries.</li>
+<li>It samples two messages <span class="math inline">\(m_0\neq m_1 \in \mathcal{M}\)</span>.</li>
+<li>It presents <span class="math inline">\(m_0, m_1\)</span> as its challenge. The challenger flips a coin and encrypts <span class="math inline">\(m_b\)</span>. It sends <span class="math inline">\(c\)</span> to <span class="math inline">\(\mathcal{A}\)</span>.</li>
+<li>The adversary computes <span class="math inline">\(c&#39; = g(c)\)</span>.</li>
+<li>It then makes a single CCA query. It asks for a decryption of <span class="math inline">\(c&#39;\)</span>. The challenger replies with the decryption <span class="math inline">\(m&#39;\)</span>.</li>
+<li>If <span class="math inline">\(m&#39; = f(m_0)\)</span> the adversary replies the challenge with <span class="math inline">\(b&#39;=0\)</span> and if <span class="math inline">\(m&#39; = f(m_1)\)</span> the adversary replies the challenge with <span class="math inline">\(b&#39;=1\)</span> and</li>
+</ol>
+<p>Now we argue that <span class="math inline">\(\mathcal{A}\)</span> always wins. Let <span class="math inline">\(m\)</span> be the decryption of <span class="math inline">\(c\)</span>. Due to the malleability of <span class="math inline">\(\mathcal{E}\)</span>, when decrypting <span class="math inline">\(c&#39;=g(c)\)</span> we are guaranteed to take as a response <span class="math inline">\(m&#39;=f(m)\)</span>. and since <span class="math inline">\(m=m_0\)</span> or <span class="math inline">\(m=m_1\)</span> it should be the case that
+<span class="math inline">\(m&#39;=f(m_b)\)</span>. Since <span class="math inline">\(\mathcal{A}\)</span> checks for which <span class="math inline">\(b\)</span> this relation holds and give this <span class="math inline">\(b\)</span> as its answer.</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="14">
+<li id="fn14"><p>This is not entirely accurate. Often, we rely on <em>computational assumptions</em> to prove constructions secure. For example, we could get the guarantee that “if factoring is computationally hard, then encryption scheme X is secure”. Of course if our assumption is proven wrong (i.e. factoring is an easy problem), we get no guarantee about the security of scheme X.<a href="security-definitions.html#fnref14" class="footnote-back">↩︎</a></p></li>
+<li id="fn15"><p>We will in fact see that this algorithm must be probabilistic to satisfy minimal security requirements.<a href="security-definitions.html#fnref15" class="footnote-back">↩︎</a></p></li>
+<li id="fn16"><p>Stronger versions are also considered where the adversary can ask for encryptions of messages after sending <span class="math inline">\(m_0, m_1\)</span>.<a href="security-definitions.html#fnref16" class="footnote-back">↩︎</a></p></li>
+<li id="fn17"><p>We will see later in this course that this is not always the case. A family of encryption schemes allows to encrypt messages without knowing any secret information. The secret key is only used for decryption. As we will see later, this is not a disadvantage, it is in fact in many cases a desirable property with numerous practical and fascinating applications.<a href="security-definitions.html#fnref17" class="footnote-back">↩︎</a></p></li>
+<li id="fn18"><p>If this was not the case there would be ambiguity: a message ending with 01 could either be interpreted as a message with a single padding byte or with no padding bytes.<a href="security-definitions.html#fnref18" class="footnote-back">↩︎</a></p></li>
+<li id="fn19"><p>For reference, in the case of AES where <span class="math inline">\(\ell=16\)</span>, the attack would require ~4096 steps while a bruteforce attack would require ~340282366920938463463374607431768211456 steps!<a href="security-definitions.html#fnref19" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="block-ciphers.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="hash-functions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>3 Block ciphers | Cryptography lecture notes</title>
+  <meta name="description" content="3 Block ciphers | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="3 Block ciphers | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="3 Block ciphers | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="randomness-in-cryptography.html"/>
+<link rel="next" href="security-definitions.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="block-ciphers" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">3</span> Block ciphers<a href="block-ciphers.html#block-ciphers" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this section, we focus on block ciphers, which are a more popular
+alternative to stream ciphers. Block ciphers are interesting not only
+for encryption, but they also have some interesting theoretical
+implications, since many other cryptographic primitives (like
+pseudorandom generators) can be built from block ciphers. In this
+section, we will learn:</p>
+<ol style="list-style-type: decimal">
+<li><p>What is a block cipher, and what are the properties of a good block
+cipher;</p></li>
+<li><p>The different modes of operation of a block cipher;</p></li>
+<li><p>Two prime examples of block ciphers: DES and AES.</p></li>
+</ol>
+<div id="overview-of-block-ciphers" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Overview of block ciphers<a href="block-ciphers.html#overview-of-block-ciphers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Recall that the one-time pad, and stream ciphers in general, encrypt
+bits one by one. In contrast, block ciphers will split our plaintext in
+blocks of fixed length, and encrypt each of this as a single unit.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-34" class="definition"><strong>Definition 3.1  </strong></span><em>A</em> block cipher of length <span class="math inline">\(\ell\)</span> <em>is an encryption
+scheme that encrypts a message of fixed length</em> <span class="math inline">\(\ell\)</span>.</p>
+</div>
+<p>When encrypting an arbitrarily large message, we will split it into
+blocks of length <span class="math inline">\(\ell\)</span> and encrypt each block, using the same key,
+unlike in the previous section where we tried to stretch the key.
+Because of this, we will require a good block cipher to satisfy two new
+properties, that we informally describe below:</p>
+<ul>
+<li><p><em>Confusion:</em> each bit of the ciphertext depends on several parts of
+the key. In other words, the relation between key and ciphertext
+must not be clear to any attacker.</p></li>
+<li><p><em>Diffusion:</em> small changes in the plaintext result in significant
+changes in the ciphertext. More precisely, in any modern block
+cipher, it is expected that a single bit change in the plaintext
+should result in at least half of the bits of the ciphertext
+changing.</p></li>
+</ul>
+<p>Later in this section, we will see some concrete examples of block
+ciphers used in practice. For now, let us assume that we already have
+some block cipher <span class="math display">\[(\mathsf{KeyGen},\mathsf{Enc},\mathsf{Dec}),\]</span> that
+we will use as a black box. That is, for now we do not know what happens
+inside each of the algorithms, only that they work and they are secure.
+For example, we assume that <span class="math inline">\(\mathsf{Enc}\)</span> takes as input a plaintext
+<span class="math inline">\(\mathsf{m}\)</span> of length <span class="math inline">\(\ell\)</span> and produces a ciphertext <span class="math inline">\(\mathsf{c}\)</span>
+corresponding to <span class="math inline">\(\mathsf{m}\)</span>. We represent this by the diagram</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This will allow us to discuss block ciphers in a
+more general way.</p>
+</div>
+<div id="modes-of-operation" class="section level2 hasAnchor" number="3.2">
+<h2><span class="header-section-number">3.2</span> Modes of operation<a href="block-ciphers.html#modes-of-operation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Assume that we want to encrypt a message <span class="math inline">\(\mathsf{m}\)</span> of length <span class="math inline">\(\ell n\)</span>
+with a block cipher. When the message length is not a multiple of the
+block length, some extra bytes are added to complete the last block.
+This is called <em>padding</em>.<a href="#fn11" class="footnote-ref" id="fnref11"><sup>11</sup></a> We start by splitting the message in
+blocks <span class="math display">\[\mathsf{m}_1,\dots,\mathsf{m}_n,\]</span> each of them of length
+<span class="math inline">\(\ell\)</span>, so that they can be fed into our block cipher. The question is:
+do we encrypt each block in parallel? Is that secure? Or should we
+somehow make the blocks influence each other? The way we proceed here is
+determined by the <em>mode of operation</em> that we choose.</p>
+<div id="electronic-codebook-ecb-mode" class="section level3 hasAnchor" number="3.2.1">
+<h3><span class="header-section-number">3.2.1</span> Electronic codebook (ECB) mode<a href="block-ciphers.html#electronic-codebook-ecb-mode" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>In ECB mode, we take the most straightforward approach, and encrypt each
+block on its own: <span class="math display">\[\mathsf{c}_i=\mathsf{Enc}_k(\mathsf{m}_i).\]</span> The ECB
+mode is represented in the following diagram:
+<img src="_main_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>The main advantage of this approach is that, since each block is
+independent, we can make the operations in parallel, potentially saving
+computation time.</p>
+<p>However, this mode presents several weaknesses. For example, since each
+block is encrypted in exactly the same way, two identical messages
+result in two identical ciphertexts. So an eavesdropper can see when the
+same message was sent twice. Even if he does not know the content, this
+provides the attacker with some partial information, which is something
+that we would like to avoid.</p>
+<p>Furthermore, the ECB mode is particularly bad when encrypting
+“meaningful” information. A very visual example comes from encrypting an
+image. Assume that we split the image into small squares of pixels, so
+that the bit length of each of these matches the length of our block
+cipher, and then use ECB-mode encryption on each square. Below you can
+see the result on an example image.<a href="#fn12" class="footnote-ref" id="fnref12"><sup>12</sup></a></p>
+<div class="center">
+<p><img src="assets/Tux.jpg" alt="image" /><img src="assets/Tux_ecb.jpg" alt="image" /></p>
+</div>
+<p>Because the blocks are encrypted independently, a human eye can still
+easily distinguish the underlying information. This illustrates ECB
+mode’s lack of diffusion.</p>
+</div>
+<div id="cipher-block-chaining-cbc-mode" class="section level3 hasAnchor" number="3.2.2">
+<h3><span class="header-section-number">3.2.2</span> Cipher block chaining (CBC) mode<a href="block-ciphers.html#cipher-block-chaining-cbc-mode" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>So we have seen that we want our blocks to interact in some way. To
+achieve this, the CBC mode takes the following approach: the idea is to
+create a <em>feedback loop</em>, in which each ciphertext produced by the block
+cipher is fed back into the input of the next iteration, by computing
+the <span class="math inline">\(\mathsf{XOR}\)</span> with the new input. More precisely:
+<span class="math display">\[\mathsf{c}_i=\mathsf{Enc}_k(\mathsf{m}_i\oplus \mathsf{c}_{i-1}).\]</span>
+The CBC mode is represented in the following diagram:
+<img src="_main_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Note that this does not work for the first block, since there is no
+previous ciphertext, and so we introduce something to replace it, which
+we call the <em>initialization vector</em> (often denoted by IV). By choosing
+the IV at random, we also introduce randomness in our scheme, making the
+procedure non-deterministic. Observe also that, due to the recursive
+nature of the definition, the encryption of a block is not only
+influenced by the previous block, but by <em>every</em> block that came before,
+and also the IV. There is no need for the IV to be secret, although it
+should not be reused, so if a new encryption sessions starts, a new IV
+should be chosen.</p>
+<p>With this approach, we achieve a much higher diffusion. Looking again at
+the same picture, the result is now very different:</p>
+<div class="center">
+<p><img src="assets/Tux.jpg" alt="image" /><img src="assets/Tux_secure.jpg" alt="image" /></p>
+</div>
+<p>This is due to the fact that the encryption of each block influences the
+next. Thus, two identical blocks (for example, two squares of white in
+the corner of the picture) do not produce the same output anymore. The
+downside of this approach is that, since we need a ciphertext before we
+can compute the next, we cannot parallelize the computations.</p>
+</div>
+<div id="output-feedback-ofb-mode" class="section level3 hasAnchor" number="3.2.3">
+<h3><span class="header-section-number">3.2.3</span> Output feedback (OFB) mode<a href="block-ciphers.html#output-feedback-ofb-mode" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The next mode of operation actually turns a block cipher into a stream
+cipher, by recomputing a key each time through the <span class="math inline">\(\mathsf{Enc}\)</span>
+algorithm. That is, it is a stream cipher in which the key stream is
+produced in blocks of length <span class="math inline">\(\ell\)</span>: <span class="math display">\[\begin{aligned}
+&amp; \mathbf w_i = \mathsf{Enc}_k(\mathbf w_{i-1}), \\
+&amp; \mathsf{c}_i=\mathsf{m}_i\oplus \mathbf w_i. \\
+\end{aligned}\]</span> The OFB mode is represented in the following diagram:</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Again, we need an IV to feed into <span class="math inline">\(\mathsf{Enc}\)</span> in the first iteration.
+Observe that the block cipher and the feedback loop do not involve the
+message at all, which is simply <span class="math inline">\(\mathsf{XOR}\)</span>’ed with the result of
+each iteration of the loop to produce the ciphertext, as in any stream
+cipher.</p>
+<p>While, as the CBC mode, the computation cannot be performed in parallel,
+the fact that the loop does not depend on the message at all allows us
+to pre-compute a bunch of key blocks in advance, for later use with a
+message.</p>
+</div>
+<div id="counter-ctr-mode" class="section level3 hasAnchor" number="3.2.4">
+<h3><span class="header-section-number">3.2.4</span> Counter (CTR) mode<a href="block-ciphers.html#counter-ctr-mode" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Similarly to the OFB mode, the CTR mode produces a stream cipher from a
+block cipher. It works by keeping a public counter <span class="math inline">\(\mathsf{ctr}\)</span> that
+is chosen randomly, and is increased by <span class="math inline">\(1\)</span> after each iteration. The
+counter works as an IV that updates after encrypting each block.
+<span class="math display">\[\begin{aligned}
+    &amp; \mathsf{ctr}_i = \mathsf{ctr}_{i-1}+1, \\
+    &amp; \mathsf{c}_i=\mathsf{m}_i\oplus \mathsf{Enc}_k(\mathsf{ctr}_i). \\
+    \end{aligned}\]</span> After the last iteration, the current value of the
+counter is also sent, together with the ciphertext. The CTR mode is
+represented in the following diagram:
+<img src="_main_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-35" class="exercise"><strong>Exercise 3.1  </strong></span><em>We have not discussed the decryption procedure of any
+of the modes of operation. Given a <span class="math inline">\(\mathsf{Dec}\)</span> algorithm that
+recovers plaintexts encrypted with <span class="math inline">\(\mathsf{Enc}\)</span>, describe how
+decryption works for each mode of operation. Recall that the values of
+the IV and counter are public.</em></p>
+</div>
+</div>
+</div>
+<div id="des-and-aes" class="section level2 hasAnchor" number="3.3">
+<h2><span class="header-section-number">3.3</span> DES and AES<a href="block-ciphers.html#des-and-aes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Now that we know how to use block ciphers, let us look a bit into some
+of the most famous ones: the <em>Data Encryption Standard (DES)</em>, and its
+successor the <em>Advanced Encryption Standard (AES)</em>. DES was designed by
+a team at IBM in 1974, and became the first official encryption standard
+in the US in 1977. It remained as the recommended encryption scheme
+until 1999, when it was replaced by AES.<a href="#fn13" class="footnote-ref" id="fnref13"><sup>13</sup></a></p>
+<div id="data-encryption-standard-des" class="section level3 hasAnchor" number="3.3.1">
+<h3><span class="header-section-number">3.3.1</span> Data Encryption Standard (DES)<a href="block-ciphers.html#data-encryption-standard-des" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>DES is a block cipher of length <span class="math inline">\(64\)</span>, which uses a key of <span class="math inline">\(56\)</span> bits.
+Essentially, it is composed of <span class="math inline">\(16\)</span> identical rounds, each of them
+consisting of the following. During each round, a <em>round key</em>
+<span class="math inline">\(\mathsf{k}_i\)</span> of 48 bits is derived from the master key. In round <span class="math inline">\(i\)</span>,
+the algorithm receives <span class="math inline">\(\mathsf{m}_{i-1}\)</span>, the output of the previous
+round (or the original message, for <span class="math inline">\(i=1\)</span>), and computes <span class="math inline">\(\mathsf{m}_i\)</span>,
+the output of the current round. In between, the following step happen:</p>
+<ol style="list-style-type: decimal">
+<li><p>Split <span class="math inline">\(\mathsf{m}_{i-1}\)</span> in two halves
+<span class="math inline">\(\mathbf L_{i-1}, \mathbf R_{i-1}\)</span> of 32 bits each.</p></li>
+<li><p>Derive the round key <span class="math inline">\(\mathsf{k}_i\)</span> from <span class="math inline">\(\mathsf{k}\)</span>.</p></li>
+<li><p>Set <span class="math inline">\(\mathbf L_{i}=\mathbf{R}_{i-1}\)</span> and
+<span class="math inline">\(\mathbf R_{i}=\mathbf{L}_{i-1}\oplus f(\mathbf R_{i-1},\mathsf{k}_i)\)</span>.</p></li>
+<li><p>Return <span class="math inline">\(\mathbf m_i=(\mathbf L_i, \mathbf R_i)\)</span></p></li>
+</ol>
+<p>After round <span class="math inline">\(16\)</span>, the end result <span class="math inline">\(\mathsf{m}_{16}\)</span> is the ciphertext.</p>
+<p>Decryption of DES is almost the same as encryption, starting from the
+last round key. Observe that one half of the input of each round is not
+encrypted, just moved around, and so in total each half of the plaintext
+is encrypted <span class="math inline">\(8\)</span> times by <span class="math inline">\(\mathsf{XOR}\)</span>’ing it with a function of the
+round key. There are a couple of details that we have not specified yet:</p>
+<ul>
+<li><p>How to derive round keys from the master key <span class="math inline">\(\mathsf{k}\)</span>. Without
+getting into much detail, the <span class="math inline">\(\mathsf{k}_i\)</span> is obtained from
+<span class="math inline">\(\mathsf{k}\)</span> by performing some rotations and permutations on the
+positions of the bits, and then some bits are ignored.</p></li>
+<li><p>How the function <span class="math inline">\(f\)</span> works. First, the function expands the 32-bit
+input <span class="math inline">\(\mathbf R_{i-1}\)</span> to a 48-bit string, by repeating some of the
+bits in specified positions. The result is then <span class="math inline">\(\mathsf{XOR}\)</span>’ed
+with the round key <span class="math inline">\(\mathsf{k}_i\)</span>. The result from this operation is
+then split into <span class="math inline">\(8\)</span> blocks of <span class="math inline">\(6\)</span> bits each, and fed into what is
+known as <em>substitution boxes (S-boxes)</em>, which are functions
+specified by a lookup table. Each box outputs a string of 4 bits, so
+in total we have a string of <span class="math inline">\(32\)</span> bits. Finally, the positions of
+the bits in this string are permuted, and the result is the output
+of the function <span class="math inline">\(f\)</span>.</p></li>
+</ul>
+<p>The design of the cipher, specially the function <span class="math inline">\(f\)</span>, might look arcane.
+Indeed, since the design and standardization of DES was not a public
+process, the reason behind some design choices is still not completely
+clear. What is known, however, is that the <span class="math inline">\(f\)</span> function and the
+<span class="math inline">\(S\)</span>-boxes were designed to thwart any attack known at the time (and even
+some that were not known to the public). The takeaway message here is
+that the <span class="math inline">\(S\)</span>-boxes and the final permutation play a big role in
+achieving a good level of diffusion, propagating change through the
+whole ciphertext in the following rounds. Indeed, we have the following
+result.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-36" class="proposition"><strong>Proposition 3.1  </strong></span><em>By the end of the fifth round of DES, every single
+bit of the current ciphertext depends on all the bits of the plaintext
+and all the bits of the key.</em></p>
+</div>
+<p>No sophisticated efficient attacks are known against DES to date.
+However, the key size is simply too small for today’s standards (look
+again at the table at the end of
+section <a href="introduction-to-security.html#introduction-to-security">1</a>), and so it was eventually
+replaced by AES. Some variants of DES, like 3DES, which essentially
+means applying DES three times in a row, are still in use, and have
+withstood any attacks so far.</p>
+</div>
+<div id="advanced-encryption-standard-aes" class="section level3 hasAnchor" number="3.3.2">
+<h3><span class="header-section-number">3.3.2</span> Advanced Encryption Standard (AES)<a href="block-ciphers.html#advanced-encryption-standard-aes" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>AES is a block cipher with block length <span class="math inline">\(128\)</span> bits. Unlike DES, which
+used <span class="math inline">\(56\)</span>-bit keys, AES supports keys of bit length <span class="math inline">\(128\)</span>, <span class="math inline">\(192\)</span> and
+<span class="math inline">\(256\)</span>, and has between <span class="math inline">\(10\)</span> and <span class="math inline">\(14\)</span> rounds, depending on the key
+length. Moreover, while in DES only half of the block was encrypted in
+each round, the full block is encrypted in every round now. On a very
+high level, each round consists of the following steps, called <em>layers</em>:</p>
+<ol style="list-style-type: decimal">
+<li><p><em>Key addition layer:</em> a round key of length <span class="math inline">\(128\)</span> is derived from
+the master key, in a process called <em>key schedule</em>.</p></li>
+<li><p><em>Byte substitution layer:</em> similarly to DES, AES uses <span class="math inline">\(16\)</span> S-boxes
+defined by lookup tables, replacing each byte of the message by a
+new byte specified by the corresponding <span class="math inline">\(S\)</span>-box. This layer
+introduces confusion.</p></li>
+<li><p><em>Diffusion layer:</em> the position of the bytes are permuted. Then,
+blocks of four bytes are combined using some matrix operations.</p></li>
+</ol>
+<p>Regarding security, no attack more efficient than brute force is known
+to date. Thus, the security level provided by AES is <span class="math inline">\(\lambda\)</span>, where
+<span class="math inline">\(\lambda\in\{128,192,256\}\)</span> is the bit size of the key.</p>
+<p>The following video has a very clear and concise overview of the inner
+workings of AES.</p>
+<div>
+<iframe width="720" height="405" src="https://www.youtube-nocookie.com/embed/mlzxpkdXP58" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+</iframe>
+</div>
+<p>Let us now demonstrate how AES satisfies <em>diffusion</em> and <em>confusion</em>. To do this we will do the follwoing:</p>
+<ol style="list-style-type: decimal">
+<li><p><em>Confusion</em>: Sample a random message of 128 bits and encrypt it with a random key <span class="math inline">\(k\)</span>. Then encrypt it with another key <span class="math inline">\(k&#39;\)</span> that is the same as <span class="math inline">\(k\)</span> except that it has a random bit fliped and compare the two ciphertexts.</p></li>
+<li><p><em>Diffusion</em>: First encrypt a single AES block of a random message with a key <span class="math inline">\(k\)</span>. Then flip a single bit of the initial message and compare the two ciphertexts.</p></li>
+</ol>
+<p>What is the expected outcome in the experiments? In both cases we would want the two produced ciphertexts to be <em>completly unrelated</em>. That is, the two ciphertext should look like randomly sampled strings (although they are not!). In two random strings, the probability that the <span class="math inline">\(i\)</span>-th bit is different is 50%. Therefore, we expect that if the properties hold, <em>half of the bits will be different</em>. Note that this is a <em>probabilistic</em> argument and the result concernes the expected value. In other words, repeat the experiment sufficiently many times and the average of changed bits will converge to 64 (=128/2).</p>
+<p>We first present a <code>diffusion_confusion_util.sage</code> code snippet that contains two functions:
+1. <code>flip_random_bit</code>: flips a random bit from a 16 byte (=128 bit) message,
+2. <code>count_bit_diff</code>: counts the bits in which two byte strings differ.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="block-ciphers.html#cb3-1" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb3-2"><a href="block-ciphers.html#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="block-ciphers.html#cb3-3" tabindex="-1"></a><span class="kw">def</span> flip_random_bit(s):</span>
+<span id="cb3-4"><a href="block-ciphers.html#cb3-4" tabindex="-1"></a>  <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-5"><a href="block-ciphers.html#cb3-5" tabindex="-1"></a><span class="co">  Flips a bit of a 16 byte string as follows:</span></span>
+<span id="cb3-6"><a href="block-ciphers.html#cb3-6" tabindex="-1"></a><span class="co">  1. Convert k from bytes to bits,</span></span>
+<span id="cb3-7"><a href="block-ciphers.html#cb3-7" tabindex="-1"></a><span class="co">  2. Choose a random position in the range [0,..,127]</span></span>
+<span id="cb3-8"><a href="block-ciphers.html#cb3-8" tabindex="-1"></a><span class="co">  3. Flip the bit of that position</span></span>
+<span id="cb3-9"><a href="block-ciphers.html#cb3-9" tabindex="-1"></a><span class="co">  4. Change back to bytes </span></span>
+<span id="cb3-10"><a href="block-ciphers.html#cb3-10" tabindex="-1"></a><span class="co">  &quot;&quot;&quot;</span></span>
+<span id="cb3-11"><a href="block-ciphers.html#cb3-11" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="block-ciphers.html#cb3-12" tabindex="-1"></a>  <span class="co">#Convert to bits</span></span>
+<span id="cb3-13"><a href="block-ciphers.html#cb3-13" tabindex="-1"></a>  s_bits <span class="op">=</span> <span class="st">&#39;&#39;</span>.join(<span class="ss">f&#39;</span><span class="sc">{</span>byte<span class="sc">:08b}</span><span class="ss">&#39;</span> <span class="cf">for</span> byte <span class="kw">in</span> s)</span>
+<span id="cb3-14"><a href="block-ciphers.html#cb3-14" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="block-ciphers.html#cb3-15" tabindex="-1"></a>  <span class="co"># Select a random bit to flip</span></span>
+<span id="cb3-16"><a href="block-ciphers.html#cb3-16" tabindex="-1"></a>  random_bit_index <span class="op">=</span> random.randint(<span class="dv">0</span>, <span class="bu">len</span>(s_bits) <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb3-17"><a href="block-ciphers.html#cb3-17" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="block-ciphers.html#cb3-18" tabindex="-1"></a>  <span class="co"># Flip the selected bit</span></span>
+<span id="cb3-19"><a href="block-ciphers.html#cb3-19" tabindex="-1"></a>  s_prime_bits <span class="op">=</span> (</span>
+<span id="cb3-20"><a href="block-ciphers.html#cb3-20" tabindex="-1"></a>      <span class="co"># before index it remains the same</span></span>
+<span id="cb3-21"><a href="block-ciphers.html#cb3-21" tabindex="-1"></a>      s_bits[:random_bit_index] <span class="op">+</span></span>
+<span id="cb3-22"><a href="block-ciphers.html#cb3-22" tabindex="-1"></a>      <span class="co"># flip index </span></span>
+<span id="cb3-23"><a href="block-ciphers.html#cb3-23" tabindex="-1"></a>      (<span class="st">&#39;1&#39;</span> <span class="cf">if</span> s_bits[random_bit_index] <span class="op">==</span> <span class="st">&#39;0&#39;</span> <span class="cf">else</span> <span class="st">&#39;0&#39;</span>) <span class="op">+</span></span>
+<span id="cb3-24"><a href="block-ciphers.html#cb3-24" tabindex="-1"></a>      <span class="co"># after index it remains the same</span></span>
+<span id="cb3-25"><a href="block-ciphers.html#cb3-25" tabindex="-1"></a>      s_bits[random_bit_index <span class="op">+</span> <span class="dv">1</span>:]</span>
+<span id="cb3-26"><a href="block-ciphers.html#cb3-26" tabindex="-1"></a>  )</span>
+<span id="cb3-27"><a href="block-ciphers.html#cb3-27" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="block-ciphers.html#cb3-28" tabindex="-1"></a>  <span class="co"># Convert back to bytes</span></span>
+<span id="cb3-29"><a href="block-ciphers.html#cb3-29" tabindex="-1"></a>  s_prime <span class="op">=</span> <span class="bu">bytes</span>(<span class="bu">int</span>(s_prime_bits[i:i<span class="op">+</span><span class="dv">8</span>], <span class="dv">2</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">127</span>, <span class="dv">8</span>))</span>
+<span id="cb3-30"><a href="block-ciphers.html#cb3-30" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="block-ciphers.html#cb3-31" tabindex="-1"></a>  <span class="cf">return</span> s_prime</span>
+<span id="cb3-32"><a href="block-ciphers.html#cb3-32" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="block-ciphers.html#cb3-33" tabindex="-1"></a><span class="kw">def</span> count_bit_diff(b1, b2):</span>
+<span id="cb3-34"><a href="block-ciphers.html#cb3-34" tabindex="-1"></a>  <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb3-35"><a href="block-ciphers.html#cb3-35" tabindex="-1"></a><span class="co">  Counts how many bits are different in b1 b2</span></span>
+<span id="cb3-36"><a href="block-ciphers.html#cb3-36" tabindex="-1"></a><span class="co">  &quot;&quot;&quot;</span></span>
+<span id="cb3-37"><a href="block-ciphers.html#cb3-37" tabindex="-1"></a>  diff_count <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb3-38"><a href="block-ciphers.html#cb3-38" tabindex="-1"></a>  <span class="co"># repeat for each byte</span></span>
+<span id="cb3-39"><a href="block-ciphers.html#cb3-39" tabindex="-1"></a>  <span class="cf">for</span> byte1, byte2 <span class="kw">in</span> <span class="bu">zip</span>(b1, b2):</span>
+<span id="cb3-40"><a href="block-ciphers.html#cb3-40" tabindex="-1"></a>    <span class="co"># Convert each byte to an 8-bit binary string and compare bit by bit</span></span>
+<span id="cb3-41"><a href="block-ciphers.html#cb3-41" tabindex="-1"></a>    <span class="cf">for</span> bit1, bit2 <span class="kw">in</span> <span class="bu">zip</span>(<span class="ss">f&#39;</span><span class="sc">{</span>byte1<span class="sc">:08b}</span><span class="ss">&#39;</span>, <span class="ss">f&#39;</span><span class="sc">{</span>byte2<span class="sc">:08b}</span><span class="ss">&#39;</span>):</span>
+<span id="cb3-42"><a href="block-ciphers.html#cb3-42" tabindex="-1"></a>      <span class="cf">if</span> bit1 <span class="op">!=</span> bit2:</span>
+<span id="cb3-43"><a href="block-ciphers.html#cb3-43" tabindex="-1"></a>        diff_count <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-44"><a href="block-ciphers.html#cb3-44" tabindex="-1"></a>  <span class="cf">return</span> diff_count</span></code></pre></div>
+<p>We are now ready to conduct the experiments. To this end we use the AES recipie from the cookbook.
+Run these experiments to verify that in both experiments the results converge to 64 as expected.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="block-ciphers.html#cb4-1" tabindex="-1"></a><span class="co"># load the utils and the aes128 recipie</span></span>
+<span id="cb4-2"><a href="block-ciphers.html#cb4-2" tabindex="-1"></a>load(<span class="st">&#39;diffusion_confusion_util.sage&#39;</span>)</span>
+<span id="cb4-3"><a href="block-ciphers.html#cb4-3" tabindex="-1"></a>load(<span class="st">&#39;aes128.sage&#39;</span>)</span>
+<span id="cb4-4"><a href="block-ciphers.html#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="block-ciphers.html#cb4-5" tabindex="-1"></a><span class="kw">def</span> diffusion_experiment(): </span>
+<span id="cb4-6"><a href="block-ciphers.html#cb4-6" tabindex="-1"></a>  <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-7"><a href="block-ciphers.html#cb4-7" tabindex="-1"></a><span class="co">  Encrypts a random message with AES128 under a key k. </span></span>
+<span id="cb4-8"><a href="block-ciphers.html#cb4-8" tabindex="-1"></a><span class="co">  Then flip a bit of m and encrypt the result with k.</span></span>
+<span id="cb4-9"><a href="block-ciphers.html#cb4-9" tabindex="-1"></a><span class="co">  Output the number of bits where the two ciphertexts differ.</span></span>
+<span id="cb4-10"><a href="block-ciphers.html#cb4-10" tabindex="-1"></a><span class="co">  &quot;&quot;&quot;</span></span>
+<span id="cb4-11"><a href="block-ciphers.html#cb4-11" tabindex="-1"></a>  k <span class="op">=</span> aes_keygen()</span>
+<span id="cb4-12"><a href="block-ciphers.html#cb4-12" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="block-ciphers.html#cb4-13" tabindex="-1"></a>  <span class="co"># sample a random message of 16 bytes</span></span>
+<span id="cb4-14"><a href="block-ciphers.html#cb4-14" tabindex="-1"></a>  m1 <span class="op">=</span>  <span class="st">b&#39;&#39;</span>.join(randrange(<span class="dv">0</span>,<span class="dv">256</span>).to_bytes() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>))</span>
+<span id="cb4-15"><a href="block-ciphers.html#cb4-15" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="block-ciphers.html#cb4-16" tabindex="-1"></a>  <span class="co"># encrypt the message</span></span>
+<span id="cb4-17"><a href="block-ciphers.html#cb4-17" tabindex="-1"></a>  c1 <span class="op">=</span> aes_enc(k, m1)</span>
+<span id="cb4-18"><a href="block-ciphers.html#cb4-18" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="block-ciphers.html#cb4-19" tabindex="-1"></a>  <span class="co"># flip a bit of the message and encrypt</span></span>
+<span id="cb4-20"><a href="block-ciphers.html#cb4-20" tabindex="-1"></a>  m2 <span class="op">=</span> flip_random_bit(m1)</span>
+<span id="cb4-21"><a href="block-ciphers.html#cb4-21" tabindex="-1"></a>  c2 <span class="op">=</span> aes_enc(k, m2)</span>
+<span id="cb4-22"><a href="block-ciphers.html#cb4-22" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="block-ciphers.html#cb4-23" tabindex="-1"></a>  <span class="co"># Count the number of bits c1, c2 differ</span></span>
+<span id="cb4-24"><a href="block-ciphers.html#cb4-24" tabindex="-1"></a>  <span class="cf">return</span> count_bit_diff(c1, c2)</span>
+<span id="cb4-25"><a href="block-ciphers.html#cb4-25" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="block-ciphers.html#cb4-26" tabindex="-1"></a><span class="kw">def</span> confusion_experiment(): </span>
+<span id="cb4-27"><a href="block-ciphers.html#cb4-27" tabindex="-1"></a>  <span class="co">&quot;&quot;&quot;</span></span>
+<span id="cb4-28"><a href="block-ciphers.html#cb4-28" tabindex="-1"></a><span class="co">  Encrypts a random message with AES128 under a key k. </span></span>
+<span id="cb4-29"><a href="block-ciphers.html#cb4-29" tabindex="-1"></a><span class="co">  Then flip a bit of k and encrypt the same message again.</span></span>
+<span id="cb4-30"><a href="block-ciphers.html#cb4-30" tabindex="-1"></a><span class="co">  Output the number of bits where the two ciphertexts differ.</span></span>
+<span id="cb4-31"><a href="block-ciphers.html#cb4-31" tabindex="-1"></a><span class="co">  &quot;&quot;&quot;</span></span>
+<span id="cb4-32"><a href="block-ciphers.html#cb4-32" tabindex="-1"></a>  k1 <span class="op">=</span> aes_keygen()</span>
+<span id="cb4-33"><a href="block-ciphers.html#cb4-33" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="block-ciphers.html#cb4-34" tabindex="-1"></a>  <span class="co"># sample a random message of 16 bytes</span></span>
+<span id="cb4-35"><a href="block-ciphers.html#cb4-35" tabindex="-1"></a>  m <span class="op">=</span>  <span class="st">b&#39;&#39;</span>.join(randrange(<span class="dv">0</span>,<span class="dv">256</span>).to_bytes() <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">16</span>))</span>
+<span id="cb4-36"><a href="block-ciphers.html#cb4-36" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="block-ciphers.html#cb4-37" tabindex="-1"></a>  <span class="co"># encrypt the message</span></span>
+<span id="cb4-38"><a href="block-ciphers.html#cb4-38" tabindex="-1"></a>  c1 <span class="op">=</span> aes_enc(k1, m)</span>
+<span id="cb4-39"><a href="block-ciphers.html#cb4-39" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="block-ciphers.html#cb4-40" tabindex="-1"></a>  <span class="co"># flip a bit of the key and encrypt</span></span>
+<span id="cb4-41"><a href="block-ciphers.html#cb4-41" tabindex="-1"></a>  k2 <span class="op">=</span> flip_random_bit(k1)</span>
+<span id="cb4-42"><a href="block-ciphers.html#cb4-42" tabindex="-1"></a>  c2 <span class="op">=</span> aes_enc(k2, m)</span>
+<span id="cb4-43"><a href="block-ciphers.html#cb4-43" tabindex="-1"></a></span>
+<span id="cb4-44"><a href="block-ciphers.html#cb4-44" tabindex="-1"></a>  <span class="co"># Count the number of bits c1, c2 differ</span></span>
+<span id="cb4-45"><a href="block-ciphers.html#cb4-45" tabindex="-1"></a>  <span class="cf">return</span> count_bit_diff(c1, c2)</span>
+<span id="cb4-46"><a href="block-ciphers.html#cb4-46" tabindex="-1"></a></span>
+<span id="cb4-47"><a href="block-ciphers.html#cb4-47" tabindex="-1"></a><span class="co"># run n iterations of each experiment</span></span>
+<span id="cb4-48"><a href="block-ciphers.html#cb4-48" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">100000</span></span>
+<span id="cb4-49"><a href="block-ciphers.html#cb4-49" tabindex="-1"></a></span>
+<span id="cb4-50"><a href="block-ciphers.html#cb4-50" tabindex="-1"></a>diffusion_result <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-51"><a href="block-ciphers.html#cb4-51" tabindex="-1"></a>confusion_result <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb4-52"><a href="block-ciphers.html#cb4-52" tabindex="-1"></a></span>
+<span id="cb4-53"><a href="block-ciphers.html#cb4-53" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(n):</span>
+<span id="cb4-54"><a href="block-ciphers.html#cb4-54" tabindex="-1"></a>  diffusion_result <span class="op">=</span> diffusion_result <span class="op">+</span> diffusion_experiment()</span>
+<span id="cb4-55"><a href="block-ciphers.html#cb4-55" tabindex="-1"></a>  confusion_result <span class="op">=</span> confusion_result <span class="op">+</span> confusion_experiment()</span>
+<span id="cb4-56"><a href="block-ciphers.html#cb4-56" tabindex="-1"></a></span>
+<span id="cb4-57"><a href="block-ciphers.html#cb4-57" tabindex="-1"></a>diffusion_result <span class="op">=</span> <span class="bu">float</span>(diffusion_result <span class="op">/</span> n)</span>
+<span id="cb4-58"><a href="block-ciphers.html#cb4-58" tabindex="-1"></a>confusion_result <span class="op">=</span> <span class="bu">float</span>(confusion_result <span class="op">/</span> n)</span>
+<span id="cb4-59"><a href="block-ciphers.html#cb4-59" tabindex="-1"></a></span>
+<span id="cb4-60"><a href="block-ciphers.html#cb4-60" tabindex="-1"></a><span class="bu">print</span>(diffusion_result)</span>
+<span id="cb4-61"><a href="block-ciphers.html#cb4-61" tabindex="-1"></a><span class="bu">print</span>(confusion_result)</span></code></pre></div>
+</div>
+</div>
+<div id="solved-exercises-2" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="block-ciphers.html#solved-exercises-2" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-37" class="exercise"><strong>Exercise 3.2  </strong></span><em>Consider the following mode of operation: to encrypt a block apply the operation
+<span class="math inline">\(\mathsf c_i = \mathsf{Enc_{k}}(\mathsf{Enc_{k}}(\mathsf m_i)\oplus\mathsf m_{i-1})\)</span>. Let
+<span class="math inline">\(\mathsf m_1,\ldots,\mathsf m_n\)</span> be a message you want to encrypt.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>How would the first message <span class="math inline">\(\mathsf m_1\)</span> be encrypted?</em></li>
+<li><em>How would decryption work?</em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-38" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>For <span class="math inline">\(\mathsf m_1\)</span> we don’t have a corresponding <span class="math inline">\(\mathsf m_0\)</span> to apply formula. We need to send an IV that will be public and correspond to <span class="math inline">\(\mathsf m_0\)</span>. Simply set <span class="math inline">\(\mathsf m_0 = \text{IV}\)</span> for a random IV and apply the formula.</p></li>
+<li><p>In this type of exercises, you should always keep in mind that you need to “solve” the equation for <span class="math inline">\(\mathsf m_i\)</span>. To “move” stuff in the left and right hand side, use the inverse functions. For <span class="math inline">\(\mathsf{Enc}\)</span> this should be <span class="math inline">\(\mathsf{Dec}\)</span> and for <span class="math inline">\(\oplus x\)</span> it is itself (<span class="math inline">\(a \oplus x \oplus x = a\oplus 0 = a)\)</span>. You should be careful to apply the operations in the correct order. Let’s now start recovering <span class="math inline">\(\mathsf{m}_i\)</span>.</p>
+<ol style="list-style-type: lower-alpha">
+<li>First we remove the outer encryption layer by applying <span class="math inline">\(\mathsf{Dec}\)</span> on both sides of the equation. The new equation becomes:
+<span class="math display">\[
+\mathsf{Dec_k}(\mathsf c_i) = \mathsf{Enc_k}(\mathsf{m}_i)\oplus \mathsf m_{i-1}
+\]</span></li>
+<li>We now move <span class="math inline">\(\mathsf m_{i-1}\)</span> to the left side by applying in both sides <span class="math inline">\(\mathsf m_{i-1}\)</span>. The new equation becomes.
+<span class="math display">\[
+\mathsf{Dec_k}(\mathsf c_i)\oplus \mathsf m_{i-1} = \mathsf{Enc_k}(\mathsf{m}_i)
+\]</span></li>
+<li>Finally we can recover <span class="math inline">\(\mathsf{m}_i\)</span> by “canceling” the encryption of the right hand side. To this end we apply <span class="math inline">\(\mathsf{Dec}\)</span> on both sides. This gives also the final decryption procedure:
+<span class="math display">\[
+\mathsf{m}_i = \mathsf{Dec_k}(\mathsf{Dec_k}(\mathsf c_i)\oplus \mathsf m_{i-1})
+\]</span></li>
+</ol></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-39" class="exercise"><strong>Exercise 3.3  </strong></span><em>You want to encrypt your personal computer’s hard drive. After reviewing the options you have, you decide to use AES as the block cipher but you are unsure whether it would be
+better to use CBC mode or Counter mode. What would you choose and why? Note that both modes are secure so there is no security concern.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-40" class="solution"><em>Solution</em>. </span>Since security is not a concern, you should consider efficiency. How do the modes compares to each other efficiency wise? The crucial observation is that CBC is <em>sequential</em> while Counter mode is not. This means that in order to decrypt the <span class="math inline">\(i\)</span>-th block using CBC, you need to <em>first decrypt all blocks from <span class="math inline">\(1\)</span> to <span class="math inline">\(i-1\)</span></em>. In contrast to that, you can directly use Counter mode to decrypt it. Since you certainly wouldn’t want to decrypt a bunch of
+blocks each time you access the <span class="math inline">\(i\)</span>-th block, Counter mode is the clear choice.</p>
+<p>Note also that since Counter mode is not sequential, you can also encrypt/decrypt blocks
+in parallel.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-41" class="exercise"><strong>Exercise 3.4  </strong></span></p>
+<ol style="list-style-type: decimal">
+<li><p><em>You are using a block cipher with counter mode to encrypt a message consisting of <span class="math inline">\(n\)</span> blocks.
+The <span class="math inline">\(i\)</span>-th block is corrupted during transit (some bits are flipped). Which blocks would be affected by that?</em></p></li>
+<li><p><em>What would have happened if you used CBC mode instead?</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-42" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>First, let’s recall how decryption of counter mode works. To decrypt the <span class="math inline">\(j\)</span>-th block, we compute <span class="math inline">\(\mathsf{m}_j=\mathsf{c}_j\oplus\textsf{Enc}_k(\mathsf{ctr}_j)\)</span>. This means each
+ciphertext is not affected by the previous and next ciphertexts. Thus, only the <span class="math inline">\(i\)</span>-th block corresponding to <span class="math inline">\(\mathsf{m}_i\)</span> will not be correctly decrypted.</p></li>
+<li><p>First, let’s recall how decryption of CBC works. To decrypt the <span class="math inline">\(j\)</span>-th block, we compute <span class="math inline">\(\mathsf{m}_j=\textsf{Dec}_k(\mathsf{c}_j)\oplus \mathsf{c}_{j-1}\)</span>. For the message to be
+correct, <em>both</em> the values <span class="math inline">\(\mathsf{c}_j\)</span> and <span class="math inline">\(\mathsf{c}_{j-1}\)</span> need to be correct. In our case, we have a corrupted <span class="math inline">\(\mathsf{c}_i\)</span> block. This means that when <span class="math inline">\(j=i\)</span> <em>and</em>
+when <span class="math inline">\(j-1=i\)</span> we will not retrieve the correct plaintext. Equivalently, we will retrieve wrong messages
+<span class="math inline">\(\textsf{m}_{i}&#39;\neq\textsf{m}_{i}\)</span> and <span class="math inline">\(\textsf{m}_{i+1}&#39;\neq\textsf{m}_{i+1}\)</span>. All other messages will be correctly decrypted.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-43" class="exercise"><strong>Exercise 3.5  </strong></span><em>You use the counter mode but decide to make a modification (spoiler alert: this is almost never a good idea!). Instead of picking a random IV, you always start with <span class="math inline">\(IV = 1\)</span>. Is your custom mode of operation secure? Why? </em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-44" class="solution"><em>Solution</em>. </span>This custom mode <em>is not secure</em>! The problem is that you use the same IV each time you encrypt a message. Consider for simplicity the case where you encrypt two messages <span class="math inline">\(\mathsf m = (\mathsf m_1, \ldots, \mathsf m_n)\)</span> and
+<span class="math inline">\(\mathsf m&#39; = (\mathsf m&#39;_1, \ldots, \mathsf m&#39;_n)\)</span>. An adversary sees the two corresponding ciphertexts. It now knows that<br />
+<span class="math display">\[
+\mathsf c_i = \mathsf m_i \oplus \mathsf{Enc_k} (i),\qquad
+\mathsf c&#39;_i = \mathsf m&#39;_i \oplus \mathsf{Enc_k} (i)
+\]</span>
+XORing the two ciphertexts, it can learn the XOR of the two plaintexts! Indeed,
+<span class="math display">\[
+\begin{aligned}
+\mathsf c_i\oplus \mathsf c&#39;_i
+  &amp;= \mathsf m_i \oplus \mathsf{Enc_k}(i)\oplus \mathsf m&#39;_i \oplus \mathsf{Enc_k}(i) \\
+  &amp;= \mathsf m_i \oplus \mathsf m&#39;_i \oplus \mathsf{Enc_k}(i)\oplus \mathsf{Enc_k}(i) \\
+  &amp;= \mathsf m_i \oplus \mathsf m&#39;_i  
+\end{aligned}
+\]</span>
+Note that this type of attack has other implications as well. You should make sure that each counter is not used twice. Therefore the block should be large enough so the probability that you use the same counter is negligible as long as you sample it randomly.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-45" class="exercise"><strong>Exercise 3.6  </strong></span><em>Recall that OTP is not secure if you use the same key twice. </em></p>
+<ol style="list-style-type: decimal">
+<li><p><em>If you use the same key to encrypt a message <span class="math inline">\(\mathsf m_1,\ldots,\mathsf m_n\)</span> with OTP, what mode of operation are you using?</em></p></li>
+<li><p><em>You decide to use OTP as the block cipher in CBC mode. That is, you pick a random key <span class="math inline">\(\mathsf{k}\)</span> and use <span class="math inline">\(\oplus \mathsf k\)</span> as the block cipher function. Is this a secure approach?</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-46" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>This corresponds to the ECB mode. By definition, the ECB mode applies the same block cipher in parallel.</p></li>
+<li><p>This is not a secure approach. It suffers from the problems that we encountered when using OTP with the same key. Let us be more concrete. To encrypt a message you do the following:</p></li>
+</ol>
+<p><span class="math display">\[
+\mathsf c_i
+  = \mathsf{Enc}_k(\mathsf m_i \oplus \mathsf c_{i-1})
+  = \mathsf m_i \oplus \mathsf c_{i-1} \oplus \mathsf k
+\]</span>
+Now, consider the next block. It’s encryption would be
+<span class="math display">\[
+\mathsf c_{i+1}
+  = \mathsf m_{i+1} \oplus \mathsf c_{i} \oplus \mathsf k
+\]</span>
+Substituting <span class="math inline">\(\mathsf{c}_i\)</span> we get</p>
+<p><span class="math display">\[
+\begin{aligned}
+\mathsf c_{i+1}
+  &amp;= \mathsf m_{i+1} \oplus \mathsf m_i \oplus \mathsf c_{i-1} \oplus \mathsf k \oplus \mathsf k \\
+  &amp;= \mathsf m_{i+1} \oplus \mathsf m_i \oplus \mathsf c_{i-1}
+\end{aligned}
+\]</span>
+and therefore
+<span class="math display">\[
+\begin{aligned}
+\mathsf c_{i+1} \oplus \mathsf c_{i-1} =
+  &amp;= \mathsf m_{i+1} \oplus \mathsf m_i
+\end{aligned}
+\]</span>
+and therefore we can learn the XOR value of each block.</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="11">
+<li id="fn11"><p>One must be careful when choosing padding, as some choices are
+vulnerable to certain attacks in some modes of operation. An example
+of this is the padding oracle attack:
+<a href="https://en.wikipedia.org/wiki/Padding_oracle_attack" class="uri">https://en.wikipedia.org/wiki/Padding_oracle_attack</a>.<a href="block-ciphers.html#fnref11" class="footnote-back">↩︎</a></p></li>
+<li id="fn12"><p>Source:
+<a href="https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation" class="uri">https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation</a>.
+Images by Larry Ewing (<a href="lewing@isc.tamu.edu">lewing@isc.tamu.edu</a>)
+and GIMP (<a href="https://www.gimp.org/" class="uri">https://www.gimp.org/</a>).<a href="block-ciphers.html#fnref12" class="footnote-back">↩︎</a></p></li>
+<li id="fn13"><p>Some interesting bits of history around DES and NSA involvement
+can be found in Chapter 3 of Christof Paar and Jan Pelzl. <em>Understanding cryptography: a textbook for students and practitioners</em>. Springer Science &amp; Business Media, 2009..<a href="block-ciphers.html#fnref13" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="randomness-in-cryptography.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="security-definitions.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

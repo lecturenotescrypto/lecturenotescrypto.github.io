@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>10 Digital signatures | Cryptography lecture notes</title>
+  <meta name="description" content="10 Digital signatures | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="10 Digital signatures | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="10 Digital signatures | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="discrete-logarithm-cryptosystems.html"/>
+<link rel="next" href="secret-sharing.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="digital-signatures" class="section level1 hasAnchor" number="10">
+<h1><span class="header-section-number">10</span> Digital signatures<a href="digital-signatures.html#digital-signatures" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this section, we take a detour from encryption to look at signature
+schemes, which also follow the public-key paradigm but fulfill a
+different purpose altogether. More precisely, we will learn about:</p>
+<ol style="list-style-type: decimal">
+<li><p>What are signature schemes and why do we care.</p></li>
+<li><p>An example of signature schemes based on RSA.</p></li>
+<li><p>How to sign large messages.</p></li>
+</ol>
+<div id="signature-schemes" class="section level2 hasAnchor" number="10.1">
+<h2><span class="header-section-number">10.1</span> Signature schemes<a href="digital-signatures.html#signature-schemes" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Our goal in this section will not be the same as before. No longer we
+are interested in obscuring the message being sent. Instead, consider
+the following example.</p>
+<p>Suppose that Bob receives a message from Alice. How can Bob know that
+the message was not intercepted in transit by an adversary, and modified
+before being forwarded to Bob? Moreover, what if the message does not
+come from Alice at all? To prevent these two problems, we want to
+somehow ensure:</p>
+<ul>
+<li><p><em>Authenticity:</em> the message comes from the claimed sender.</p></li>
+<li><p><em>Integrity:</em> the message was not modified in transit.</p></li>
+</ul>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-172" class="exercise"><strong>Exercise 10.1  </strong></span><em>Think of some real-world examples in which failing to
+provide each of these properties might allow some malicious behaviour.</em></p>
+</div>
+<p>The solution to both is to append a signature to the message.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-173" class="definition"><strong>Definition 10.1  </strong></span><em>A</em> signature scheme <em>is a triple of algorithms</em>
+<span class="math display">\[(\mathsf{KeyGen},\mathsf{Sign},\mathsf{Verify}).\]</span></p>
+<ul>
+<li><p><em>The <span class="math inline">\(\mathsf{KeyGen}\)</span> algorithm produces a pair of keys
+<span class="math inline">\(\mathsf{pk}\)</span> and <span class="math inline">\(\mathsf{sk}\)</span> of length <span class="math inline">\(\lambda\)</span> according to
+some probability distribution. The key <span class="math inline">\(\mathsf{pk}\)</span> is called the</em> public key <em>and the key <span class="math inline">\(\mathsf{sk}\)</span> is called the</em>secret key.</p></li>
+<li><p><em>The <span class="math inline">\(\mathsf{Sign}\)</span> algorithm uses the secret key <span class="math inline">\(\mathsf{sk}\)</span> to
+produce a</em> signature <em><span class="math inline">\(\sigma\)</span> of a message <span class="math inline">\(\mathsf{m}\)</span> that
+depends on the message and the key.</em></p></li>
+<li><p><em>The <span class="math inline">\(\mathsf{Verify}\)</span> algorithm uses the public key <span class="math inline">\(\mathsf{pk}\)</span>,
+the message <span class="math inline">\(\mathsf{m}\)</span> and the signature <span class="math inline">\(\sigma\)</span>, and outputs <span class="math inline">\(1\)</span>
+or <span class="math inline">\(0\)</span> depending on whether <span class="math inline">\(\sigma\)</span> is a valid signature for
+<span class="math inline">\(\mathsf{m}\)</span> nor not.</em></p></li>
+</ul>
+</div>
+<p>Now, instead of sending just <span class="math inline">\(\mathsf{m}\)</span>, they proceed as follows.
+Alice runs the <span class="math inline">\(\mathsf{KeyGen}\)</span> algorithm to produce a pair of keys
+<span class="math inline">\((\mathsf{pk},\mathsf{sk})\)</span>, and publishes <span class="math inline">\(\mathsf{pk}\)</span>. When Alice
+wants to sign the message <span class="math inline">\(\mathsf{m}\)</span>, she computes
+<span class="math display">\[\sigma=\mathsf{Sign}_{\mathsf{sk}}(\mathsf{m}),\]</span> and sends
+<span class="math inline">\((\mathsf{m},\sigma)\)</span> to Bob. Upon receiving the message, Bob runs the
+<span class="math inline">\(\mathsf{Verify}\)</span> algorithm with <span class="math inline">\(\mathsf{k}\)</span>, <span class="math inline">\(\mathsf{m}\)</span> and
+<span class="math inline">\(\sigma\)</span>. The idea is that, with a good signature scheme, no adversary
+should be able to sign any message without knowledge of the secret key
+<span class="math inline">\(\mathsf{sk}\)</span>. Therefore:</p>
+<ul>
+<li><p>Authenticity is guaranteed, since nobody except for Alice could have
+signed the message.</p></li>
+<li><p>Integrity is also guaranteed, since an attacker intercepting
+<span class="math inline">\((\mathsf{m},\sigma)\)</span> does not know how to compute a signature for a
+message different from <span class="math inline">\(\mathsf{m}\)</span>.</p></li>
+</ul>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-174" class="exercise"><strong>Exercise 10.2  </strong></span><em>One might think that using an encryption scheme
+already solves these issues. However, that is not true. Take, for
+example, the one-time pad. Show how an attacker against integrity can
+modify the ciphertext so that it decrypts to a different plaintext. Is
+there any real-world situations in which this could be troublesome?</em></p>
+</div>
+<p>Note that in encryption the message was first processed with the public
+key in the <span class="math inline">\(\mathsf{Enc}\)</span> algorithm and then with the secret key in the
+<span class="math inline">\(\mathsf{Dec}\)</span> algorithm. However, signatures first use the secret key
+in the <span class="math inline">\(\mathsf{Sign}\)</span> algorithm, and then the public key is used to
+verify. That is because, in encryption, we wanted that:</p>
+<ul>
+<li><p>Anyone can encrypt a message addressed to some party.</p></li>
+<li><p>Only this party can decrypt the messages addressed to them.</p></li>
+</ul>
+<p>However, the situation is reversed in signatures, as we want that:</p>
+<ul>
+<li><p>Only one party can sign messages on their own behalf.</p></li>
+<li><p>Everyone can verify that the message was indeed signed by this
+party.</p></li>
+</ul>
+<p>Since in principle signatures are not encrypted, an eavesdropper could
+intercept a pair <span class="math inline">\((\mathsf{m},\sigma)\)</span> of message and signature, and
+resend it later, impersonating the sender. We can prevent this from
+becoming an effective attack by time-stamping the message, that is,
+signing a version of the message that includes the time of sending, or
+an “expiration date”, beyond which the signature is not considered
+valid.</p>
+<p>Thus, we will informally say that a signature scheme is secure if no
+efficient adversary is able to produce, without the secret key, a pair
+of message and a valid signature for it such that the message is not one
+of those already eavesdropped by the adversary.</p>
+</div>
+<div id="rsa-signatures" class="section level2 hasAnchor" number="10.2">
+<h2><span class="header-section-number">10.2</span> RSA signatures<a href="digital-signatures.html#rsa-signatures" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Interestingly, one can run the RSA encryption scheme “backwards” to
+obtain a signature scheme. That is, we use the decryption algorithm to
+sign, and the encryption algorithm to verify.</p>
+<ul>
+<li><p><span class="math inline">\(\mathsf{KeyGen}\)</span>: on input a security parameter <span class="math inline">\(\lambda\)</span>, choose
+two uniformly random prime numbers <span class="math inline">\(p,q\)</span> of bitlength <span class="math inline">\(\lambda/2\)</span>,
+and let <span class="math inline">\(N=pq\)</span>. Choose <span class="math inline">\(e\in\mathbb{Z}_N\)</span>, and compute
+<span class="math display">\[d\equiv e^{-1}\pmod{\varphi(N)}.\]</span> Output the public key
+<span class="math display">\[\mathsf{pk}=(N,e),\]</span> and the secret key <span class="math display">\[\mathsf{sk}=d.\]</span></p></li>
+<li><p><span class="math inline">\(\mathsf{Sign}\)</span>: given a message <span class="math inline">\(\mathsf{m}\in\mathbb{Z}_N\)</span>, and
+the sender’s secret key key <span class="math inline">\(d\)</span>, output a signature
+<span class="math display">\[\mathsf{m}^{d}\bmod{N}.\]</span></p></li>
+<li><p><span class="math inline">\(\mathsf{Verify}\)</span>: given a message <span class="math inline">\(\mathsf{m}\)</span>, a signature
+<span class="math inline">\(\sigma\)</span> and the public key <span class="math inline">\((N,e)\)</span> of the sender, check whether
+<span class="math display">\[\sigma^e\equiv \mathsf{m}\pmod{N}.\]</span> If the equality holds, output
+<span class="math inline">\(1\)</span> (accept the signature), otherwise output <span class="math inline">\(0\)</span> (reject the
+signature).</p></li>
+</ul>
+<p>It is clear that genuine signatures are accepted, since
+<span class="math display">\[\sigma^e\equiv \left(\mathsf{m}^d\right)^e\equiv \mathsf{m}^{ed}\equiv \mathsf{m}\pmod{N},\]</span>
+similarly to how we argued in the case of RSA encryption, and the
+discussion about efficiency translates naturally.</p>
+<p>However, as it stands, the signature scheme is insecure. Recall that
+security means that an adversary cannot efficiently produce a pair of
+message and signature for a new message, given signatures of some
+messages.</p>
+<p>Let us assume that an adversary eavesdrops two message-signature pairs
+<span class="math inline">\((\mathsf{m}_0,\sigma_0)\)</span> and <span class="math inline">\((\mathsf{m}_1,\sigma_1)\)</span>. Then, since
+<span class="math display">\[\sigma_0^e\equiv \mathsf{m}_0,\qquad \text{ and }\qquad \sigma_1^e\equiv \mathsf{m}_1,\]</span>
+we have that <span class="math display">\[(\sigma_0\sigma_1)^e\equiv \mathsf{m}_0\mathsf{m}_1.\]</span>
+Therefore, <span class="math inline">\((\sigma_0\sigma_1) \bmod{N}\)</span> is a valid signature for the
+new message <span class="math inline">\((\mathsf{m}_0\mathsf{m}_1)\bmod{N}\)</span>.</p>
+<p>This attack is possible because of the <em>malleability</em> of RSA signatures.
+That is, given some messages and their signatures, it is easy to
+manipulate them to produce new signatures for new messages. In
+particular, in this case the product of two signatures yields the
+signature of the product of the messages. Thus, to prevent this attack,
+we will need to somehow sever this link between signatures of related
+messages.</p>
+<p>Moreover, there is another problem of a more practical nature. So far,
+we have achieved a way to sign a relatively short message, since
+<span class="math inline">\(\mathsf{m}\in\mathbb{Z}_N^*\)</span>. We could make <span class="math inline">\(N\)</span> larger to account for
+larger messages, but this would have a significant impact on efficiency,
+so we want to look for an alternative approach.</p>
+<p>In the next section, we will solve these two issues at once.</p>
+</div>
+<div id="signing-large-messages" class="section level2 hasAnchor" number="10.3">
+<h2><span class="header-section-number">10.3</span> Signing large messages<a href="digital-signatures.html#signing-large-messages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We now focus on the problem of producing a signature scheme for an
+arbitrarily large message, starting from a fixed-length one. More
+precisely, let us say that we have a signature scheme for messages of
+length <span class="math inline">\(\ell\)</span>, and we have a message <span class="math inline">\(\mathsf{m}\)</span> of length <span class="math inline">\(2\ell\)</span>. Our
+first idea could be to split the message in two halves
+<span class="math inline">\(\mathsf{m}_0,\mathsf{m}_1\)</span>, each of them of length <span class="math inline">\(\ell\)</span>, and compute
+<span class="math display">\[\sigma_0=\mathsf{Sign}_{\mathsf{sk}}(\mathsf{m}_0),\qquad\sigma_1=\mathsf{Sign}_{\mathsf{sk}}(\mathsf{m}_1),\]</span>
+and send <span class="math inline">\((\mathsf{m},\sigma)\)</span>, where <span class="math inline">\(\sigma=(\sigma_0|\sigma_1)\)</span>.
+However, two problems arise, one theoretical and one practical:</p>
+<ul>
+<li><p>A secure signature scheme should ensure that an adversary cannot
+sign any new message. But the message <span class="math inline">\((\mathsf{m}_1|\mathsf{m}_0)\)</span>
+is different from the message <span class="math inline">\((\mathsf{m}_0|\mathsf{m}_1)\)</span>, and it
+is easy to provide the signature <span class="math inline">\((\sigma_1|\sigma_0)\)</span>. Thus, our
+idea does not yield a secure signature scheme.</p></li>
+<li><p>Moreover, this becomes highly impractical as the message grows in
+size. Assume that we are sending a video file, which could be
+several gigabytes large. The signature is roughly as large as the
+message, and thus we are sending a lot of extra information just for
+authentication and integrity.</p></li>
+</ul>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-175" class="exercise"><strong>Exercise 10.3  </strong></span><em>In an effort to defeat these issues, we consider
+simply signing the first block of length <span class="math inline">\(\ell\)</span> of the message,
+regardless of the size of the message. What is the issue with this?</em></p>
+</div>
+<p>Surely we can do better. What if, somehow, we could compress the whole
+message in just one block of length <span class="math inline">\(\ell\)</span>, and we sign that block? And
+don’t we have a tool that does exactly that? Indeed, we can use a hash
+function.</p>
+<p>Given a fixed-length signature scheme
+<span class="math display">\[(\mathsf{KeyGen},\mathsf{Sign}, \mathsf{Verify})\]</span> and a public hash
+function <span class="math inline">\(H\)</span>, we build an arbitrary-length signature scheme as follows.
+The <span class="math inline">\(\mathsf{KeyGen}\)</span> algorithm stays the same. To sign an
+arbitrarily-large message <span class="math inline">\(\mathsf{m}\)</span>, we compute:
+<span class="math display">\[\sigma=\mathsf{Sign}_{\mathsf{sk}}(H(\mathsf{m})).\]</span> That is, we
+reduce the problem to signing a fixed-length message <span class="math inline">\(h\)</span>, by hashing the
+original message. We make the following observations:</p>
+<ul>
+<li><p>The hash function must be public and deterministic, because both
+sender and recipient need to make use of it to compute
+<span class="math inline">\(H(\mathsf{m})\)</span>.</p></li>
+<li><p>Although <span class="math inline">\(H(\mathsf{m})\)</span> can be computed by adversaries, they cannot
+sign it on their own because they lack the secret key <span class="math inline">\(\mathsf{sk}\)</span>.</p></li>
+</ul>
+<p>Note that this also solves our security issue highlighted in the
+previous section, which stemmed from signatures of related messages
+being related. The intuition is that the outputs of a good hash function
+are “random-looking”, regardless of the inputs being related.</p>
+<p>This variant of RSA signatures is described below, and is known as the
+<em>full-domain hash</em> signature scheme.</p>
+<ul>
+<li><p><span class="math inline">\(\mathsf{KeyGen}\)</span>: on input a security parameter <span class="math inline">\(\lambda\)</span>, choose
+two uniformly random prime numbers <span class="math inline">\(p,q\)</span> of bitlength <span class="math inline">\(\lambda/2\)</span>,
+and let <span class="math inline">\(N=pq\)</span>. Let <span class="math inline">\(H:\{0,1\}^*\rightarrow\mathbb{Z}_N\)</span> be a hash
+function. Choose <span class="math inline">\(e\in\mathbb{Z}_N\)</span>, and compute
+<span class="math display">\[d\equiv e^{-1}\pmod{\varphi(N)}.\]</span> Output the public key
+<span class="math display">\[\mathsf{pk}=(N,e),\]</span> and the secret key <span class="math display">\[\mathsf{sk}=d.\]</span></p></li>
+<li><p><span class="math inline">\(\mathsf{Sign}\)</span>: given a message <span class="math inline">\(\mathsf{m}\in\{0,1\}^*\)</span>, and the
+sender’s secret key key <span class="math inline">\(d\)</span>, output a signature
+<span class="math display">\[H(\mathsf{m})^{d}\bmod{N}.\]</span></p></li>
+<li><p><span class="math inline">\(\mathsf{Verify}\)</span>: given a message <span class="math inline">\(\mathsf{m}\)</span>, a signature
+<span class="math inline">\(\sigma\)</span> and the public key <span class="math inline">\((N,e)\)</span> of the sender, check whether
+<span class="math display">\[\sigma^e\equiv H(\mathsf{m})\pmod{N}.\]</span> If the equality holds,
+output <span class="math inline">\(1\)</span> (accept the signature), otherwise output <span class="math inline">\(0\)</span> (reject the
+signature).</p></li>
+</ul>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-176" class="proposition"><strong>Proposition 10.1  </strong></span><em>If the RSA problem is hard and <span class="math inline">\(H\)</span> behaves as an
+ideal<a href="#fn49" class="footnote-ref" id="fnref49"><sup>49</sup></a> hash function, then the full-domain hash signature scheme is
+secure.</em></p>
+</div>
+</div>
+<div id="solved-exercises-9" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="digital-signatures.html#solved-exercises-9" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-177" class="exercise"><strong>Exercise 10.4  </strong></span><em>Let <span class="math inline">\(N = 187\)</span>, <span class="math inline">\(e = 7\)</span> be an RSA signature public key. </em></p>
+<ol style="list-style-type: decimal">
+<li><em>Check if <span class="math inline">\(\sigma = 168\)</span> is a valid signature for <span class="math inline">\(m = 42\)</span>.</em></li>
+<li><em>Compute the secret signing key.</em></li>
+<li><em>Sign the message <span class="math inline">\(9\)</span>.</em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-178" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>We simply need to use the verification algorithm for RSA signature. That is,
+we need to check if <span class="math inline">\(\sigma^e \equiv m\pmod{N}\)</span>. Applying the given values we have:</p>
+<p><span class="math display">\[
+\begin{aligned}
+   \sigma^e &amp;\equiv 168^7 \equiv (-19)^7
+             \equiv 15^{1+2+4}
+             \equiv (-19)^{1}\cdot (-19)^{2}\cdot (-19)^{4}
+             \equiv \ldots
+             \equiv 42\pmod{187}
+\end{aligned}
+\]</span></p>
+<p>Therefore the equation is satisfied and we <span class="math inline">\(168\)</span> is a valid signature on <span class="math inline">\(42\)</span>.</p></li>
+<li><p>Due to security of RSA this cannot be done efficiently, but since here we deal with really small numbers we can
+indeed compute the secret key.</p>
+<p>After some trial and error, we can see that <span class="math inline">\(N = 187 = 11\cdot 17\)</span> and therefore <span class="math inline">\(p=11\)</span> and <span class="math inline">\(q=17\)</span>. With these values we can compute
+<span class="math inline">\(\phi(N) = (p-1)(q-1) = 10\cdot 16 = 160\)</span>. Finally, to compute the secret key we need to compute the value
+<span class="math inline">\(e^{-1}\pmod{\phi(N)} = 7^{-1}\pmod{160}\)</span>. Using the Extended Euclidian Algorithm we have that this value is <span class="math inline">\(d\equiv 23\pmod{160}\)</span>.</p></li>
+<li><p>Having the secret key <span class="math inline">\(d\)</span> we can sign the message <span class="math inline">\(9\)</span> by computing <span class="math inline">\(m^d\ equiv 9^{23}\pmod{N}\)</span>. We have</p>
+<p><span class="math display">\[
+9^23 \equiv 9^{16+4+2+1}
+   \equiv 9^{16}\cdot 9^4\cdot 9^2\cdot 9^1
+   \equiv \ldots
+   \equiv 36 \pmod{187}
+\]</span>
+and therefore <span class="math inline">\(36\)</span> is the signature of <span class="math inline">\(9\)</span> under the given public key.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-179" class="exercise"><strong>Exercise 10.5  </strong></span><em>Alice has an RSA public key <span class="math inline">\(N=46339\)</span>, <span class="math inline">\(e=3\)</span>. She wants to sign the message <span class="math inline">\(7\)</span> and send it to Bob. To avoid the malleability issues of simple RSA, she uses full-domain hash RSA with <span class="math inline">\(H(x) = x\mod 100\)</span> as a hash function. Demonstrate that the choice of the hash function is not good by forging a signature assuming you have seen the message, signature pair <span class="math inline">\(m = 85722, \sigma = 20787\)</span></em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-180" class="solution"><em>Solution</em>. </span>The choice is not good since the hash function is not collision resistant. Specifically, for every <span class="math inline">\(x, y = x + k\cdot 100\)</span>, we have <span class="math inline">\(H(x)=H(y)\)</span>. Therefore, we can compute a signature for any message <span class="math inline">\(m&#39; = 85722 + k\cdot 100\)</span> for any <span class="math inline">\(k\)</span>. Let’s for example pick <span class="math inline">\(m&#39; = 85722 - 42\cdot 100 =  81522\)</span>. We claim that <span class="math inline">\(\sigma = 20787\)</span>.</p>
+<p>Indeed, we have <span class="math inline">\(H(m&#39;)=m&#39;\mod 100 = 22\)</span> and <span class="math inline">\(\sigma^e \equiv 20787^{3} \equiv 22\pmod {46339}\)</span>.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-181" class="exercise"><strong>Exercise 10.6  </strong></span><em>Recall from Section <a href="public-key-encryption.html#rsa-optimization">8.4</a> that we can use the Chinese Remainder Theorem to speed up message decryption. Since the same computation is used to sign messages via RSA, we can use this optimization for computing RSA signatures as well. Specifically, the signer first represents the secret key <span class="math inline">\(d\)</span> as </em>
+<span class="math display">\[
+d_p = d\pmod {\phi(p)}, \qquad d_q = d\pmod {\phi(q)}
+\]</span>
+<em>and signs the message <span class="math inline">\(m\)</span> by computing </em>
+<span class="math display">\[
+\sigma_p = m^{d_{p}}\pmod p, \qquad  m^{d_{q}}\pmod q
+\]</span>
+<em>and using the Chineese remainder theorem to find the unique <span class="math inline">\(\sigma \pmod{N}\)</span> such that </em>
+<span class="math display">\[
+\sigma \equiv \sigma_p \pmod p,\qquad \sigma \equiv \sigma_q \pmod q
+\]</span></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Let <span class="math inline">\(N=7\cdot 11 = 77\)</span> be an RSA modulus with <span class="math inline">\(e=7\)</span> and
+<span class="math inline">\(d\equiv e^{-1}\equiv 43\pmod{\phi(N)}\)</span>. Sign the message <span class="math inline">\(m=10\)</span> using the above procedure.</em></p></li>
+<li><p><em>Due to an implementation bug a false signature <span class="math inline">\(\sigma&#39;\)</span> on a message <span class="math inline">\(m\)</span> is computed. Specifically, during computation the <span class="math inline">\(\sigma_p \not\equiv  m^{d_{p}}\pmod p\)</span>. Later you obtain the valid signature <span class="math inline">\(\sigma\)</span>. Explain how in this case the modulus <span class="math inline">\(N\)</span> can be efficiently factored.</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-182" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>We have <span class="math inline">\(\phi(N)=6\cdot 10 = 60\)</span>. We now compute the <span class="math inline">\(p\)</span> and <span class="math inline">\(q\)</span> parts of the key. We have:
+<span class="math display">\[
+\begin{aligned}
+d_p&amp;\equiv d\pmod{p}\equiv 43\pmod 7\equiv 1\pmod{7} \\
+d_q&amp;\equiv d\pmod{q}\equiv 43\pmod {11}\equiv 44-1\equiv -1\pmod{11},
+\end{aligned}
+\]</span>
+so <span class="math inline">\((d_p, d_q) = (1\mod 7,-1\mod 11)\)</span>. We next compute <span class="math inline">\(\sigma_p, \sigma_q\)</span>. We have
+<span class="math display">\[
+\begin{aligned}
+\sigma_p&amp;\equiv m^{d_p}\pmod{p}\equiv 10^1\pmod 7\equiv 3\pmod{7} \\
+\sigma_q&amp;\equiv m^{d_q}\pmod{p}\equiv 10^{-1}\pmod {11}\equiv 10\equiv -1\pmod{11}
+\end{aligned}
+\]</span>
+Finally, we use the CRT to find <span class="math inline">\(\sigma\)</span>. We need to compute the value<br />
+<span class="math display">\[
+\sigma = (q\sigma_p(q^{-1}\mod p) + p\sigma_q(p^{-1}\mod q))\pmod N
+\]</span>
+Applying the values we computed we have
+<span class="math display">\[
+\begin{aligned}
+\sigma &amp;\equiv 11\cdot 3 (11^{-1}\mod 7) + 7\cdot (-1)\cdot (7^{-1}\mod 11)\\
+    &amp;\equiv 11\cdot 3 \cdot 2 + 7\cdot (-1)\cdot 8\\
+    &amp;\equiv 66 + (-56)\\
+    &amp;\equiv 10\pmod{77}\\
+\end{aligned}
+\]</span>
+We can verify that <span class="math inline">\(\sigma^{e}\equiv 10^7 \equiv 10 \equiv m \pmod{77}\)</span> so <span class="math inline">\(\sigma = 10\)</span> is a valid signature for <span class="math inline">\(m=10\)</span>.</p></li>
+<li><p>We have two signatures on <span class="math inline">\(m\)</span>, <span class="math inline">\(\sigma\)</span> which is a valid one, and <span class="math inline">\(\sigma&#39;\)</span> which is an invalid one. Additionally, we know that the error that happened on <span class="math inline">\(\sigma&#39;\)</span> was when computing the <span class="math inline">\(\mod p\)</span> part.</p>
+<p>For the valid signature <span class="math inline">\(\sigma\)</span> let
+<span class="math display">\[
+   \sigma \equiv \sigma_p \pmod p, \qquad
+   \sigma \equiv \sigma_q \pmod q,
+\]</span></p>
+<p>For the invalid signature <span class="math inline">\(\sigma&#39;\)</span> we know that the value <span class="math inline">\(\sigma_p\)</span> was not correct but <span class="math inline">\(\sigma_q\)</span> was. Therefore
+<span class="math display">\[
+   \sigma&#39; \not\equiv \sigma_p \pmod p, \qquad
+   \sigma&#39; \equiv \sigma_q \pmod q,
+\]</span></p>
+<p>Now, consider the value <span class="math inline">\(\sigma - \sigma&#39;\)</span>. When in <span class="math inline">\(\mathbb{Z}_q\)</span>, we have <span class="math inline">\(\sigma-\sigma&#39; \equiv 0 \pmod q\)</span>.
+When in <span class="math inline">\(\mathbb{Z}_p\)</span>, however, we have <span class="math inline">\(\sigma-\sigma&#39; \not\equiv 0 \pmod p\)</span>. This means that <span class="math inline">\(q\)</span> divides <span class="math inline">\(\sigma - \sigma&#39;\)</span> but <span class="math inline">\(p\)</span> doesn’t. Since <span class="math inline">\(N=p\cdot q\)</span>, this means the greatest common divisor of <span class="math inline">\(N, \sigma-\sigma&#39;\)</span> is <span class="math inline">\(q\)</span>! We can therefore efficiently compute this value through the Euclidian Algorithm to get <span class="math inline">\(q\)</span> and then compute <span class="math inline">\(p=N/q\)</span>.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-183" class="exercise"><strong>Exercise 10.7  </strong></span>(<strong>*</strong>)</p>
+<p><em>In some cases, we might need to receive a signature on a private message. A good example for it is in voting. When casting a vote, you secretly select a choice and enclose it in an envelope in order to hide it. You then give the
+envelope to an official who makes some checks (you are eligible to vote, haven’t voted etc) and signs the envelope to mark it as a valid ballot. Essentially, the official “signs” your vote without knowing it. This is achieved through the physical means of the envelope.</em></p>
+<p><em>Blind signatures are the cryptographic analogue of the above. Alice, who wants to receive a signature on a message <span class="math inline">\(m\)</span>, first “blinds” the message and gives the blinded message to Bob. Bob -without learning anything about the message- signs the blinded message and gives the “blind” signature to Alice, who “unblinds” it to get a signature on <span class="math inline">\(m\)</span>. Alice can now convince anyone that Bob authorised her message while Bob does not know which message Alice has! </em></p>
+<p><em>RSA signatures can be used as blind signatures as follows:</em></p>
+<ul>
+<li><em>The key pair remains unchanged. The secret key is <span class="math inline">\(d\)</span> and the public key <span class="math inline">\((N, e)\)</span> as in simple RSA.</em></li>
+<li><em>Alice blinds a message <span class="math inline">\(m\)</span> by picking a random <span class="math inline">\(r\in\mathbb{Z}_n\)</span> and computing <span class="math inline">\(\tilde{m} = m\cdot r^e\pmod N\)</span></em>.</li>
+<li><em>Bob signs the blinded message <span class="math inline">\(\tilde{m}\)</span> by simply computing an RSA signature on it, that is, it computes
+<span class="math inline">\(\tilde{\sigma} = \tilde{m}^d\pmod N\)</span> and gives it to Alice</em>.</li>
+<li><em>Alice unblinds the signature by computing <span class="math inline">\(\sigma = \tilde{\sigma}\cdot r^{-1}\)</span>. The signature on <span class="math inline">\(m\)</span> is <span class="math inline">\(\sigma\)</span>. She sends <span class="math inline">\(m,\sigma\)</span> to Charles</em>.</li>
+<li><em>Charles runs the normal RSA verification to check the signature. That is, it checks whether <span class="math inline">\(\sigma^e\equiv m\pmod N\)</span>.</em></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li><em>Let <span class="math inline">\(N=77, e=7\)</span>. Compute the blidned message for <span class="math inline">\(m=7\)</span> by using randomness <span class="math inline">\(19\)</span>. Then compute the blind signature for this message and unblind it. Does it verify?</em></li>
+<li><em>Show that Charles will always accept the signature if Alice and Bob follow the above steps.</em></li>
+<li><em>Bob knows that Alice’s message is either “yes” or “no”, each encoded as a number <span class="math inline">\(\mod N\)</span>. Argue that Bob cannot tell Alice’s vote by looking at <span class="math inline">\(\tilde{m}\)</span>. </em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-184" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>To blind the message we need to compute <span class="math inline">\(\tilde{m} = m\cdot r^e\pmod N\)</span>. Plugging in the numbers we have</p>
+<p><span class="math display">\[
+\tilde{m} \equiv 7\cdot 19^{7} \equiv \ldots \equiv 14\pmod{77}
+\]</span></p>
+<p>Next we need an RSA signature on this message. Since the numbers are small we can efficiently compute the secret key. We have <span class="math inline">\(N=7\cdot 11\)</span> and therefore <span class="math inline">\(\phi(N)=6\cdot 10 = 60\)</span>. The value <span class="math inline">\(d\)</span> is the multiplicative inverse of <span class="math inline">\(e=7\)</span> <span class="math inline">\(\mod 60\)</span>. Running the Extended Euclidian Algorithm we get <span class="math inline">\(d=43\)</span>. We sign the message by computing <span class="math inline">\(\tilde{\sigma} = \tilde{m}^d\pmod N\)</span>. We have</p>
+<p><span class="math display">\[
+\tilde{\sigma} \equiv \tilde{m}^d
+   \equiv 14^{43}
+   \equiv \ldots
+   \equiv 49
+   \pmod{77}
+\]</span></p>
+<p>To unblinded the signature we need to multiply it by <span class="math inline">\(r^{-1}\equiv 19^{-1}\pmod{77}\)</span>. Using the Extended Euclidian Algorithm we get <span class="math inline">\(19^{-1}\equiv 73\equiv -4\pmod{77}\)</span>. Therefore</p>
+<p><span class="math display">\[
+{\sigma} \equiv \tilde{\sigma}\cdot r^{-1}
+   \equiv 49\cdot (-4)
+   \equiv \ldots
+   \equiv 35
+   \pmod{77}
+\]</span></p>
+<p>Finally, let’s check if <span class="math inline">\(\sigma = 11\)</span> is a valid signature on <span class="math inline">\(m=11\)</span>. We have
+<span class="math display">\[
+\sigma^e \equiv 35^7 \equiv \ldots\equiv 7\equiv m\pmod{77}
+\]</span>
+and therefore the signature verifies.</p></li>
+<li><p>We need to verify that <span class="math inline">\(\sigma^e\equiv m\pmod{N}\)</span> where <span class="math inline">\(\sigma\)</span> is computed as above. We have</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sigma &amp;\equiv \tilde{\sigma}\cdot r^{-1}\\
+        &amp;\equiv \tilde{m}^{d}\cdot r^{-1} \\
+        &amp;\equiv (m\cdot r^e)^{d}\cdot r^{-1}\\
+        &amp;\equiv m^d\cdot r^{ed}\cdot r^{-1}\\
+        &amp;\equiv m^d\cdot r^{1}\cdot r^{-1}\\
+        &amp;\equiv m^d \pmod{N}\\
+\end{aligned}
+\]</span>
+where in the above we used that <span class="math inline">\(r^{ed} \equiv r^{k\phi(N)+1}\equiv 1\)</span>. Finally we have
+<span class="math inline">\(\sigma^{e} \equiv m^{ed} \equiv m \pmod{N}\)</span> and the signature is valid.</p></li>
+<li><p>Let <span class="math inline">\(m_y\in \mathbb{Z}_n\)</span> be the value corresponding to “yes” and <span class="math inline">\(m_n\in \mathbb{Z}_n\)</span>
+be the value corresponding to “no”. What Bob actually sees is the value
+<span class="math inline">\(\tilde{m} \equiv m\cdot r^{e}\pmod N\)</span> for <span class="math inline">\(m\)</span> being either <span class="math inline">\(m_y\)</span> or <span class="math inline">\(m_n\)</span> and <span class="math inline">\(r\)</span> be a random value.
+We will show that there exists a unique <span class="math inline">\(r_y\)</span> to satisfy the equation for <span class="math inline">\(m=x_y\)</span> and a unique
+<span class="math inline">\(r_n\)</span> to satisfy the equation for <span class="math inline">\(m=x_n\)</span>. Therefore there are two possible explanations:</p>
+<ul>
+<li>Alice voted “yes” and chose the random value <span class="math inline">\(r_y\)</span> or</li>
+<li>Alice voted “no” and chose the random value <span class="math inline">\(r_n\)</span>
+and since <span class="math inline">\(r\)</span> is random there is no good reason for Bob to believe one is more likely than the other.</li>
+</ul>
+<p>Let’s solve the above equation for <span class="math inline">\(r\)</span>:
+<span class="math display">\[
+\begin{aligned}
+    \tilde{m} \equiv m\cdot r^{e}\pmod N &amp;\Leftrightarrow \tilde{m}\cdot m^{-1} \equiv r^{e}\pmod N \\
+                                         &amp;\Leftrightarrow (\tilde{m}\cdot m^{-1})^{d} \equiv r^{ed}\pmod N \\
+                                         &amp;\Leftrightarrow (\tilde{m}\cdot m^{-1})^{d} \equiv r\pmod N \\
+\end{aligned}
+\]</span></p>
+<p>So, either Alice selected “yes” and flipped the dice to <span class="math inline">\(r_y = (\tilde{m}\cdot m_y^{-1})^d\)</span> or
+she selected “no” and flipped the dice to <span class="math inline">\(r_n = (\tilde{m}\cdot m_n^{-1})^d\)</span>.</p></li>
+</ol>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="49">
+<li id="fn49"><p><em>See Proposition 7.1.</em><a href="digital-signatures.html#fnref49" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="discrete-logarithm-cryptosystems.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="secret-sharing.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

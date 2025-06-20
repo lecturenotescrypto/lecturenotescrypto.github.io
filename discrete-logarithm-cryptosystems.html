@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>9 Discrete logarithm cryptosystems | Cryptography lecture notes</title>
+  <meta name="description" content="9 Discrete logarithm cryptosystems | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="9 Discrete logarithm cryptosystems | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="9 Discrete logarithm cryptosystems | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="public-key-encryption.html"/>
+<link rel="next" href="digital-signatures.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="discrete-logarithm-cryptosystems" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">9</span> Discrete logarithm cryptosystems<a href="discrete-logarithm-cryptosystems.html#discrete-logarithm-cryptosystems" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In the previous lesson, we saw that the security of the RSA encryption
+scheme relies on the hardness of factoring products of two large primes.
+However, this is not the only “hard” problem in which we can base our
+security. In this section, we will introduce</p>
+<ol style="list-style-type: decimal">
+<li><p>The discrete logarithm problem.</p></li>
+<li><p>The Diffie–Hellman key exchange protocol.</p></li>
+<li><p>The ElGamal encryption scheme.</p></li>
+</ol>
+<div id="the-discrete-logarithm-problem" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> The discrete logarithm problem<a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In this section, we will present another computational problem that is
+believed to be hard. To do so, we first introduce the notion of
+<em>discrete logarithm</em>.</p>
+<p>Let <span class="math inline">\(\mathbb{G}\)</span> be a cyclic group, with a generator <span class="math inline">\(g\)</span>, written with
+multiplicative notation. Remember that this means that
+<span class="math display">\[\mathbb{G}=\langle g \rangle = \{g^n\mid n\in\mathbb{Z}_{\geq 0}\},\]</span>
+that is, any element of <span class="math inline">\(\mathbb{G}\)</span> can be seen as a power of the
+generator <span class="math inline">\(g\)</span>. We can also look at this from the other side: given any
+element <span class="math inline">\(h\in\mathbb{G}\)</span>, there exists <span class="math inline">\(n\in\mathbb{Z}_{\geq 0}\)</span> such
+that <span class="math display">\[g^n=h.\]</span> This leads to the following definition.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-147" class="definition"><strong>Definition 9.1  </strong></span><em>Let <span class="math inline">\(\mathbb{G}\)</span> be a cyclic group with generator
+<span class="math inline">\(g\)</span>, written multiplicatively. Given <span class="math inline">\(h\in\mathbb{G}\)</span>, we define the</em> discrete logarithm (DLog) <em>of <span class="math inline">\(h\)</span> with respect to <span class="math inline">\(g\)</span> as the value
+<span class="math inline">\(n\in\mathbb{Z}_{\geq 0}\)</span> such that <span class="math inline">\(g^n=h\)</span>, and we denote it by
+<span class="math display">\[\log_gh=n.\]</span> When the generator is fixed and there is no ambiguity, we
+might simply write <span class="math inline">\(\log h\)</span>.</em></p>
+</div>
+<p>The name of the discrete logarithm comes from its similarity to
+logarithm as the inverse operation to exponentiation over the real
+numbers. That is, If <span class="math inline">\(a,b\in\mathbb{R}\)</span>, and <span class="math inline">\(c=a^b\)</span>, then we have that
+<span class="math inline">\(\log_ac=b\)</span>.</p>
+<p>In Sage, given a group element <code>h</code> and a generator <code>g</code>, the discrete
+logarithm of <code>h</code> with respect to <code>g</code> can be computed with <code>log(h,g)</code>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-148" class="definition"><strong>Definition 9.2  </strong></span><em>Let <span class="math inline">\(\mathbb{G}\)</span> be a cyclic group with generator
+<span class="math inline">\(g\)</span>. The</em> discrete logarithm problem <em>relative to <span class="math inline">\(\mathbb{G}\)</span> consists
+of, given <span class="math inline">\(\mathbb{G},g\)</span> and a uniformly random <span class="math inline">\(h\in\mathbb{G}\)</span>,
+computing <span class="math inline">\(\log_gh\)</span>.</em></p>
+</div>
+<p>Similarly to the factorization problem, the discrete logarithm problem
+is believed to be hard (i.e. computationally infeasible) for some
+well-chosen groups. Again, we do not have a formal proof of the problem
+being hard, but it has been studied for decades, and no general
+algorithm faster than exponential-time has been found.</p>
+<p>An important detail is the “well-chosen” part in the previous paragraph.
+That is, there exist some groups for which faster algorithms are known.
+Some cases can even be solved in time polynomial in the size of <span class="math inline">\(p\)</span>.
+Consider, for example, <span class="math inline">\((\mathbb{Z}_p,+)\)</span> for some large prime <span class="math inline">\(p\)</span>, and
+a generator <span class="math inline">\(g\)</span>. For this additive group, the discrete logarithm problem
+becomes, given <span class="math inline">\(\mathbb{Z}_p,g\)</span> and a uniformly random
+<span class="math inline">\(h\in\mathbb{Z}_p\)</span>, to find <span class="math inline">\(x\)</span> such that <span class="math display">\[gx\equiv h\pmod{p}.\]</span> But
+this can easily be solved as <span class="math display">\[x\equiv g^{-1}h\pmod{p},\]</span> where the
+inverse can be computed efficiently using the extended Euclidean
+algorithm. Therefore, these groups are not suitable for cryptographic
+purposes, if we want to rely on the discrete logarithm problem being
+hard.</p>
+<p>A better candidate are the multiplicative groups
+<span class="math inline">\((\mathbb{Z}_n^*,\cdot)\)</span> or, more precisely, a large subgroup of prime
+order. Without getting into much detail, the restriction to the
+prime-order subgroup is due to the Pohlig–Hellman attack,<a href="#fn43" class="footnote-ref" id="fnref43"><sup>43</sup></a> which
+tells us that the discrete logarithm problem in a composite-order group
+is as hard as the problem in the largest prime-order subgroup.</p>
+<p>If <span class="math inline">\(n\)</span> is prime, then the order of <span class="math inline">\(\mathbb{Z}_n^*\)</span> is <span class="math inline">\(n-1\)</span>, and thus
+we want to ensure that the largest prime-order subgroup is as large as
+possible relative to <span class="math inline">\(n\)</span>. This motivates the introduction of <em>safe
+primes</em>, which are prime numbers <span class="math inline">\(p\)</span> such that <span class="math inline">\(q=(p-1)/2\)</span> is also a
+prime. This ensures that <span class="math inline">\(\mathbb{Z}_p^*\)</span> has order <span class="math inline">\(2q\)</span>, and the
+subgroup of order <span class="math inline">\(q\)</span> can be used.</p>
+<p>To convince ourselves that looking for safe primes is efficient enough,
+let us try to find them with Sage, using the following code.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="discrete-logarithm-cryptosystems.html#cb14-1" tabindex="-1"></a>sec_param<span class="op">=</span><span class="dv">128</span></span>
+<span id="cb14-2"><a href="discrete-logarithm-cryptosystems.html#cb14-2" tabindex="-1"></a><span class="cf">while</span> <span class="va">True</span>:</span>
+<span id="cb14-3"><a href="discrete-logarithm-cryptosystems.html#cb14-3" tabindex="-1"></a>    p <span class="op">=</span> randint(<span class="dv">2</span><span class="op">^</span>(sec_param<span class="op">-</span><span class="dv">1</span>),<span class="dv">2</span><span class="op">^</span>(sec_param)<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb14-4"><a href="discrete-logarithm-cryptosystems.html#cb14-4" tabindex="-1"></a>    <span class="cf">if</span> p <span class="kw">in</span> Primes():</span>
+<span id="cb14-5"><a href="discrete-logarithm-cryptosystems.html#cb14-5" tabindex="-1"></a>        q <span class="op">=</span> (p<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb14-6"><a href="discrete-logarithm-cryptosystems.html#cb14-6" tabindex="-1"></a>        <span class="cf">if</span> q <span class="kw">in</span> Primes():</span>
+<span id="cb14-7"><a href="discrete-logarithm-cryptosystems.html#cb14-7" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;p = &quot;</span><span class="op">+</span><span class="bu">str</span>(p))</span>
+<span id="cb14-8"><a href="discrete-logarithm-cryptosystems.html#cb14-8" tabindex="-1"></a>            <span class="bu">print</span>(<span class="st">&quot;q = &quot;</span><span class="op">+</span><span class="bu">str</span>(q))</span>
+<span id="cb14-9"><a href="discrete-logarithm-cryptosystems.html#cb14-9" tabindex="-1"></a>            <span class="cf">break</span></span></code></pre></div>
+<p>Running on the free version of CoCalc, these are the approximate times
+to find a safe prime, for different choices of the security parameter</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(\lambda\)</span></th>
+<th align="center">Running time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(128\)</span></td>
+<td align="center">Less than a second</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(256\)</span></td>
+<td align="center">A few seconds</td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(512\)</span></td>
+<td align="center">About five minutes</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(1024\)</span></td>
+<td align="center">Two hours</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>This will be much faster with serious computing power (and a refined
+search algorithm), and nevertheless observe that this will be something
+that we only need to run once, since the prime can be reused without
+compromising the hardness of the problem.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-149" class="exercise"><strong>Exercise 9.1  </strong></span><em>If we want <span class="math inline">\(q\)</span> as close to <span class="math inline">\(p\)</span> as possible, why don’t
+we look for primes <span class="math inline">\(p\)</span> such that <span class="math inline">\(q=p-1\)</span> is also prime?</em></p>
+</div>
+<p>Although, strictly speaking, no efficient algorithm is known, some
+algorithms that are better than exponential have been found for these
+groups, so this is not an ideal candidate either. The current record of
+broken discrete logarithm is in a group <span class="math inline">\(\mathbb{Z}_p^*\)</span> for a prime <span class="math inline">\(p\)</span>
+of bitlength <span class="math inline">\(795\)</span>, which took around <span class="math inline">\(3100\)</span> core-years.<a href="#fn44" class="footnote-ref" id="fnref44"><sup>44</sup></a></p>
+<p>Currently, the best choice is groups of points of elliptic curves.
+Elliptic curves are an advanced topic in mathematics, and lie at the
+intersection of algebraic geometry and number theory. We will not cover
+them in these notes, but it suffices to say that one can define a group
+law in the set of points of one such curve, and some of these curves are
+believed to have very hard discrete logarithms, much harder than the
+groups <span class="math inline">\(\mathbb{Z}_n^*\)</span> of the same size. In contrast with the discrete
+logarithm records in <span class="math inline">\(\mathbb{Z}_n^*\)</span>, the largest known discrete
+logarithm solved corresponds to an elliptic curve of order <span class="math inline">\(n\)</span>, for <span class="math inline">\(n\)</span>
+a <span class="math inline">\(114\)</span>-bit integer. It took the researchers 13 days of parallel
+computation on <span class="math inline">\(256\)</span> NVIDIA Tesla V100 GPUs.<a href="#fn45" class="footnote-ref" id="fnref45"><sup>45</sup></a></p>
+</div>
+<div id="the-diffie-hellman-key-exchange" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> The Diffie-Hellman key exchange<a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In the first half of the course, we discussed symmetric cryptography.
+For two parties Alice and Bob to communicate using a symmetric
+encryption scheme, they need to first establish a shared secret key, in
+a process called <em>key agreement</em> or <em>key establishment</em>. This is a
+non-trivial task. Maybe they could meet in person and agree on a key, or
+maybe they could both trust a third party to handle the key agreement
+for them. But clearly this is not ideal, and depending on the context
+maybe not possible at all.</p>
+<p>One way to solve this issue is to use an asymmetric encryption scheme as
+a <em>key encapsulation mechanism</em>: Alice chooses a random <em>symmetric key</em>
+<span class="math inline">\(k\)</span>, and uses a public-key encryption scheme, like RSA, to encrypt the
+key and send it to Bob. Then Bob decrypts the message and learns <span class="math inline">\(k\)</span>.
+They can do this because the public-key encryption scheme does not
+require sharing secret keys in advance. From this point onwards, Alice
+and Bob can use the key <span class="math inline">\(k\)</span> to communicate using a symmetric encryption
+scheme, like AES.</p>
+<p>One might ask why not use public-key encryption all the time, since it
+requires no shared keys. While this poses no security problem,
+asymmetric encryption schemes tend to be much less efficient that
+symmetric ones, so it is simply faster to establish a key using
+asymmetric encryption, and later use symmetric encryption.</p>
+<p>An alternative approach to key encapsulation mechanisms is to use the
+following.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-150" class="definition"><strong>Definition 9.3  </strong></span><em>A</em> key exchange protocol <em>is a procedure between two parties, at the end of which both parties know a common key.</em></p>
+</div>
+<p>The first and best-known key exchange protocol is the Diffie–Hellman
+key exchange protocol, introduced in 1976,<a href="#fn46" class="footnote-ref" id="fnref46"><sup>46</sup></a> and it works as follows.
+The only common input is a security parameter <span class="math inline">\(\lambda\)</span>.</p>
+<ol style="list-style-type: decimal">
+<li><p>On input <span class="math inline">\(\lambda\)</span>, Alice chooses a uniformly random prime <span class="math inline">\(p\)</span> of
+bitlength <span class="math inline">\(\lambda\)</span>, and determines a cyclic group <span class="math inline">\(\mathbb{G}\)</span> of
+order <span class="math inline">\(p\)</span>, and a generator <span class="math inline">\(g\)</span> of <span class="math inline">\(\mathbb{G}\)</span>.</p></li>
+<li><p>Alice sends <span class="math inline">\((\mathbb{G},g)\)</span> to Bob.<a href="#fn47" class="footnote-ref" id="fnref47"><sup>47</sup></a></p></li>
+<li><p>Alice chooses a uniformly random <span class="math inline">\(a\in\mathbb{Z}_p\)</span>, computes
+<span class="math inline">\(A=g^a\)</span>, and sends <span class="math inline">\(A\)</span> to Bob. Similarly, Bob chooses a uniformly
+random <span class="math inline">\(b\in\mathbb{Z}_p\)</span>, computes <span class="math inline">\(B=g^b\)</span>, and sends <span class="math inline">\(B\)</span> to Alice.</p></li>
+<li><p>Now, Alice computes the key as <span class="math inline">\(k=B^a\)</span>, and Bob computes the same
+key as <span class="math inline">\(k=A^b\)</span>.</p></li>
+</ol>
+<p>Since <span class="math inline">\(k\)</span> is technically a group element, it is processed in some
+established way to obtain a bitstring, which is the actual key that will
+be used for symmetric encryption purposes.</p>
+<p>The parameters <span class="math inline">\((\mathbb{G},g)\)</span> can be reused without compromising
+security, so steps (1) and (2) do not need to be run again every time
+that Alice and Bob want to share a key, but it is very important that
+the values <span class="math inline">\(a,b\)</span> are always fresh.</p>
+<p>Before discussing security, let us convince ourselves that indeed Alice
+and Bob end up with the same key. Observe that
+<span class="math display">\[B^a = \left(g^b\right)^a = g^{ab} = \left(g^a\right)^b = A^b.\]</span>
+Therefore, the value computed by each party is actually the same.</p>
+<p>Notice how <span class="math inline">\(k\)</span> was never sent from one side to the other. However, some
+partial information related to it was sent, so one might be worried that
+an eavesdropper might learn some information about the key from the
+intercepted values, <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. We define the exact level of security
+that we want to attain.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-151" class="definition"><strong>Definition 9.4  </strong></span><em>A key exchange protocol is</em> secure in the presence
+of an eavesdropper <em>if no efficient adversary that observes the protocol
+(that is, an adversary that sees <span class="math inline">\(\mathbb{G},g,A,B\)</span>) can tell the real
+key from a uniformly random bitstring of the same size.</em></p>
+</div>
+<p>Notice that this is a very strong definition, which implies that not a
+single bit of the key is leaked.</p>
+<p>So why is the Diffie–Hellman key exchange protocol secure? Consider the
+following scenario. The adversary eavesdrops <span class="math inline">\(A,B\)</span>, and finds <span class="math inline">\(a\)</span> by
+solving the discrete logarithm of <span class="math inline">\(A\)</span> with respect to <span class="math inline">\(g\)</span>. Then the
+adversary could simply compute <span class="math inline">\(B^a\)</span> and learn the shared key.
+Therefore, to prevent such an attack, we must ensure that the discrete
+logarithm problem is hard in <span class="math inline">\(\mathbb{G}\)</span>.</p>
+<p>However, formally this is not enough, because conceivably an adversary
+could extract the key directly from <span class="math inline">\(A,B\)</span>, without the need to solve any
+discrete logarithm. This motivates the introduction of the following
+related problem.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-152" class="definition"><strong>Definition 9.5  </strong></span><em>Let <span class="math inline">\(\mathbb{G}\)</span> be a cyclic group of primer order
+<span class="math inline">\(p\)</span>, with generator <span class="math inline">\(g\)</span>. Let <span class="math inline">\(a,b\)</span> be uniformly random elements of
+<span class="math inline">\(\mathbb{Z}_p\)</span>, and let <span class="math display">\[A=g^a,\qquad B=g^b.\]</span> The</em> computational
+Diffie–Hellman (CDH) problem <em>relative to <span class="math inline">\(\mathbb{G}\)</span> consists of,
+given <span class="math inline">\(\mathbb{G},g,A,B\)</span>, computing <span class="math inline">\(g^{ab}\)</span>.</em></p>
+</div>
+<p>If this problem is hard, then clearly an adversary will not be able to
+compute a Diffie–Hellman key from eavesdropping communications.
+However, our definition of security requires something stronger: that
+such a key cannot be distinguished from random strings.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-153" class="definition"><strong>Definition 9.6  </strong></span><em>Let <span class="math inline">\(\mathbb{G}\)</span> be a cyclic group of primer order
+<span class="math inline">\(p\)</span>, with generator <span class="math inline">\(g\)</span>. Let <span class="math inline">\(a,b\)</span> be uniformly random elements of
+<span class="math inline">\(\mathbb{Z}_p\)</span>, and let <span class="math display">\[A=g^a,\qquad B=g^b.\]</span> With probability <span class="math inline">\(1/2\)</span>,
+let <span class="math inline">\(C=g^{ab}\)</span>, otherwise let <span class="math inline">\(C\)</span> be a uniformly random element of
+<span class="math inline">\(\mathbb{G}\)</span>. The</em> decisional Diffie–Hellman (DDH) problem <em>relative to
+<span class="math inline">\(\mathbb{G}\)</span> consists of, given <span class="math inline">\(\mathbb{G},g,A,B,C\)</span>, decide whether
+<span class="math inline">\(C=g^{ab}\)</span> or <span class="math inline">\(C\)</span> is something else.</em></p>
+</div>
+<p>Observe that, unlike any other computational problem that we have
+considered, the DDH problem can easily be solved with probability <span class="math inline">\(1/2\)</span>,
+by guessing at random. Thus, for decisional problems, we say that the
+problem is hard if there is no efficient algorithm that can do
+significantly better than that. For example, an efficient algorithm that
+succeeds in solving the DDH problem with probability <span class="math inline">\(2/3\)</span> would be
+considered a breach of the problem.</p>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-154" class="exercise"><strong>Exercise 9.2  </strong></span><em>Prove that:</em></p>
+<ol style="list-style-type: decimal">
+<li><p><em>If we can break the DLog problem, then we can break the CDH
+problem.</em></p></li>
+<li><p><em>If we can break the CDH problem, then we can break the DDH
+problem.</em></p></li>
+</ol>
+</div>
+<p>As is was the case with the factorization and RSA problems, there is no
+known algorithm that can solve CDH or DDH any faster than the DLog
+problem. Nevertheless, there is no formal proof that solving either of
+these allows us to solve DLog, so the problems are not known to be
+equivalent, hence why we require them for security of the
+Diffie–Hellman key exchange protocol.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-155" class="proposition"><strong>Proposition 9.1  </strong></span><em>If the DDH problem is hard relative to a group
+<span class="math inline">\(\mathbb{G}\)</span>, then the Diffie–Hellman key exchange, using the group
+<span class="math inline">\(\mathbb{G}\)</span>, is secure in the presence of an eavesdropper.</em></p>
+</div>
+</div>
+<div id="the-elgamal-encryption-scheme" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> The ElGamal encryption scheme<a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We introduce the ElGamal encryption scheme,<a href="#fn48" class="footnote-ref" id="fnref48"><sup>48</sup></a> Unlike the RSA
+cryptosystem, the ElGamal encryption scheme works in a cyclic group of
+prime order. An advantage of this scheme is that it provides CPA
+security by default, without the need of padding, so no hash function is
+required.</p>
+<ul>
+<li><p><span class="math inline">\(\mathsf{KeyGen}\)</span>: on input a security parameter <span class="math inline">\(\lambda\)</span>, choose a
+cyclic group <span class="math inline">\(\mathbb{G}\)</span> of prime order <span class="math inline">\(p\)</span>, and a generator <span class="math inline">\(g\)</span> of
+<span class="math inline">\(\mathbb{G}\)</span>. We will write <span class="math inline">\(\mathbb{G}\)</span> with multiplicative
+notation. Sample a uniformly random <span class="math inline">\(x\in\mathbb{Z}_p\)</span>, and set
+<span class="math inline">\(h=g^x\)</span>. Output the public key <span class="math display">\[\mathsf{pk}=(\mathbb{G}, g, h),\]</span>
+and the secret key <span class="math display">\[\mathsf{sk}=x.\]</span></p></li>
+<li><p><span class="math inline">\(\mathsf{Enc}\)</span>: given a message <span class="math inline">\(\mathsf{m}\in\mathbb{Z}_p\)</span>, with
+<span class="math inline">\(\mathsf{m}\)</span> small, and the receiver’s public key
+<span class="math inline">\((\mathbb{G}, g, h)\)</span>, choose a uniformly random <span class="math inline">\(r\in\mathbb{Z}_p\)</span>
+and output the ciphertext
+<span class="math display">\[\mathsf{c}=(\mathsf{c}_1,\mathsf{c}_2)=(g^r,g^{\mathsf{m}}h^r).\]</span></p></li>
+<li><p><span class="math inline">\(\mathsf{Dec}\)</span>: given a ciphertext <span class="math inline">\(\mathsf{c}\)</span> and the secret key
+<span class="math inline">\(x\)</span>, output <span class="math display">\[\log_g\frac{\mathsf{c}_2}{\mathsf{c}_1^x}.\]</span></p></li>
+</ul>
+<p>It is easy to see that decryption recovers the original message
+encrypted. Indeed, observe that
+<span class="math display">\[g^{\mathsf{m}}h^r=g^{\mathsf{m}}\left(g^x\right)^r=g^{{\mathsf{m}}+xr},\]</span> and thus
+<span class="math display">\[\log_g\frac{\mathsf{c}_2}{\mathsf{c}_1^x}=\log_g\frac{g^{{\mathsf{m}}+xr}}{\left(g^r\right)^x}=\log_g g^{\mathsf{m}}={\mathsf{m}}.\]</span></p>
+<p>One thing that might seem counter-intuitive is the fact that we are
+supposed to find the discrete logarithm of <span class="math inline">\(g^m\)</span> to recover the message.
+But, at the same time, we will require the DLog problem to be hard for
+security. The key point is that <span class="math inline">\(\mathsf{m}\)</span> is small relative to <span class="math inline">\(p\)</span>,
+so that the DLog of <span class="math inline">\(g^m\)</span> can be solved efficiently. Observe that this
+does not contradict the discrete logarithm problem, which states that
+the discrete logarithm should be hard to compute for <em>uniformly random</em>
+elements of <span class="math inline">\(\mathbb{Z}_p\)</span>, but it is fine if it can be solved for small
+values.</p>
+<p><strong>Note.</strong> This version of the ElGamal encryption scheme is known as <em>lifted ElGamal</em>, because the message <span class="math inline">\(\mathsf{m}\)</span> is an element in <span class="math inline">\(\mathbb{Z}_p\)</span> that is <em>lifted</em> to the exponent to operate with the group element <span class="math inline">\(g^{\mathsf{m}}\)</span>. It is also possible to use a group element as message directly, in which case encryption is performed as
+<span class="math display">\[\mathsf{c}=(\mathsf{c}_1,\mathsf{c}_2)=(g^r,\mathsf{m}h^r)\]</span>
+and decryption consists of computing
+<span class="math display">\[\frac{\mathsf{c}_2}{\mathsf{c}_1^x}.\]</span></p>
+<p>Intuitively, the security of the scheme relies on the DLog problem being
+hard, because an adversary that can compute discrete logarithms would be
+able to recover <span class="math inline">\(x\)</span> and run the decryption algorithm. Moreover, observe
+that the scheme is <em>randomized</em>, that is, the same plaintext can produce
+different ciphertexts, depending on each encryption’s randomness <span class="math inline">\(r\)</span>.</p>
+<p>Formally, again we require the DDH problem to be hard to ensure
+security.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-156" class="proposition"><strong>Proposition 9.2  </strong></span><em>If the DDH problem is hard for a group
+<span class="math inline">\(\mathbb{G}\)</span>, then the ElGamal encryption scheme in <span class="math inline">\(\mathbb{G}\)</span> is
+secure.</em></p>
+</div>
+<p>Below is an implementation of the ElGamal encryption scheme in
+<span class="math inline">\(\mathbb{Z}_p^*\)</span>. The value of <span class="math inline">\(p\)</span> used is a safe prime of bitlength
+<span class="math inline">\(1024\)</span> found used the algorithm above.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="discrete-logarithm-cryptosystems.html#cb15-1" tabindex="-1"></a><span class="co">### KEY GENERATION</span></span>
+<span id="cb15-2"><a href="discrete-logarithm-cryptosystems.html#cb15-2" tabindex="-1"></a><span class="co"># Choose parameters</span></span>
+<span id="cb15-3"><a href="discrete-logarithm-cryptosystems.html#cb15-3" tabindex="-1"></a>p <span class="op">=</span> <span class="dv">98477271628635149697160687227938079584387801057656524674547805684845362792314056005063953177189645361017363320475498530632115997158699647766751945380661872143643706009196552179178021780647235396351787889600626935912984928121265808769679480550797947557845891911467438040517702514768796757174157093600219716843</span></span>
+<span id="cb15-4"><a href="discrete-logarithm-cryptosystems.html#cb15-4" tabindex="-1"></a>q <span class="op">=</span> (p<span class="op">-</span><span class="dv">1</span>)<span class="op">/</span><span class="dv">2</span></span>
+<span id="cb15-5"><a href="discrete-logarithm-cryptosystems.html#cb15-5" tabindex="-1"></a><span class="co"># Check that p, q are primes</span></span>
+<span id="cb15-6"><a href="discrete-logarithm-cryptosystems.html#cb15-6" tabindex="-1"></a>p <span class="kw">in</span> Primes(), q <span class="kw">in</span> Primes()</span>
+<span id="cb15-7"><a href="discrete-logarithm-cryptosystems.html#cb15-7" tabindex="-1"></a><span class="co"># Set the group as Z_n^*, choose a generator g and check that g has order q</span></span>
+<span id="cb15-8"><a href="discrete-logarithm-cryptosystems.html#cb15-8" tabindex="-1"></a>G <span class="op">=</span> Integers(p)</span>
+<span id="cb15-9"><a href="discrete-logarithm-cryptosystems.html#cb15-9" tabindex="-1"></a>g <span class="op">=</span> G(<span class="dv">3</span>)</span>
+<span id="cb15-10"><a href="discrete-logarithm-cryptosystems.html#cb15-10" tabindex="-1"></a>g.multiplicative_order() <span class="op">==</span> q</span>
+<span id="cb15-11"><a href="discrete-logarithm-cryptosystems.html#cb15-11" tabindex="-1"></a><span class="co"># Compute and output the keys.</span></span>
+<span id="cb15-12"><a href="discrete-logarithm-cryptosystems.html#cb15-12" tabindex="-1"></a>x <span class="op">=</span> randint(<span class="dv">0</span>,q)</span>
+<span id="cb15-13"><a href="discrete-logarithm-cryptosystems.html#cb15-13" tabindex="-1"></a>h <span class="op">=</span> g<span class="op">^</span>x</span>
+<span id="cb15-14"><a href="discrete-logarithm-cryptosystems.html#cb15-14" tabindex="-1"></a>pk <span class="op">=</span> (p,g,h)</span>
+<span id="cb15-15"><a href="discrete-logarithm-cryptosystems.html#cb15-15" tabindex="-1"></a>sk <span class="op">=</span> x</span>
+<span id="cb15-16"><a href="discrete-logarithm-cryptosystems.html#cb15-16" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="discrete-logarithm-cryptosystems.html#cb15-17" tabindex="-1"></a><span class="co">### ENCRYPTION</span></span>
+<span id="cb15-18"><a href="discrete-logarithm-cryptosystems.html#cb15-18" tabindex="-1"></a><span class="co"># Choose a small message (so that its DLog can be computed)</span></span>
+<span id="cb15-19"><a href="discrete-logarithm-cryptosystems.html#cb15-19" tabindex="-1"></a>m <span class="op">=</span> <span class="dv">27593</span></span>
+<span id="cb15-20"><a href="discrete-logarithm-cryptosystems.html#cb15-20" tabindex="-1"></a><span class="cf">if</span> (m<span class="op">&gt;=</span>q):</span>
+<span id="cb15-21"><a href="discrete-logarithm-cryptosystems.html#cb15-21" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">&quot;Message too large.&quot;</span>)</span>
+<span id="cb15-22"><a href="discrete-logarithm-cryptosystems.html#cb15-22" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb15-23"><a href="discrete-logarithm-cryptosystems.html#cb15-23" tabindex="-1"></a>    <span class="co"># Sample randomness</span></span>
+<span id="cb15-24"><a href="discrete-logarithm-cryptosystems.html#cb15-24" tabindex="-1"></a>    r <span class="op">=</span> randint(<span class="dv">0</span>,q)</span>
+<span id="cb15-25"><a href="discrete-logarithm-cryptosystems.html#cb15-25" tabindex="-1"></a>    <span class="co"># Compute the ciphertext</span></span>
+<span id="cb15-26"><a href="discrete-logarithm-cryptosystems.html#cb15-26" tabindex="-1"></a>    c <span class="op">=</span> (g<span class="op">^</span>r, g<span class="op">^</span>m<span class="op">*</span>h<span class="op">^</span>r)</span>
+<span id="cb15-27"><a href="discrete-logarithm-cryptosystems.html#cb15-27" tabindex="-1"></a>    <span class="bu">print</span>(c)</span>
+<span id="cb15-28"><a href="discrete-logarithm-cryptosystems.html#cb15-28" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="discrete-logarithm-cryptosystems.html#cb15-29" tabindex="-1"></a><span class="co">### DECRYPTION</span></span>
+<span id="cb15-30"><a href="discrete-logarithm-cryptosystems.html#cb15-30" tabindex="-1"></a>w <span class="op">=</span> c[<span class="dv">1</span>]<span class="op">/</span>(c[<span class="dv">0</span>]<span class="op">^</span>x)</span>
+<span id="cb15-31"><a href="discrete-logarithm-cryptosystems.html#cb15-31" tabindex="-1"></a><span class="co"># Solve the discrete logarithm of w with respect to g by brute force</span></span>
+<span id="cb15-32"><a href="discrete-logarithm-cryptosystems.html#cb15-32" tabindex="-1"></a><span class="cf">for</span> m <span class="kw">in</span> <span class="bu">range</span>(q):</span>
+<span id="cb15-33"><a href="discrete-logarithm-cryptosystems.html#cb15-33" tabindex="-1"></a>    <span class="cf">if</span> g<span class="op">^</span>m <span class="op">==</span> w:</span>
+<span id="cb15-34"><a href="discrete-logarithm-cryptosystems.html#cb15-34" tabindex="-1"></a>        <span class="bu">print</span>(m)</span>
+<span id="cb15-35"><a href="discrete-logarithm-cryptosystems.html#cb15-35" tabindex="-1"></a>        <span class="cf">break</span></span></code></pre></div>
+</div>
+<div id="formal-security-for-public-key-encryption" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Formal security for public key encryption<a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In section <a href="security-definitions.html#security-definitions">4</a> we studied the formal frameworks for analyzing security of encryption schemes. The most important models where</p>
+<ol style="list-style-type: decimal">
+<li>the IND-CPA experiment, where the adversary can ask of encryptions of arbitrary plaintexts and is then challenged to decide whether a ciphertext <span class="math inline">\(c\)</span> is an encryption of <span class="math inline">\(m_0\)</span> or <span class="math inline">\(m_1\)</span> (which the adversary chooses),</li>
+<li>the IND-CCA experiment which is the same with the addition that the adversary can also ask for <em>decryptions</em> of arbitrary ciphertexts, excluding the challenge ciphertext.</li>
+</ol>
+<p>Let us first reflect on the models in the public key setting. The crucial point here is that in this setting <em>anyone can produce ciphertexts of any message on its own</em>. Indeed, no secret is involved in the encryption process; one just need to use the public key! Therefore, IND-CPA is the minimum requirements. Indeed, an adversary can produce on its own encryptions of its choice, which is equivalent to asking for encryptions of messages to the challenger. To put it in other words: a public key encryption scheme that is insecure when given the ability to get encryptions of known messages is insecure in general!</p>
+<p>Next, we ask what security guarantees the presented public key encryptions schemes guarantee. We can already <em>partially</em> answer that with the attacks we saw in section <a href="security-definitions.html#security-definitions">4</a>.</p>
+<ul>
+<li>The plain version of RSA is deterministic and therefore <em>it is not IND-CPA (therefore not IND-CCA) secure</em>.</li>
+<li>The ElGamal encryption scheme is <em>malleable</em> and therefore <em>it is not IND-CCA</em> secure.</li>
+</ul>
+<p>Let’s focus on the second point. As we will see in detail in exercise <a href="discrete-logarithm-cryptosystems.html#exr:elgamalhom">9.9</a>, a pairwise multiplication of El Gamal ciphertexts <span class="math inline">\(c_1,c_2\)</span> encrypting messages <span class="math inline">\(m_1,m_2\)</span> respectively, yields an ElGamal encryption of the message <span class="math inline">\(m = m_1\cdot m_2\)</span> (<span class="math inline">\(m=m_1+m_2\)</span> for the lifted ElGamal case). This means that we can change a ciphertext in a way that the corresponding change in the underlying plaintext is predictable: simply produce an encryption of <span class="math inline">\(c_2=\textsf{Enc}_{pk}(m_2)\)</span> and multiply it with another ciphertext <span class="math inline">\(c_1\)</span> corresponding to some message <span class="math inline">\(m_1\)</span>! Therefore, ElGamal is <em>not</em> IND-CCA secure.</p>
+<p>While we will not prove the next claims, we present the security notions that are satisfied. Note that these are conditioned on <em>assumptions</em>!</p>
+<ol style="list-style-type: decimal">
+<li>If the DDH assumption holds, ElGamal is IND-CPA secure.</li>
+<li>If the RSA assumption holds and the hash function <span class="math inline">\(H\)</span> is ideal (meaning it behaves as a random function), then the RSA-OAEP instantiated with <span class="math inline">\(H\)</span> is CCA-secure.</li>
+</ol>
+</div>
+<div id="solved-exercises-8" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="discrete-logarithm-cryptosystems.html#solved-exercises-8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-157" class="exercise"><strong>Exercise 9.3  </strong></span><em>You want to establish a secret key with Alice using Diffie-Hellman key exchange. You both have as input the security parameter <span class="math inline">\(\lambda = 5\)</span>. For the group, you use a prime-order
+subgroup of <span class="math inline">\(\mathbb{Z}^*_p\)</span> where <span class="math inline">\(p\)</span> is a safe prime.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>Send the first message to Alice, that is send a description of a group <span class="math inline">\(\mathbb{G}\)</span> of prime order <span class="math inline">\(q\)</span> for some <span class="math inline">\(q\)</span> with length 5 bits.</em></li>
+<li><em>Alice uses the randomness <span class="math inline">\(10\)</span> for the key exchange. What message do you receive?</em></li>
+<li><em>Pick a random value and construct the message you should send to Alice. Compute the common key.</em></li>
+<li><em>How would Alice compute the common key with the information she has?</em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-158" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>Let’s first find a prime <span class="math inline">\(q\)</span> that that is 5-bit long, i.e. <span class="math inline">\(16\leq q &lt;32\)</span>. Since we work with safe primes, it must also hold that <span class="math inline">\(p=2q + 1\)</span> is also a prime. The set of primes in this range is <span class="math inline">\(\{17,  19, 23, 29\}\)</span>. We need to check which is a safe prime.</p>
+<ul>
+<li><span class="math inline">\(17\cdot 2 + 1 = 35\)</span> which is not a prime.</li>
+<li><span class="math inline">\(19\cdot 2 + 1 = 39\)</span> which is not a prime.</li>
+<li><span class="math inline">\(23\cdot 2 + 1 = 47\)</span> which is a prime.</li>
+</ul>
+<p>Bingo! Our safe prime is <span class="math inline">\(47\)</span> so will work over <span class="math inline">\(\mathbb{Z}_{47}^*\)</span>. <em>This is not our group though!</em> We need a subgroup of order <span class="math inline">\(23\)</span>. Let’s find an element of <span class="math inline">\(\mathbb{Z}_{47}^*\)</span> that generates a group of order <span class="math inline">\(23\)</span>.</p>
+<p>Recall by the Lagrange theorem that the order of a subgroup divides the order of the group. Here,
+<span class="math inline">\(|\mathbb{Z}_{47}| = 46 = 2\cdot 23\)</span>, so any element will have order of <span class="math inline">\(1, 2, 23\)</span>, or <span class="math inline">\(46\)</span>. Let’s try 2.
+<span class="math display">\[
+\begin{aligned}
+2^2 \equiv 4 \not\equiv 1 \pmod {47}, \qquad
+2^{23} \equiv \ldots\equiv 1 \pmod {47}
+\end{aligned}
+\]</span>
+Bingo! We can send to Alice
+<span class="math display">\[
+   \mathbb{G} = \text{subgroup } \langle 2 \rangle \text{ of } \mathbb{Z}_{47}^2 \text{}, \qquad
+g = 2
+\]</span></p></li>
+<li><p>Since she chose the random value <span class="math inline">\(10\)</span>, Alice computes
+<span class="math display">\[A \equiv 2^{10}\equiv 1024 \equiv 37\pmod{47}\]</span>
+Therefore, she sends <span class="math inline">\(37\)</span>.</p></li>
+<li><p>Let’s randomly choose <span class="math inline">\(5\)</span> for our randomness. We compute <span class="math inline">\(B \equiv 2^5\equiv 32\pmod{47}\)</span>. We therefore send <span class="math inline">\(B=32\)</span> to Alice. We finally compute the shared key as
+<span class="math inline">\(K \equiv A^5 \equiv 37^5\equiv 16\pmod{47}\)</span> (recall we don’t know the randomness Alice used). The common key is <span class="math inline">\(K\equiv 16\pmod{47}\)</span>.</p></li>
+<li><p>Alice does not know the randomness we used. She uses her own randomness to compute the common key. That is, she computes <span class="math inline">\(K\equiv B^{10}\equiv 32^{10} \equiv 16\pmod{47}\)</span>.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-159" class="exercise"><strong>Exercise 9.4  </strong></span><em>Alice and Bob want to communicate secretly in the classroom. They don’t have electronic devices but they are fast in calculations, so they plan to use Diffie Hellman key
+exchange and do the needed computations on paper. They are far from each other, however. They ask Eve to be the middleman and pass papers from one to the other. How can Eve
+learn their discussion?</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-160" class="solution"><em>Solution</em>. </span>Eve can perform a man-in-the-middle attack. When she receives a message from Alice, she does not transmit it but rather she writes her own message to Bob and pretends this
+comes from Alice. She does the same on the Bob’s side.</p>
+<p>More concretely, when Alice -who initializes the protocol- sends <span class="math inline">\(\mathbb{G}, g\)</span>, she passes the message to Bob normally. When Bob sends his value <span class="math inline">\(B\)</span> <span class="math inline">\((=g^b)\)</span> as part of the protocol, she does
+not transmit it. She keeps it for herself and creates a new message <span class="math inline">\(B&#39;=g^{b&#39;}\)</span>, that she sends to Alice.
+When Alice replies with <span class="math inline">\(A\)</span> <span class="math inline">\((=g^a)\)</span> she does the same: she keeps it and transmits a message <span class="math inline">\(A&#39;=g^{a&#39;}\)</span> to Bob.</p>
+<p>Now Eve creates a Diffie-Hellman key to communicate with Alice, namely <span class="math inline">\(K_{AE} = A^{b&#39;}\)</span> and another key to communicate with Bob, namely <span class="math inline">\(K_{EB} = B^{a&#39;}\)</span>.
+Alice also computes the share key
+<span class="math inline">\(K_{AE}\)</span> thinking it is a shared key with Bob, and Bob the key <span class="math inline">\(K_{EB}\)</span> thinking it is the shared key with Alice!</p>
+<p>Now, when Alice passes a message <span class="math inline">\(m\)</span> encrypted with the common key <span class="math inline">\(K_{AE}\)</span>, Eve uses the key <span class="math inline">\(K_{AE}\)</span> to decrypt it and then it reencrypts it with <span class="math inline">\(K_{EB}\)</span> to give to Bob. It does the
+same for messages from Bob’s side.</p>
+<p>Below is a schematic of the man-in-the-middle attack.</p>
+<div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-39"></span>
+<img src="_main_files/figure-html/unnamed-chunk-39-1.png" alt="Man-in-the-Middle Attack on Diffie-Hellman" width="672" />
+<p class="caption">
+Figure 9.1: Man-in-the-Middle Attack on Diffie-Hellman
+</p>
+</div>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-161" class="exercise"><strong>Exercise 9.5  </strong></span>(<strong>*</strong>)</p>
+<p><em>Let <span class="math inline">\(p\)</span> be a safe prime and let <span class="math inline">\(\mathbb{G}\)</span> be a subgroup of <span class="math inline">\(\mathbb{Z}_p\)</span> of prime order <span class="math inline">\(q\)</span> with generator <span class="math inline">\(g\)</span>.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>Let <span class="math inline">\(h\in\mathbb{G}\)</span>. Show that if you know <span class="math inline">\(\alpha, \beta\neq 0\)</span> such that <span class="math inline">\(g^\alpha h^\beta = 1\)</span>, you can find <span class="math inline">\(\log_g h\)</span>.</em></li>
+<li><em>Let <span class="math inline">\(h\)</span> be a fixed, random element of <span class="math inline">\(\mathbb{G}\)</span>. Define the hash function <span class="math inline">\(H: \mathbb{Z}_q\times\mathbb{Z}_q \rightarrow \mathbb{Z}_p^{*}\)</span> that maps</em>
+<span class="math display">\[
+(\alpha,\beta) \mapsto g^\alpha h^\beta
+\]</span>
+<em>Show that <span class="math inline">\(H\)</span> is a collision-resistant hash function, assuming that the discrete logarithm problem is hard.</em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-162" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>The idea is to manipulate the equation <span class="math inline">\(g^\alpha h^\beta = 1\)</span> in a way such that we end up with an equation of the form <span class="math inline">\(h=g^x\)</span>. The crucial thing to observe, is that when
+working with the exponents, we can work <span class="math inline">\(\mod q\)</span>. This is the case since by Euler’s theorem <span class="math inline">\(h^q=1\)</span> for any <span class="math inline">\(h\)</span>. This means that the exponents “circle around” with frequency <span class="math inline">\(q\)</span>. Let’s start with the equation <span class="math inline">\(g^\alpha h^\beta = 1\)</span>. First we want to move <span class="math inline">\(h\)</span> on the other side.</p>
+<ul>
+<li>Compute the (additive) inverse of <span class="math inline">\(\beta\)</span> <span class="math inline">\(\mod q\)</span>. This value is equal to <span class="math inline">\(q-\beta\equiv -\beta\mod q\)</span>. Multiply both sides by <span class="math inline">\(h^{-\beta}\)</span>. We get
+<span class="math display">\[
+g^\alpha h^\beta h^{-\beta} = 1 \Leftrightarrow g^\alpha h^0 = h^{-\beta}\Leftrightarrow g^\alpha = h^{-\beta}
+\]</span></li>
+<li>We need to get rid of value <span class="math inline">\(-\beta\)</span> on the right hand side. To do this, we need to to find an element <span class="math inline">\(c\)</span> such that <span class="math inline">\(c\cdot(-\beta)\equiv 1\mod q\)</span>. Such a number is the
+multiplicative inverse <span class="math inline">\(\mod q\)</span> of <span class="math inline">\(-\beta\)</span>. Note that since <span class="math inline">\(\beta\neq 0\)</span> this number exists. We can compute this number via the extended Euclidian algorithm. Raising both sides of the equation to <span class="math inline">\(c\)</span> we get:
+<span class="math display">\[
+g^{\alpha\cdot c} = h^{-\beta\cdot c} \Leftrightarrow g^{\alpha\cdot c} = h^{1} \Leftrightarrow g^{\alpha\cdot c} = h
+\]</span></li>
+</ul>
+<p>Therefore, the value <span class="math inline">\(\log_g h = \alpha \cdot c\)</span>, where <span class="math inline">\(c = -\beta^{-1}\mod q\)</span>.</p></li>
+<li><p>First, let’s see that <span class="math inline">\(H\)</span> is a hash function. The input is two elements of <span class="math inline">\(\mathbb{Z}_q\)</span>. Since <span class="math inline">\(q\)</span> is an <span class="math inline">\(\lambda\)</span> prime, the input size is <span class="math inline">\(2\cdot \lambda\)</span> bits. The
+output is an element of <span class="math inline">\(\mathbb{Z}_p^*\)</span> with <span class="math inline">\(p=2q+1\)</span>, so it needs <span class="math inline">\(\lambda+1\)</span> bits to be represented which is smaller than <span class="math inline">\(2\cdot \lambda\)</span>. Therefore <span class="math inline">\(H\)</span> is indeed a hash function.</p>
+<p>We will next show it is also collision-resistant. The idea is the following. Assume we find two pairs <span class="math inline">\((\alpha_1, \beta_1)\neq (\alpha_2, \beta_2)\)</span> with the same hash, that is
+<span class="math display">\[
+g^{\alpha_1}h^{\beta_1} = c = g^{\alpha_2}h^{\beta_2}
+\]</span>
+Multiplying both sides with <span class="math inline">\(g^{-\alpha_2}h^{-\beta_2}\)</span> (we compute these values <span class="math inline">\(\mod q\)</span>!)
+<span class="math display">\[
+\begin{aligned}
+g^{\alpha_1}h^{\beta_1}g^{-\alpha_2}h^{-\beta_2} = c = g^{\alpha_2}h^{\beta_2}g^{-\alpha_2}h^{-\beta_2}
+&amp;\Leftrightarrow \\
+g^{\alpha_1-\alpha_2}h^{\beta_1-\beta_2} = g^{\alpha_1-\alpha_1}h^{\beta_1-\beta_1}
+&amp;\Leftrightarrow \\
+g^{\alpha_1-\alpha_2}h^{\beta_1-\beta_2} = g^{0}h^{0}
+&amp;\Leftrightarrow \\
+g^{\alpha_1-\alpha_2}h^{\beta_1-\beta_2} = 1
+\end{aligned}
+\]</span>
+Note that either both <span class="math inline">\(\alpha_1=\alpha_2\)</span> and <span class="math inline">\(\beta_1=\beta_2\)</span> or both are different. Since we assume we found a collision, it must be the second case. By the previous
+question, setting <span class="math inline">\(\alpha = \alpha_1 -\alpha_2\)</span> and <span class="math inline">\(\beta = \beta_1 -\beta_2\neq 0\)</span> we have <span class="math inline">\(g^{\alpha}h^{\beta}=1\)</span> and therefore we can compute <span class="math inline">\(\log_{g}h\)</span>. Therefore, the function <span class="math inline">\(H\)</span> is collision-resistant or the discrete
+logarithm problem in <span class="math inline">\(\mathbb{G}\)</span> is not hard.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-163" class="exercise"><strong>Exercise 9.6  </strong></span><em>Let <span class="math inline">\(\mathbb{G}\)</span> be the subgroup of order <span class="math inline">\(q=11\)</span> of <span class="math inline">\(\mathbb{Z}_{23}^*\)</span> and <span class="math inline">\(g = 2\)</span> be a generator of <span class="math inline">\(\mathbb{G}\)</span>.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>Sample a key pair for the ElGamal encryption scheme using <span class="math inline">\(\mathbb{G}\)</span>, <span class="math inline">\(g\)</span> as part of the public key. </em></li>
+<li><em>Encrypt the message <span class="math inline">\(m = 5\in\mathbb{Z}_q\)</span> and decrypt the result using lifted ElGamal.</em></li>
+<li><em>Encrypt the message <span class="math inline">\(m = 8\in\mathbb{G}\)</span> and decrypt the result using ElGamal.</em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-164" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>We have already fixed the group and the generator so it remains to sample <span class="math inline">\(h\)</span>.
+We first sample a random exponent in <span class="math inline">\(\mathbb{Z}_q\)</span>. Let <span class="math inline">\(x=9\)</span> be the exponent. We next compute
+<span class="math inline">\(h=g^x\equiv 2^{9}\equiv 6\pmod{23}\)</span>.
+Note how the secret key is an element in <span class="math inline">\(\mathbb{Z}_q\)</span> and the public key an element of <span class="math inline">\(\mathbb{G}\)</span>.</p></li>
+<li><p>First we sample randomness for encryption. Let the dice roll <span class="math inline">\(r=3\)</span> (<span class="math inline">\(\in\mathbb{Z}_q\)</span>!). Recall that the encryption in lifted is ElGamal is done by<br />
+<span class="math display">\[
+\mathsf{Enc}_{\mathsf{pk}}(m;\ r) = \left(g^r, g^mh^r\right)
+\]</span>
+Substituting the values we have
+<span class="math display">\[
+\mathsf{Enc}_{{(\mathbb{G},2,6)}}(5;\ 3) = \left(2^3, 2^56^3\right)
+= \left(8, 43\cdot 216\right)
+= \left(8, 9\cdot 9\right)
+= \left(8, 12\right) \in(\mathbb{G}, \mathbb{G})
+\]</span>
+To decrypt we first compute the element <span class="math inline">\(g^m\)</span> using the secret key <span class="math inline">\(x\)</span>. Let <span class="math inline">\((c_1, c_2)\)</span> be
+the ciphertext <span class="math inline">\((8,12)\)</span>. We have
+<span class="math display">\[
+g^m =  \frac{c_2}{c_1^x} = \frac{12}{8^9}
+\]</span>
+First we compute <span class="math inline">\(c_1^x = 8^9 \equiv 9 \pmod{23}\)</span>. We now need to compute its multiplicative inverse <span class="math inline">\(\pmod{23}\)</span>. Recall this is done using the Extended Euclidian Algorithm. We have
+<span class="math inline">\(9^{-1}\equiv 18 \pmod{23}\)</span> and finally <span class="math inline">\(g^m = 12\cdot 18 \equiv 9 \pmod{23}\)</span>. Finally, recall that since the discrete logarithm problem is computationally hard in such groups, we need to perform a bruteforce to retrieve the actual message. We have
+<span class="math display">\[
+\begin{aligned}
+2^1 &amp;\equiv 2 \not\equiv 9\pmod{23} \\
+2^2 &amp;\equiv 4 \not\equiv 9\pmod{23} \\
+2^3 &amp;\equiv 8 \not\equiv 9\pmod{23} \\
+2^4 &amp;\equiv 16 \not\equiv 9\pmod{23} \\
+2^5 &amp;\equiv 32 \equiv 9\pmod{23}
+\end{aligned}
+\]</span>
+So <span class="math inline">\(m = 5\)</span> (in <span class="math inline">\(\mathbb{Z}_q^*\)</span>).</p></li>
+<li><p>As in the previous question, we first we sample randomness for encryption. Let the dice roll <span class="math inline">\(r=2\)</span> (<span class="math inline">\(\in\mathbb{Z}_q\)</span>!) this time. In the simple ElGamal the encryption is done by computing
+<span class="math display">\[
+\mathsf{Enc}_{\mathsf{pk}}(m;\ r) = \left(g^r, m\cdot h^r\right)
+\]</span>
+Substituting the values we have
+<span class="math display">\[
+\mathsf{Enc}_{{(\mathbb{G},2,6)}}(8;\ 2) = \left(2^2, 8\cdot 6^2\right)
+= \left(4, 8\cdot 36\right)
+= \left(4, 12\right)
+\]</span></p>
+<p>In this version of ElGamal we can directly decrypt since we don’t have to compute a discrete logarithm. Let <span class="math inline">\((c_1, c_2)\)</span> be
+the ciphertext <span class="math inline">\((4,12)\)</span>. We have
+<span class="math display">\[
+m =  \frac{c_2}{c_1^x} = \frac{12}{4^9}
+\]</span>
+First we compute <span class="math inline">\(c_1^x = 4^9 \equiv 13 \pmod{23}\)</span>. Using again the Extended Euclidian Algorithm we compute its multiplicative inverse <span class="math inline">\(\pmod{23}\)</span>. We have
+<span class="math inline">\(13^{-1}\equiv 16 \pmod{23}\)</span> and finally <span class="math inline">\(m = 12\cdot 16 \equiv 8\pmod{23}\)</span>. So <span class="math inline">\(m = 8\)</span> (in <span class="math inline">\(\mathbb{Z}_q^*\)</span>).</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-165" class="exercise"><strong>Exercise 9.7  </strong></span><em>Let <span class="math inline">\(\mathbb{G}\)</span> be the subgroup of prime order <span class="math inline">\(q\)</span> of <span class="math inline">\(\mathbb{Z}_{p}^*\)</span> for some prime <span class="math inline">\(p\)</span>.</em></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Show that decryption of an ElGamal is possible without the secret key if one knows the randomness used to encrypt the message.</em></p></li>
+<li><p><em>A bug in an ElGamal implementation causes the randomness to be sampled from a smaller space that <span class="math inline">\(\mathbb{Z}_q\)</span>. You observe the traffic and notice two ciphertexts
+<span class="math inline">\((c_1, c_2), (c_1&#39;, c_2&#39;)\)</span> with <span class="math inline">\(c_1 = c_1&#39;\)</span>. What can you learn about the corresponding
+plaintexts?</em></p></li>
+<li><p><em>In the previous case, can you also learn something about the secret key <span class="math inline">\(x\)</span>?</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-166" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\((c_1, c_2) = (g^r, mh^r)\)</span> be a ciphertext. Knowing <span class="math inline">\(r\)</span>, we can compute
+<span class="math display">\[
+c_2 h^{-r} = mh^{r}h^{-r} =   mh^{0} = m^1 = m
+\]</span>
+Similarly, we can compute this way <span class="math inline">\(g^m\)</span> in lifted ElGamal and bruteforce to find <span class="math inline">\(m\)</span>.</p></li>
+<li><p>Since <span class="math inline">\(c_1 = c_2\)</span>, we know they must correspond to <span class="math inline">\(g^r\)</span> for the same <span class="math inline">\(r\)</span>. Therefore, the second part of the ciphertext would be of the form
+<span class="math display">\[
+c_2 = mh^r, \qquad
+c_2&#39; = m&#39;h^r
+\]</span>
+and note that <span class="math inline">\(r\)</span> is the same in the above. We will eliminate <span class="math inline">\(r\)</span> from the pair of the
+equations. To do show, we compute <span class="math inline">\(c_2\cdot {c_2&#39;}^{-1}\)</span>. This equals to
+<span class="math display">\[
+c_2\cdot {c_2&#39;}^{-1} = mh^r\cdot {(m&#39;h^r)}^{-1}
+= mh^r\cdot {m&#39;}^{-1}{h^r}^{-1}
+= m {m&#39;}^{-1}
+\]</span>
+so we can retrieve the value <span class="math inline">\(m/m&#39;\)</span>. In the case of lifted ElGamal the same operation would give us
+<span class="math display">\[
+g^m\cdot (g^{m&#39;})^{-1} =
+g^m\cdot g^{-m&#39;}= g^{m-m&#39;}
+\]</span>
+By bruteforcing, we can learn <span class="math inline">\(m-m&#39;\)</span>.</p></li>
+</ol>
+</div>
+<ol start="3" style="list-style-type: decimal">
+<li>No. To see this, note that every time you encrypt a message with a public key, you already know the randomness. If this value helped learn something about the secret key, ElGamal would be completely insecure.</li>
+</ol>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-167" class="exercise"><strong>Exercise 9.8  </strong></span><em>There is a very close connection between ElGamal and Diffie-Hellman key exchange. Describe the former in terms of the latter.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-168" class="solution"><em>Solution</em>. </span>In exercise <a href="algebraic-structures.html#exr:group-otp">7.9</a> we show that given some group
+<span class="math inline">\((\mathbb{G}, \cdot)\)</span>, the ciphertext <span class="math inline">\(c = K\cdot m\)</span>,
+where <span class="math inline">\(m, k \in \mathbb{G}\)</span> and <span class="math inline">\(k\)</span> is uniformly distributed has perfect secrecy.</p>
+<p>We can view ElGamal as an instance of a Diffie Hellman key exchange where both parties
+agree to a <span class="math inline">\(k\)</span> and use it to encrypt a single message <span class="math inline">\(k\cdot m\)</span> (or <span class="math inline">\(k\cdot m^g\)</span> in the case of lifted ElGamal).</p>
+<p>More concretely fix a group <span class="math inline">\(\langle g\rangle = \mathbb{G}\)</span> of order <span class="math inline">\(q\)</span> where DDH is hard.</p>
+<ul>
+<li>Alice, who wants to receive messages runs the second step of DH key exchange, that is<br />
+she selects a random <span class="math inline">\(x\in \mathbb{Z_q}\)</span> and computes <span class="math inline">\(A = g^x\)</span>. She does not use it to communicate with a single person. Instead, she publicly announces it along with the message “Complete the DH key exchange to communicate with me.”. Her ElGamal key pair is <span class="math inline">\((x,A)\)</span></li>
+<li>Bob runs the third part of the protocol, i.e. he selects a random <span class="math inline">\(r\)</span> and computes the element
+<span class="math inline">\(B=g^r\)</span>. It also establishes the common key <span class="math inline">\(k=A^r\)</span> <span class="math inline">\((=g^{xr})\)</span> and uses it to encrypt in OTP style the message <span class="math inline">\(m\)</span>, that is it computes <span class="math inline">\(c_2 = k\cdot m\)</span>. It sends the DH protocol message <span class="math inline">\(B\)</span> and the encrypted message <span class="math inline">\(c_2\)</span>.</li>
+<li>Alice computes the common key <span class="math inline">\(k = B^x\)</span> <span class="math inline">\((=g^{rx})\)</span> and decrypts the message by computing <span class="math inline">\(m=c_2\cdot k^{-1}\)</span>.</li>
+</ul>
+<p>We make a couple of notes:</p>
+<ul>
+<li>Note that this explains in a different way why using the same randomness is not good. Doing so means the emerging shared key <span class="math inline">\(k\)</span> is the same and as we saw
+in exercise <a href="algebraic-structures.html#exr:group-otp">7.9</a> this should never happen.</li>
+<li>ElGamal using this general one-time-pad in <span class="math inline">\(\mathbb{G}\)</span> which is perfectly secret but ElGamal does not have this property. Why is that? The reason is that the communicating parties, in order to avoid to meet and exchange a secret key before communicate, share publicly their Diffie-Hellman key exchange values <span class="math inline">\(g^x\)</span> and <span class="math inline">\(g^r\)</span>. These fully define the common key <span class="math inline">\(k\)</span> (there exists a unique key for each pair). We therefore must rely on a <strong>computational</strong> assumption, namely, that there is no efficient way to learn something about <span class="math inline">\(k\)</span> given these values.</li>
+</ul>
+</div>
+<div class="exercise">
+<p><span id="exr:elgamalhom" class="exercise"><strong>Exercise 9.9  </strong></span></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Show that ElGamal is homomorphic with respect to multiplication, that is</em>
+<span class="math display">\[
+\mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\cdot
+\mathsf{Enc}_{\mathsf{pk}}(m_2; r_2) =
+\mathsf{Enc}_{\mathsf{pk}}(m_1\cdot m_2; r_1+r_2)
+\]</span></p></li>
+<li><p><em>Show that lifted ElGamal is homomorphic with respect to addition, that is </em>
+<span class="math display">\[
+\mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\cdot
+\mathsf{Enc}_{\mathsf{pk}}(m_2; r_2) =
+\mathsf{Enc}_{\mathsf{pk}}(m_1+ m_2; r_1+r_2)
+\]</span></p></li>
+<li><p><em>For both versions of ElGamal so that it is possible to reencrypt a message, that is, given only a ciphertext <span class="math inline">\((c_1, c_2)\)</span>, we can produce a different ciphertext the decrypts to the
+same message.</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-169" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>This can be done by straightforward calculations. We have
+<span class="math display">\[
+\begin{aligned}
+\mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\cdot \mathsf{Enc}_{\mathsf{pk}}(m_2; r_2) &amp;=
+(g^{r_1}, m_1\cdot h^{r_1}) \cdot (g^{r_2}, m_2\cdot h^{r_2}) \\
+&amp; = (g^{r_1}\cdot g^{r_2}, (m_1\cdot h^{r_1})\cdot (m_2\cdot h^{r_2}))  \\
+&amp; = (g^{r_1+r_2}, (m_1\cdot m_2)\cdot h^{r_1+r_2}) \\
+&amp; = \mathsf{Enc}_{\mathsf{pk}}(m_1\cdot m_2; r_1+r_2)
+\end{aligned}
+\]</span></p></li>
+<li><p>Similarly as in the previous case we have<br />
+<span class="math display">\[
+\begin{aligned}
+\mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\cdot \mathsf{Enc}_{\mathsf{pk}}(m_2; r_2) &amp;=
+(g^{r_1}, g^{m_1}\cdot h^{r_1}) \cdot (g^{r_2}, g^{m_2}\cdot h^{r_2}) \\
+&amp; = (g^{r_1}\cdot g^{r_2}, (g^{m_1}\cdot h^{r_1})\cdot (g^{m_2}\cdot h^{r_2}))  \\
+&amp; = (g^{r_1+r_2}, g^{m_1+ m_2}\cdot h^{r_1+r_2}) \\
+&amp; = \mathsf{Enc}_{\mathsf{pk}}(m_1+ m_2; r_1+r_2)
+\end{aligned}
+\]</span></p></li>
+<li><p>We make use of the homomorphic property each construction has. Let <span class="math inline">\((c_1, c_2) = \mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\)</span></p>
+<ul>
+<li>In the plain ElGamal we multiply the ciphertext with a fresh encryption of <span class="math inline">\(1\)</span>, that is we compute
+<span class="math display">\[
+  (c_1, c_2) \cdot \mathsf{Enc}_{\mathsf{pk}}(1; r_2) = \mathsf{Enc}_{\mathsf{pk}}(1; r_2)\cdot \mathsf{Enc}_{\mathsf{pk}}(1; r_2) =
+                                                                                          \cdot \mathsf{Enc}_{\mathsf{pk}}(m_1; r_1+r_2)
+  \]</span></li>
+<li>In the lifted ElGamal we multiply the ciphertext with a fresh encryption of <span class="math inline">\(0\)</span>, that is we compute
+<span class="math display">\[
+  (c_1, c_2) \cdot \mathsf{Enc}_{\mathsf{pk}}(0; r_2) = \mathsf{Enc}_{\mathsf{pk}}(0; r_2)\cdot \mathsf{Enc}_{\mathsf{pk}}(0; r_2) =
+                                                                                          \cdot \mathsf{Enc}_{\mathsf{pk}}(m_1; r_1+r_2)
+  \]</span></li>
+</ul></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-170" class="exercise"><strong>Exercise 9.10  </strong></span><em>Alice is a tallying member in an election for a referendum in a university. To vote for yes, a voter
+sends an encryption of <span class="math inline">\(g^{1}\)</span> using Lifted ElGamal to Alice and to vote no, it sends an encryption of <span class="math inline">\(g^{2}\)</span>.
+Alice then decrypts the message by first computing <span class="math inline">\(M=g^{b}\)</span> and then checking if <span class="math inline">\(M=g^1\)</span> or <span class="math inline">\(M=g^2\)</span>. She does not try to find the actual value if <span class="math inline">\(M\)</span> is neither since it is not
+a valid ballot. She then replies to the voter “Thank you for participation” and tallies her vote. In case the vote is invalid, she sends a message clarifying the voting procedure,
+specifically she sends “Please send an encryption of <span class="math inline">\(1\)</span> for yes and an encryption of <span class="math inline">\(2\)</span> for no”.</em></p>
+<p><em>Eve does not care about the outcome of the referendum, but she is curious what Bob has chosen. She monitors the network and notices that Bob sends an encrypted message <span class="math inline">\((c_1, c_2)\)</span> to
+Alice. Can she learn the choice of Bob? Assume that Bob votes correctly, that is it sends either an encryption of 0 or an encryption of 1.</em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-171" class="solution"><em>Solution</em>. </span>Eve can use the homomorphic property of ElGamal and the fact that Alice reveals some info about every ciphertext, specifically whether it is an encryption of <span class="math inline">\(1\)</span> or <span class="math inline">\(2\)</span> or not.</p>
+<p>She does the following: first, she computes a fresh encryption of <span class="math inline">\(1\)</span>, that is she computes <span class="math inline">\((c_1&#39;, c_2&#39;) = (g^{r&#39;}, g^1h^{r&#39;})\)</span>. She then computes a fresh ciphertext
+<span class="math display">\[
+(c^*_1, c^*_2) = (c_1, c_2)  \cdot (c_1&#39;, c_2&#39;)
+\]</span>
+and sends it to Alice. She then waits for Alice’s response. If the response is “Thank you for participation” she concludes that Bob voted yes and if it is “Please send an encryption of <span class="math inline">\(1\)</span> for yes and an encryption of <span class="math inline">\(2\)</span> for no” she concludes he voted no.</p>
+<p>Indeed, let Bob’s ciphertext correspond to <span class="math inline">\(\mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\)</span>. By the homomorphic property of ElGamal, the message Eve sends corresponds to</p>
+<p><span class="math display">\[
+(c^*_1, c^*_2) = (c_1, c_2)  \cdot (c_1&#39;, c_2&#39;) = \mathsf{Enc}_{\mathsf{pk}}(m_1; r_1)\cdot\mathsf{Enc}_{\mathsf{pk}}(1; r_2) = \mathsf{Enc}_{\mathsf{pk}}(m_1+1; r_1+r_2)
+\]</span></p>
+<p>We have two cases:</p>
+<ul>
+<li>If Alice accepts the vote, it must be the case that <span class="math inline">\(m_1+1\in\{1,2\}\)</span>. Since <span class="math inline">\(m_1\)</span> is either <span class="math inline">\(1\)</span> or <span class="math inline">\(2\)</span>, this means that <span class="math inline">\(m_1=1\)</span> which corresponds to yes.</li>
+<li>If Alice rejects the vote, it must be the case that <span class="math inline">\(m_1+1\not\in\{1,2\}\)</span>. Since <span class="math inline">\(m_1\)</span> is either <span class="math inline">\(1\)</span> or <span class="math inline">\(2\)</span>, this means that <span class="math inline">\(m_1=2\)</span> which corresponds to no.</li>
+</ul>
+<p>We also make a note here. Eve could just send the ciphertext <span class="math inline">\((c_1, c_2\cdot g^{1})\)</span> instead of encrypting <span class="math inline">\(1\)</span> and do the same procedure. However, this could alert Alice since she
+would have received two ciphertexts with the same randomness (which can happen with only negligible probability). Encrypting the ciphertext <span class="math inline">\(1\)</span> adds extra randomness <span class="math inline">\(r_2\)</span> which makes
+impossible for Alice to make any correlation with Bob’s ciphertext.</p>
+</div>
+
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol start="43">
+<li id="fn43"><p>Pohlig, S., &amp; Hellman, M. (1978). An improved algorithm for
+computing logarithms over GF(p) and its cryptographic significance
+(corresp.). <em>IEEE Transactions on information Theory</em>, 24(1),
+106-110.<a href="discrete-logarithm-cryptosystems.html#fnref43" class="footnote-back">↩︎</a></p></li>
+<li id="fn44"><p>Boudot, F., Gaudry, P., Guillevic, A., Heninger, N., Thomé, E., &amp;
+Zimmermann, P. (2020, August). Comparing the difficulty of
+factorization and discrete logarithm: a 240-digit experiment. In
+<em>Annual International Cryptology Conference</em> (pp. 62-91). Springer,
+Cham.<a href="discrete-logarithm-cryptosystems.html#fnref44" class="footnote-back">↩︎</a></p></li>
+<li id="fn45"><p><a href="https://github.com/JeanLucPons/Kangaroo" class="uri">https://github.com/JeanLucPons/Kangaroo</a>.<a href="discrete-logarithm-cryptosystems.html#fnref45" class="footnote-back">↩︎</a></p></li>
+<li id="fn46"><p>Diffie, W., &amp; Hellman, M. (1976). New directions in cryptography.
+<em>IEEE transactions on Information Theory</em>, 22(6), 644-654.<a href="discrete-logarithm-cryptosystems.html#fnref46" class="footnote-back">↩︎</a></p></li>
+<li id="fn47"><p>Formally, some description of the group is published as part of
+the key. For example, if it has been agreed that the group is some
+<span class="math inline">\((\mathbb{Z}_p^*,\cdot)\)</span>, then it is enough to publish <span class="math inline">\(p\)</span>.<a href="discrete-logarithm-cryptosystems.html#fnref47" class="footnote-back">↩︎</a></p></li>
+<li id="fn48"><p>ElGamal, T. (1985). A public key cryptosystem and a signature
+scheme based on discrete logarithms. <em>IEEE transactions on
+information theory</em>, 31(4), 469-472.<a href="discrete-logarithm-cryptosystems.html#fnref48" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="public-key-encryption.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="digital-signatures.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

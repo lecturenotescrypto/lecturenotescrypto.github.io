@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Hash functions | Cryptography lecture notes</title>
+  <meta name="description" content="5 Hash functions | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Hash functions | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Hash functions | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="security-definitions.html"/>
+<link rel="next" href="elementary-number-theory.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="hash-functions" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">5</span> Hash functions<a href="hash-functions.html#hash-functions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>In this section, we take a detour from encryption to look at other
+cryptographic primitives. You might have encountered hash functions
+before, in a different field. However, we will see that hash functions
+in cryptography require some special properties. We will:</p>
+<ol style="list-style-type: decimal">
+<li><p>Briefly discuss some issues in cryptocurrencies, and how they can be
+solved with hash functions.</p></li>
+<li><p>Define hash functions and their main properties.</p></li>
+<li><p>Learn about the birthday paradox attack on hash functions.</p></li>
+<li><p>Learn how to extend the domain of a hash function through the
+Merkle-Damgärd transformation.</p></li>
+</ol>
+<div id="some-issues-in-cryptocurrencies" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Some issues in cryptocurrencies<a href="hash-functions.html#some-issues-in-cryptocurrencies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Traditional currency is centralized, which means that there is an
+authority that dictates money policy, establishes ownership, and manages
+the whole system. On the other hand, in recent decades there has been a
+substantial effort in using cryptographic tools to build what we know as
+<em>cryptocurrencies</em>, which aim to be completely decentralized.</p>
+<p>In this section, we discuss some issues that arise in decentralized
+systems. This is a very high level overview, based on the Bitcoin<a href="#fn20" class="footnote-ref" id="fnref20"><sup>20</sup></a>
+approach, and omits many technicalities for the sake of the exposition.
+Nevertheless, it will be enough to motivate the use of hash functions.</p>
+<p>A <em>coin</em>, the monetary unit of a cryptocurrency, is nothing more than a
+unique bitstring <span class="math inline">\(ID\)</span> that identifies is, and is accordingly called its
+<em>identifier</em>. An immediate problem arises regarding transferring
+ownership of a coin.</p>
+<div class="problem">
+<p><strong>Problem 1</strong> (Double-spending). <em>Suppose that <span class="math inline">\(A\)</span> buys something from
+<span class="math inline">\(B\)</span> on the internet and pays with a coin <span class="math inline">\(ID\)</span>. What prevents <span class="math inline">\(A\)</span> from
+using the same coin <span class="math inline">\(ID\)</span> to buy something else from a different party
+<span class="math inline">\(C\)</span>?</em></p>
+</div>
+<p>On very general terms, the solution is to publish every transaction that
+happens, so that the journey of each coin can be traced and thus its
+ownership can be established. In the problem above this means that, when
+<span class="math inline">\(A\)</span> buys from <span class="math inline">\(B\)</span>, the message “<span class="math inline">\(A\)</span> transfers the coin <span class="math inline">\(ID\)</span> to <span class="math inline">\(B\)</span>” is
+added to the <em>public ledger</em>. Then, after the ledger awards <span class="math inline">\(B\)</span>
+ownership of the coin, they can send whatever <span class="math inline">\(A\)</span> bought. Moreover, if
+<span class="math inline">\(A\)</span> tries to spend the same coin again, <span class="math inline">\(C\)</span> will notice in the ledger
+that the coin no longer belongs to <span class="math inline">\(A\)</span>, and the transaction will be
+denied. So, ignoring the logistics of checking and storing and
+increasingly large ledger, we would have solved the issue. But we still
+have to deal with the following problem.</p>
+<div class="problem">
+<p><strong>Problem 2</strong>. <em>Who keeps track of this public ledger? Who adds the new
+transactions? If there is no central authority, how do users agree on
+which transactions happened?</em></p>
+</div>
+<p>More concretely, imagine that there is a ledger of transactions
+<span class="math display">\[t_1,t_2,\dots,t_n,\]</span> and two different options <span class="math inline">\(t_{n+1},t_{n+1}&#39;\)</span> are
+claimed to be the next transaction by different parties:</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>This situation is called a <em>fork</em>. The system is
+designed in such a way that users are encouraged to keep a <em>consensus</em>
+on a ledger of valid transactions. The general idea is that you have
+more of a say if you have more computational power, or more precisely if
+you have spent more CPU cycles in adding transactions to the ledger. So
+we need a way to “prove” that you have spent these cycles.</p>
+<p>Let <span class="math display">\[H:\{0,1\}^k\rightarrow\{0,1\}^\ell,\]</span> for some
+<span class="math inline">\(k,\ell\in\mathbb{N}\)</span>, where in general <span class="math inline">\(k\)</span> is much larger than <span class="math inline">\(\ell\)</span>,
+be an efficiently computable function. Suppose that we are interested in
+the problem of finding <span class="math inline">\(\mathbf x\)</span> such that <span class="math inline">\(H(\mathbf x)=\mathbf 0\)</span>,
+where <span class="math inline">\(\mathbf 0\)</span> is the string of zeros of length <span class="math inline">\(\ell\)</span>. If we know
+nothing about <span class="math inline">\(H\)</span>, the best we can do is try random inputs until we find
+a good one. On average, it would require <span class="math inline">\(2^\ell\)</span> attempts to find such
+<span class="math inline">\(\mathbf x\)</span>. That is, whoever shows a solution <span class="math inline">\(\mathbf x\)</span> has “proven”
+that he spent <span class="math inline">\(O(2^\ell)\)</span> evaluations of <span class="math inline">\(H\)</span> in solving the problem.
+This concept is known as a <em>proof of work</em>.</p>
+<p>But back to transactions and the ledger: assume that the transaction
+<span class="math inline">\(t_{n+1}\)</span>, involving coin <span class="math inline">\(ID\)</span>, is to be added to the ledger. Then, our
+proof of work consists of producing <span class="math inline">\(\mathbf x\)</span> such that the first <span class="math inline">\(T\)</span>
+bits of <span class="math inline">\(H(ID|\mathbf x)\)</span> are <span class="math inline">\(0\)</span>, for some <span class="math inline">\(T\)</span>. Once you have the
+solution, you can add the transaction, including <span class="math inline">\(ID\)</span> and <span class="math inline">\(\mathbf x\)</span>,
+to the ledger. Note that solving the problem takes time <span class="math inline">\(O(2^T)\)</span>,
+whereas checking a solution is efficient, as it amounts to evaluating
+the function <span class="math inline">\(H\)</span> just once with the transaction as input.</p>
+<p>But isn’t this a lot of trouble to get someone’s transaction up in the
+ledger? The solution here is extremely simple: motivate the users of the
+network by awarding them newly mint coins when they successfully add a
+new transaction to the ledger. These users are the so-called <em>miners</em>,
+and the act of mining a cryptocurrency is just finding the right
+preimages of the function <span class="math inline">\(H\)</span>.</p>
+<p>Thus, each addition to the ledger has two outcomes: transferring
+ownership of existing money and minting new money. And here’s the catch:
+as a miner, your new money is just valid a hundred transactions after
+your contribution to the ledger. Give a fork, honest users are
+encouraged to look at the longest ledger and ignore the rest. This
+encourages miners to work on the single longest ledger too, because the
+alternatives will be rejected by the users and thus the transactions in
+them virtually never happened. Therefore, miners might spend CPU cycles
+for nothing if they decide to work on shorter ledgers of a fork.</p>
+<p>Another issue is that we want each new transaction to be “bound” to the
+previous ones. If the new transaction did not depend on the previous,
+nothing would prevent a malicious user from double-spending. This is
+also achieved through the function <span class="math inline">\(H\)</span>. Given previous transactions
+<span class="math inline">\(t_1,\dots,t_n\)</span>, the new transaction <span class="math inline">\(t_{n+1}\)</span> will include its own
+<em>transaction identifier</em> <span class="math inline">\(H(t_1,\dots,t_n)\)</span> besides <span class="math inline">\(ID\)</span> and
+<span class="math inline">\(\mathbf x\)</span>. However, the ledger gets larger and larger, and we want the
+identifier to be small to keep things efficient. So <span class="math inline">\(H\)</span> is mapping a
+very large set into a smaller one. The upshot is that there is no way
+for transaction identifiers to be unique.</p>
+<div class="problem">
+<p><strong>Problem 3</strong>. <em>What if there are two sets of transactions
+<span class="math inline">\(t_1,\dots,t_n\)</span> and <span class="math inline">\(t_1&#39;,\dots,t_n&#39;\)</span> with the same identifier
+<span class="math inline">\(H(t_1,\dots,t_n)=H(t_1&#39;,\dots,t_n&#39;)\)</span>?</em></p>
+</div>
+<p>Fortunately, although it is clear that there is no possible function <span class="math inline">\(H\)</span>
+such that the outputs are unique, it will be enough if it is <em>hard</em> to
+find a pair of inputs with the same output, so that this issue with the
+identifiers cannot be exploited in practice.</p>
+</div>
+<div id="sec:hash_def" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Hash functions<a href="hash-functions.html#sec:hash_def" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The central piece of this whole apparatus seems to be the function <span class="math inline">\(H\)</span>,
+which we have not looked into yet. Clearly we will require some
+unconventional properties from this function. Let us summarize what we
+discussed about it:</p>
+<ul>
+<li><p>The input is larger than the output, possibly by much.</p></li>
+<li><p>Given <span class="math inline">\(\mathbf y\)</span>, it should be hard to find <span class="math inline">\(\mathbf x\)</span> such that
+<span class="math inline">\(H(\mathbf x)=\mathbf y\)</span>.</p></li>
+<li><p>It is hard to find <span class="math inline">\(\mathbf x,\mathbf x&#39;\)</span> such that
+<span class="math inline">\(\mathbf x\neq \mathbf x&#39;\)</span> and <span class="math inline">\(H(\mathbf x)=H(\mathbf x&#39;)\)</span>.</p></li>
+</ul>
+<p>With this intuition in mind, let us introduce the solution to all of our
+problems: <em>hash functions</em>. At their core, hash functions are nothing
+more than functions that take an arbitrarily-long bitstring and output a
+bitstring of fixed length.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-71" class="definition"><strong>Definition 5.1  </strong></span><em>A</em> hash function <em>is an efficiently computable<a href="#fn21" class="footnote-ref" id="fnref21"><sup>21</sup></a>
+function</em> <span class="math display">\[H:\{0,1\}^*\rightarrow\{0,1\}^\ell,\]</span> <em>for some
+<span class="math inline">\(\ell\in\mathbb{N}\)</span>, and where <span class="math inline">\(\{0,1\}^*\)</span> denotes the set of all
+bitstrings of any length. The process of computing a hash function is
+often called</em> hashing<em>, and the output is referred to as the</em> hash.</p>
+</div>
+<p>Note that, unlike encryption, hash functions do not use any secret key.
+From a functionality point of view, this is all we need: a function that
+compresses bitstrings and is efficient enough to compute. However, to
+ensure the security of the cryptocurrency model described above, we will need an extra property.</p>
+<p>We observe that hash functions must be public and deterministic, because
+different parties need to be able to arrive to the same result to verify
+a transaction.</p>
+<p>The hash function is taking arbitrarily-large messages and producing
+fixed-length ones. That it, it is mapping a larger set into a smaller
+set. Therefore, there must be different strings that produce the same
+hash. Given a bitstring <span class="math inline">\(\mathbf b\)</span>, there might exist
+<span class="math inline">\(\mathbf b&#39;\neq\mathbf b\)</span> such that <span class="math display">\[H(\mathbf b)=H(\mathbf b&#39;).\]</span></p>
+<p>Nevertheless, we want this pair of bitstrings to be hard to find. This,
+and the observations at the beginning of
+Section <a href="hash-functions.html#sec:hash_def" reference-type="ref" reference="sec:hash_def">4.2</a>, motivate the following set of definitions.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-72" class="definition"><strong>Definition 5.2  </strong></span><em>Let <span class="math inline">\(H\)</span> be a hash function. We say that <span class="math inline">\(H\)</span> is:</em></p>
+<ul>
+<li><p>collision-resistant <em>if it is hard to find two bitstrings
+<span class="math inline">\(\mathbf b, \mathbf b&#39;\)</span> such that <span class="math inline">\(\mathbf b\neq \mathbf b&#39;\)</span> and
+<span class="math inline">\(H(\mathbf b)= H(\mathbf b&#39;)\)</span>. In this case, the pair
+<span class="math inline">\((\mathbf b, \mathbf b&#39;)\)</span> is called a</em> collision <em>of</em> <span class="math inline">\(H\)</span>.</p></li>
+<li><p>second preimage-resistant <em>if, given <span class="math inline">\(\mathbf b\)</span>, it is hard to
+find <span class="math inline">\(\mathbf b&#39;\neq \mathbf b\)</span> such that they form a collision.</em></p></li>
+<li><p>preimage-resistant <em>if, given <span class="math inline">\(h\)</span> sampled uniformly at random, it
+is hard to find a bitstring <span class="math inline">\(\mathbf b\)</span> such that <span class="math inline">\(H(\mathbf b)=h\)</span>.</em></p></li>
+</ul>
+</div>
+<p>These properties are related by the following result.</p>
+<div class="proposition">
+<p><span id="prp:unlabeled-div-73" class="proposition"><strong>Proposition 5.1  </strong></span><em>Let <span class="math inline">\(H\)</span> be a hash function</em> <span class="math display">\[H:\{0,1\}^*\rightarrow\{0,1\}^\ell.\]</span> <em>If <span class="math inline">\(H\)</span> is collision-resistant, then it is second preimage-resistant.</em></p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-74" class="exercise"><strong>Exercise 5.1  </strong></span><em>Try to prove the proposition above by proving the contrapositive: assume that you can break second preimage resistance, and show how to use that to break collision resistance.</em></p>
+</div>
+<p>Informally, second-preimage resistance implies preimage resistance for any hash function that performs some “meaningful” compression of the input. This means that, for any hash function used in practice, if it is second-preimage resistant then it its preimage resistant, although the statement cannot be formally proven, due to some pathological counterexamples.</p>
+</div>
+<div id="birthday-attacks" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Birthday attacks<a href="hash-functions.html#birthday-attacks" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Assume that we are an adversary trying to attack a hash function
+<span class="math display">\[H:\{0,1\}^*\rightarrow \{0,1\}^\ell,\]</span> that is, we are trying to find
+a collision. The straightforward approach is the following: we choose
+random strings and compute their hashes, until two strings return the
+same hash. In the worst case, this requires <span class="math inline">\(2^\ell+1\)</span> tries, since
+there are at most <span class="math inline">\(2^\ell\)</span> different outputs. Therefore, it looks like
+the brute-force attack takes time <span class="math inline">\(O(2^\ell)\)</span> to succeed. This would
+suggest that a hash function with output length <span class="math inline">\(\ell\)</span> gives us a
+security level of <span class="math inline">\(\ell\)</span>.</p>
+<p>In this section, we look into a generic attack that works for any hash
+function, which is based on the well-known <em>birthday paradox</em> from
+probability theory, and greatly improves over the above estimation.
+Consider the following problem.</p>
+<div id="prob:birthday" class="problem">
+<p><strong>Problem 4</strong>. <em>There is a room with <span class="math inline">\(40\)</span> independent students. How
+likely is that any two of them share the same birthday?</em></p>
+</div>
+<p>On first sight, one might think that this probability is quite low.
+After all, there are <span class="math inline">\(356\)</span> days in the year, and only <span class="math inline">\(40\)</span> students. Let
+us compute the actual probability, by solving a related problem: what is
+the probability of none of the <span class="math inline">\(40\)</span> students sharing their birthday?</p>
+<p>We start by numbering the students from <span class="math inline">\(1\)</span> to <span class="math inline">\(40\)</span>, according to any
+criterion. To be able to reason more formally about the problem, we
+introduce the function
+<span class="math display">\[\mathsf{bd}:\{1,\dots,40\}\rightarrow\{1,\dots,365\},\]</span> which
+associates to each student its birthday. Then, the probability of
+student <span class="math inline">\(\#2\)</span> not sharing a birthday with student <span class="math inline">\(\#1\)</span> is
+<span class="math display">\[\Pr[\mathsf{bd}(1),\mathsf{bd}(2)\text{ are different}]=\frac{364}{365},\]</span>
+since there are <span class="math inline">\(364\)</span> days of the year that are not the birthday of
+student <span class="math inline">\(\#1\)</span>. Let’s introduce student <span class="math inline">\(\#3\)</span> into the picture, and let
+us consider the events:</p>
+<ul>
+<li><p><span class="math inline">\(\mathsf{A}\)</span>: <span class="math inline">\(\mathsf{bd}(3)\)</span> is different from <span class="math inline">\(\mathsf{bd}(1)\)</span>
+and <span class="math inline">\(\mathsf{bd}(2)\)</span>.</p></li>
+<li><p><span class="math inline">\(\mathsf{B}: \mathsf{bd}(1),\mathsf{bd}(2)\)</span> are different.</p></li>
+</ul>
+<p>Clearly, the intersection event is</p>
+<ul>
+<li><span class="math inline">\(\mathsf{A}\cap\mathsf{B}: \mathsf{bd}(1),\mathsf{bd}(2),\mathsf{bd}(3)\)</span>
+are pairwise different.</li>
+</ul>
+<p>Then, using conditional probabilities, we have that
+<span class="math display">\[\Pr[\mathsf{A}\cap\mathsf{B}]=\Pr[\mathsf{B}]\cdot\Pr[\mathsf{A}|\mathsf{B}]\]</span>
+We already know <span class="math inline">\(\Pr[\mathsf{B}]\)</span>, so we are just missing the second
+term. If the birthdays of students <span class="math inline">\(\#1\)</span> and <span class="math inline">\(\#2\)</span> are different, then
+the probability of <span class="math inline">\(\#3\)</span> having a different birthday from them is
+<span class="math display">\[\Pr[\mathsf{A}|\mathsf{B}]=\frac{363}{365},\]</span> since there are <span class="math inline">\(363\)</span>
+days that are neither the birthday of <span class="math inline">\(\#1\)</span> or <span class="math inline">\(\#2\)</span>. Thus, the
+probability of the three students having different birthdays is
+<span class="math display">\[\Pr[\mathsf{A}\cap\mathsf{B}]=\frac{364}{365}\cdot\frac{363}{365}.\]</span>
+By iterating this process for each student, we arrive at the conclusion
+that the probabilities of all <span class="math inline">\(40\)</span> students having different birthdays
+is
+<span class="math display">\[\frac{364}{365}\cdot\frac{363}{365}\cdot \dots \cdot\frac{326}{365} \approx 0.108768.\]</span>
+In conclusion, the probability of two students sharing a birthday is
+approximately <span class="math display">\[1-0.108768= 0.891232.\]</span> This is actually a pretty high
+probability. This discrepancy between what one might naively expect and
+what actually happens is known as the <em>birthday paradox</em>. Below, you can
+find the solutions to <a href="hash-functions.html#prob:birthday" reference-type="ref" reference="prob:birthday">Problem 4</a> for different numbers of students (rounded to
+six decimal positions).</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th align="center"><span class="smallcaps">Students</span></th>
+<th align="center"><span class="smallcaps">Probability</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(10\)</span></td>
+<td align="center"><span class="math inline">\(0.116948\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(20\)</span></td>
+<td align="center"><span class="math inline">\(0.411438\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(40\)</span></td>
+<td align="center"><span class="math inline">\(0.891232\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(80\)</span></td>
+<td align="center"><span class="math inline">\(0.999914\)</span></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(128\)</span></td>
+<td align="center"><span class="math inline">\(0.999999\)</span></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>So what does any of this have to do with breaking a hash function? What
+we have just done is computing the probability of finding two students
+such that the birthday function returns the same value on them. That is,
+we have found a collision of the birthday function! In doing so, we have
+assumed that the output of the birthday function behaves as the uniform
+distribution on <span class="math inline">\(\{1,\dots,365\}\)</span>. But, isn’t that exactly the effect
+that we want from a good hash function? That outputs look random and
+unrelated? So the moral of the story is that finding collisions in a
+hash function is actually much more likely that expected. More
+precisely, it can be proven with some careful probabilities analysis
+that, for any hash function <span class="math inline">\(H\)</span> which outputs bitstrings of length
+<span class="math inline">\(\ell\)</span>, there is a decent probability of finding a collision after
+<span class="math inline">\(\sqrt{2^\ell}\)</span> evaluations.</p>
+<p>Compare this with our initial estimation. At the beginning of the
+section, we bounded a brute force attack by <span class="math inline">\(O(2^\ell)\)</span>. However, we now
+see that an attacker has a good probability of finding a collision in
+time <span class="math inline">\(O(2^{\frac{\ell}2})\)</span>. Thus, we conclude that a hash function with
+output length <span class="math inline">\(\ell\)</span> gives us <span class="math inline">\(\ell/2\)</span> bits of security. Or the other
+way around, if we want <span class="math inline">\(\ell\)</span> bits of security, we need our hash
+function to have output length <span class="math inline">\(2\ell\)</span>.</p>
+</div>
+<div id="the-merkle-damgård-transformation" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> The Merkle-Damgård transformation<a href="hash-functions.html#the-merkle-damgård-transformation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>As was the case for encryption, we often build hash functions
+in two steps. First, we build a hash function for fixed-length inputs,
+e.g. <span class="math display">\[H:\{0,1\}^{2\ell}\rightarrow\{0,1\}^\ell,\]</span> and then we extend
+them to arbitrarily-large input. We will not get into the details of
+concrete constructions, but will simply mention the SHA family of hash
+functions, which is the standard used in practice most of the time.<a href="#fn22" class="footnote-ref" id="fnref22"><sup>22</sup></a></p>
+<p>A common way to realize this second step is to use the <em>Merkle-Damgård
+transformation</em>,<a href="#fn23" class="footnote-ref" id="fnref23"><sup>23</sup></a> which describes how to build from <span class="math inline">\(H\)</span> another hash
+function <span class="math inline">\(\mathbf{H}\)</span> that takes as input any string of length at most
+<span class="math inline">\(2^\ell-1\)</span>, and outputs a hash of length <span class="math inline">\(\ell\)</span>. It is clear that
+repeated applications of the transformation can make the input go as
+large as we want.</p>
+<p>Similar to modes of operations in block ciphers, the Merkle-Damgård
+transformation starts by splitting the string <span class="math inline">\(\mathbf x\)</span> of length
+<span class="math inline">\(L\leq 2^\ell\)</span> to be hashed into blocks
+<span class="math display">\[\mathbf x_1, \dots, \mathbf x_n,\]</span> each of them of length <span class="math inline">\(\ell\)</span>.<a href="#fn24" class="footnote-ref" id="fnref24"><sup>24</sup></a>
+An additional block <span class="math inline">\(\mathbf x_{n+1}\)</span> is added, containing a binary
+encoding of <span class="math inline">\(L\)</span>. Note that, because <span class="math inline">\(L\leq 2^n-1\)</span>, we can fit the
+encoding of <span class="math inline">\(L\)</span> in <span class="math inline">\(n\)</span> bits. Then, we recursively compute
+<span class="math display">\[\mathbf z_i=H(\mathbf z_{i-1}|\mathbf x_i),\]</span> for <span class="math inline">\(i=1,\dots,n+1\)</span>, and
+where <span class="math inline">\((\mathbf z_{i-1}|\mathbf x_i)\)</span> means the concatenation of the
+bitstrings <span class="math inline">\(\mathbf z_{i-1}\)</span> and <span class="math inline">\(\mathbf x_i\)</span>. Then, the hash of
+<span class="math inline">\(\mathbf x\)</span> is <span class="math display">\[\mathbf{H}(\mathbf x)=\mathbf z_{n+1}.\]</span> As in modes of
+operation, there is no “previous block” in the first iteration, and so
+again we introduce an initialization vector <span class="math inline">\(\mathbf z_0\)</span>, which can be
+set to the string of <span class="math inline">\(0\)</span>’s of length <span class="math inline">\(n\)</span>, or any other bitstring. There
+is no need for the IV to be secret.</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="proposition">
+<p><span id="prp:MDtransform" class="proposition"><strong>Proposition 5.2  </strong></span><em>If <span class="math inline">\(H\)</span> is a collision-resistant hash function, then
+<span class="math inline">\(\mathbf{H}\)</span>, produced with the Merkle-Damgård transformation, as
+described above, is also collision-resistant.</em></p>
+</div>
+</div>
+<div id="solved-exercises-4" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="hash-functions.html#solved-exercises-4" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-75" class="exercise"><strong>Exercise 5.2  </strong></span>Consider function <span class="math inline">\(f: S\times S \rightarrow S\)</span> that is symmetric, that is,
+for all <span class="math inline">\(a,b\in S\)</span>: <span class="math inline">\(f(a, b) = f(b, a)\)</span>. Can this be a collision-resistant hash function
+from <span class="math inline">\(S\times S\)</span> to <span class="math inline">\(S\)</span>?</p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-76" class="solution"><em>Solution</em>. </span>No, because we the symmetric property implies collisions. Indeed, take any <span class="math inline">\(a, b\in S\)</span> with <span class="math inline">\(a\neq b\)</span> and let <span class="math inline">\(c = f(a,b)\)</span>. Now, <span class="math inline">\(f(a,b) = c = f(b,a)\)</span>. Note that <span class="math inline">\((a,b)\neq (b,a)\)</span> since <span class="math inline">\(a\neq b\)</span>, but <span class="math inline">\(H(a,b)=H(b,a)=c\)</span>. Therefore, we have a collision.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-77" class="exercise"><strong>Exercise 5.3  </strong></span><em>Consider the following hash function <span class="math inline">\(f_{42}: \mathbb{Z}  \rightarrow \{0,\ldots, 41\}\)</span> that maps <span class="math inline">\(n \mapsto n \mod 42\)</span> where <span class="math inline">\(a \mod b\)</span> denotes the remainder of the division <span class="math inline">\(a/b\)</span>.</em></p>
+<ol style="list-style-type: decimal">
+<li><em>Is <span class="math inline">\(f_{42}\)</span> a hash function?</em></li>
+<li><em>Is it collision resistance?</em></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-78" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>A hash function must be (1) efficiently computable and (2) shrinking. Since integer division is efficiently computable and it maps integers numbers to a fixed-size set it is indeed a hash function.</p></li>
+<li><p>It is not collision resistance. Take any pair <span class="math inline">\(n, n+42\)</span>. We claim that these values will have the same hash. Let <span class="math inline">\(f_{42}(n) = n\mod 42 = r\)</span>.
+This means that <span class="math inline">\(n = q\cdot 42 + r\)</span> for some <span class="math inline">\(r&lt;42\)</span>. We can also write<br />
+<span class="math display">\[
+n+42 = q\cdot 42 + r+42 = (q+1)\cdot 42 + r, \quad r&lt;42
+\]</span>
+which means that <span class="math inline">\(f_{42}(n+42) = (n+42)\mod 42 = r\)</span> and therefore <span class="math inline">\((n, n+42, r)\)</span> is a collision for every <span class="math inline">\(n\in\mathbb{Z}\)</span>.</p></li>
+</ol>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-79" class="exercise"><strong>Exercise 5.4  </strong></span><em>Consider a simplified version of the Merkle-Damgård transform, where only two inputs are compressed (instead of arbitrary). Prove that if the underlying hash function
+<span class="math inline">\(H:\{0,1\}^{2\ell} \rightarrow \{0,1\}^{\ell}\)</span> is collision resistance, then the
+transformed function <span class="math inline">\(\mathbf H:\{0,1\}^{4\ell} \rightarrow \{0,1\}^{\ell}\)</span> is collision
+resistant as well. </em></p>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-80" class="solution"><em>Solution</em>. </span>We know that <span class="math inline">\(H\)</span> is collision-resistant. We need to show that the transformed function <span class="math inline">\(\mathbf{H}\)</span> is also collision-resistant. Our strategy is the following: we will assume that <span class="math inline">\(\mathbf{H}\)</span> is <em>not</em> collision-resistant and use this fact to find a collision for <span class="math inline">\(H\)</span>. If we manage to do this, we end up in a <em>contradiction</em>: while <span class="math inline">\(H\)</span> is collision resistant we found a collision! It must be the case that our assumption “<span class="math inline">\(\mathbf{H}\)</span> is <em>not</em> collision-resistant” is false and therefore the proposition holds.</p>
+<p>We first present a diagram for the simplified transformation:</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We assume <span class="math inline">\(\mathbf{H}\)</span> is not collision-resistant. Therefore, there exists an efficient algorithm <span class="math inline">\(\mathcal{A}\)</span> that outputs a collision.</p>
+<p>We will use this algorithm to construct a collision for <span class="math inline">\(H\)</span>. Running <span class="math inline">\(\mathcal{A}\)</span> will output a collision, that is, it will output
+<span class="math inline">\((\mathbf z_0, \mathbf x_1, \mathbf x_2)\neq
+(\mathbf z_0&#39;, \mathbf x_1&#39;, \mathbf x_2&#39;)\)</span> such that
+<span class="math display">\[
+\mathbf{H}(\mathbf x_1, \mathbf x_2; \mathbf z_0) = \mathbf y =
+\mathbf{H}(\mathbf x&#39;_1, \mathbf x&#39;_2; \mathbf z_0&#39;)
+\]</span>
+Note that the algorithm should also give the randomness used, here the initial IV. Also note
+that either <span class="math inline">\(\mathbf x_1\neq \mathbf x_1&#39;\)</span> or <span class="math inline">\(\mathbf x_2\neq \mathbf x_2&#39;\)</span>.</p>
+<p>We will now consider the middle values <span class="math inline">\(\mathbf z_1, \mathbf z_1&#39;\)</span>. We will consider two cases:</p>
+<p><em>Case <span class="math inline">\(\mathbf z_1=\mathbf z_1&#39;\)</span>:</em> This means that <span class="math inline">\(H(\mathbf z_0, \mathbf x_1) = H(\mathbf z_0&#39;, \mathbf x_1&#39;)\)</span>. Now, it should be the case that <span class="math inline">\(\mathbf z_0=\mathbf z_0&#39;\)</span> and
+<span class="math inline">\(\mathbf x_1=\mathbf x_1&#39;\)</span>. Indeed, if any of pair is different, then
+<span class="math inline">\((\mathbf{z}_0,\mathbf{x}_1)\neq(\mathbf{z}_0&#39;,\mathbf{x}_1&#39;), \mathbf z_1\)</span> is a collision for <span class="math inline">\(H\)</span>!
+Therefore, it should be the case that <span class="math inline">\(\mathbf z_0 = \mathbf z_0&#39;\)</span>, <span class="math inline">\(\mathbf x_1 = \mathbf x_1&#39;\)</span> and since the original output of <span class="math inline">\(\mathcal{A}\)</span> is a collision <span class="math inline">\(\mathbf{x}_2 \neq \mathbf x_2&#39;\)</span>. But then we have that
+<span class="math display">\[
+H(\mathbf z_1, \mathbf x_2) = \mathbf y =
+H(\mathbf z_1&#39;, \mathbf x_2&#39;)
+\]</span>
+for a <span class="math inline">\(\mathbf x_2\neq \mathbf x_2&#39;\)</span>. Therefore,
+<span class="math inline">\((\mathbf z_1, \mathbf x_2)\neq (\mathbf z_1&#39;, \mathbf x_2&#39;), \mathbf y\)</span> is a collision for <span class="math inline">\(H\)</span>.</p>
+<p><em>Case <span class="math inline">\(\mathbf z_1\neq\mathbf z_1&#39;\)</span>:</em> In this case, we have
+<span class="math display">\[
+H(\mathbf z_1, \mathbf x_2) = \mathbf y =
+H(\mathbf z_1&#39;, \mathbf x_2&#39;)
+\]</span>
+for a <span class="math inline">\(\mathbf z_1\neq \mathbf z_1&#39;\)</span> (regardless of the values of <span class="math inline">\(\mathbf{x}_2,\mathbf{x}_2&#39;\)</span>). Therefore,
+<span class="math inline">\((\mathbf z_1, \mathbf x_2)\neq (\mathbf z_1&#39;, \mathbf x_2&#39;), \mathbf y\)</span> is a collision for <span class="math inline">\(H\)</span>.</p>
+</div>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-81" class="exercise"><strong>Exercise 5.5  </strong></span><strong>(*)</strong></p>
+<p><em>In this exercise we will demonstrate how to use Hash functions to build a cryptographic primitive that is called <strong>Vector Commitment Scheme</strong><a href="#fn25" class="footnote-ref" id="fnref25"><sup>25</sup></a>. A VC scheme allows Alice to <strong>commit</strong> to a vector of elements <span class="math inline">\(\mathbf v = (\mathbf v_1, \ldots, \mathbf v_n)\in S^n\)</span>. Let <span class="math inline">\(c\)</span> be the commitment to the vector. Bob, having only the commitment, wants to learn the <span class="math inline">\(i\)</span>-th element of the committed vector. Alice responds with <span class="math inline">\(\mathbf v_i\)</span> and she also gives a <strong>proof</strong> <span class="math inline">\(\pi_i\)</span> that the <span class="math inline">\(i\)</span>-th element is indeed <span class="math inline">\(\mathbf v_i\)</span>. Bob can now verify the proof and convince itself this is indeed the <span class="math inline">\(i\)</span>-th value. We need two properties:</em></p>
+<ul>
+<li>Efficiency: <em>the commitment should be small, specifically it should be independent of the vector dimension <span class="math inline">\(n\)</span>.</em></li>
+<li>Binding: <em>After committing to <span class="math inline">\(c\)</span>, Alice cannot give two valid proofs that the <span class="math inline">\(i\)</span>-th
+element is both <span class="math inline">\(\mathbf v_i\neq \mathbf v_i&#39;\)</span>.</em></li>
+</ul>
+<p><em>You can think of a VC scheme as a <strong>short digest</strong> of a big database, whose elements can be efficiently and <strong>verifiably</strong> queried.</em></p>
+<ol style="list-style-type: decimal">
+<li><p><em>Let <span class="math inline">\(H: \{0,1\}^{2\ell} \rightarrow\{0,1\}^{\ell}\)</span> be a collision resistant hash function. Build a vector commitment scheme with <span class="math inline">\(S=\{0,1\}^{\ell}\)</span> using the Merkle-Damgård transformation.</em></p></li>
+<li><p><em>What is the bottleneck for efficiency in the above construction?</em></p></li>
+<li><p><em>Describe an alternative way of building a VC scheme using <span class="math inline">\(H\)</span>. <strong>Hint:</strong> consider using binary trees. </em></p></li>
+<li><p><em>Argue informally that the above construction satisfies the vector commitment properties described above.</em></p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-82" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>Let <span class="math inline">\(n\)</span> be the dimension of the committed vectors. We need to describe how to commit to <span class="math inline">\(c\)</span>, how the proof looks like and how to verify the proof.</p>
+<ul>
+<li>To commit to a vector <span class="math inline">\(\mathbf v\in(\{0,1\}^{\ell})^n\)</span> we simply apply the Merkle-Damgård transformation, that is, we compute the commitment as <span class="math inline">\(c=\mathbf{H}(\mathbf v)\)</span>.</li>
+<li>The proof for the <span class="math inline">\(i\)</span>-th element consists of the value <span class="math inline">\(\mathbf{z}_0\)</span> and all but the <span class="math inline">\(i\)</span>-th element of <span class="math inline">\(\mathbf v\)</span>, that is,
+<span class="math display">\[
+\pi_i = (\mathbf{z}_0, \mathbf{v}_1,\ldots,\mathbf{v}_{i-1},\mathbf{v}_{i-1},\ldots, \mathbf{v}_n)
+\]</span></li>
+<li>To verify the proof, Bob recomputes the hash with the given values and <span class="math inline">\(\mathbf v_i\)</span>, that is, it computes <span class="math inline">\(c&#39; = \mathbf{H}(\mathbf{v}_1,\ldots,\mathbf{v}_n;\mathbf{z}_0)\)</span> and accepts iff <span class="math inline">\(c = c&#39;\)</span>.</li>
+</ul>
+<p>Let’s now argue that this satisfies the given properties. First, efficiency is satisfied since <span class="math inline">\(c\in\{0,1\}^\ell\)</span> which is indeed independent of <span class="math inline">\(n\)</span>. As for the binding property, assume Alice can convince that a commitment <span class="math inline">\(c\)</span> open’s at position <span class="math inline">\(i\)</span> in two different values <span class="math inline">\(\mathbf v_i\neq \mathbf v_i&#39;\)</span>. This means that she must also create two valid profs
+<span class="math display">\[
+   \pi_i = (\mathbf{z}_0, \mathbf{v}_1,\ldots,\mathbf{v}_{i-1},\mathbf{v}_{i-1},\ldots, \mathbf{v}_n)
+\]</span>
+<span class="math display">\[
+   \pi_i&#39; = (\mathbf{z}_0&#39;, \mathbf{v}_1&#39;,\ldots,\mathbf{v}_{i-1}&#39;,\mathbf{v}_{i-1}&#39;,\ldots, \mathbf{v}_n&#39;)
+\]</span>
+Since both proofs are valid, it must be the case that
+<span class="math display">\[
+\mathbf{H}(\mathbf v;\mathbf{z}_0) = c =
+\mathbf{H}(\mathbf v&#39;;\mathbf{z}_0&#39;)
+\]</span>
+But <span class="math inline">\(\mathbf v\neq \mathbf v&#39;\)</span> are different at least in one position, namely position <span class="math inline">\(i\)</span>, so <span class="math inline">\((\mathbf{z}_0, \mathbf v) \neq (\mathbf{z}_0&#39;, \mathbf v&#39;), c\)</span> is a collision for <span class="math inline">\(\mathbf H\)</span>! Since the transformation is collision-resistant, this is a contradiction and our VC scheme should be indeed binding.</p></li>
+<li><p>The bottleneck is clearly the size of the proof and the verification time. Indeed, the proof is essentially <em>the whole committed vector</em> and verification consists of <em>recomputing</em> the commitment! Now imagine you have a commitment to a database of multiple GB. This could clearly be a problem. As an efficiency requirement, we should add that the proof size is also small. How small? We want it at least to be sublinear in <span class="math inline">\(n\)</span>. This would guarantee that we don’t receive something that is roughly as big as the vector itself. We would also want the verification of the proof to happen in time sublinear in <span class="math inline">\(n\)</span>. It is a natural property that the verifier is efficient (think of Alice a big cloud company and Bob being a user only holding an old smartphone).</p></li>
+<li><p>The first observation is that if we need to verify <span class="math inline">\(\mathbf v_i\)</span>, we don’t need to know <span class="math inline">\(\mathbf z_0, \mathbf v_1, \ldots, \mathbf v_{i-1}\)</span>. We could start from <span class="math inline">\(\mathbf z_{i-1}\)</span> and recompute the hash from this point. However, this does not meet our criteria. The proof is still linear in <span class="math inline">\(n\)</span> in the worst case (consider for example <span class="math inline">\(i=1\)</span>)! We need something better.</p>
+<p>Consider the following approach: Instead of computing a big hash <span class="math inline">\(c = \mathbf H(\mathbf v_1, \ldots, \mathbf v_n)\)</span>, we compute two smaller hashes
+<span class="math inline">\(c_L = \mathbf H(\mathbf v_1,\ldots, \mathbf v_{n/2})\)</span> and <span class="math inline">\(c_R = \mathbf H(\mathbf v_{n/2+1},\ldots, \mathbf v_{n})\)</span>. We can now apply the inner function <span class="math inline">\(H\)</span> to compute the commitment
+<span class="math inline">\(c=H(c_L, c_R)\)</span>. A proof now would be half the size. Indeed, if <span class="math inline">\(i\)</span> is on the first half, we don’t need to send all the elements of the right part but only <span class="math inline">\(c_R\)</span>. And similarly if it is on the right! We halved the proof size in half already! And we can use <em>recursion</em> to make it even better, that is, apply the same strategy on the two halfs themselves and so on. This gives a tree-like structure.</p>
+<p>Assume w.l.o.g. that <span class="math inline">\(n\)</span> is a power of 2. The prover creates a binary tree as follows:</p>
+<ul>
+<li>Put the values <span class="math inline">\(\mathbf v_1, \ldots, \mathbf v_n\)</span> to the leafs.</li>
+<li>The value of each inner node is <span class="math inline">\(n = H(n_L, n_R)\)</span> where <span class="math inline">\(n_L, n_R\)</span> are the left and right children of each node.</li>
+</ul>
+<p>The commitment is the root of the tree. This construction is called a <em>Merkle tree</em> and is a widely used vector commitment scheme. We next present the construction schematically.
+Note that indeed in each level the inputs of <span class="math inline">\(H\)</span> are elements of <span class="math inline">\(\{0,1\}^{2\ell}\)</span>.</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>We next describe the commitment scheme.</p>
+<ul>
+<li>To commit to a vector <span class="math inline">\(\mathbf v\)</span>, build a Merkle tree as described above.</li>
+<li>The proof for the <span class="math inline">\(i\)</span>-th element is <em>the neighbouring nodes</em> of the <em>path</em> from the root to the <span class="math inline">\(i\)</span>-th leaf.</li>
+<li>To verify the proof, recompute the path from scratch until the root value <span class="math inline">\(c&#39;\)</span> and verify that the latter value is equal to the commitment <span class="math inline">\(c\)</span>.</li>
+</ul>
+<p>As an example, we show schematically what values you need to open <span class="math inline">\(\mathbf v_3\)</span>.</p>
+<p><img src="_main_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" /></p></li>
+<li><p>First, let’s see efficiency. The commitment is here as well independent of <span class="math inline">\(n\)</span> since it is a single digest. How about the proof size? This is basically a number of hashes equal
+to the height of the binary tree. The height is <span class="math inline">\(\log n\)</span>, so the proof size is <span class="math inline">\(\mathcal{O}(\ell\cdot\log n)\)</span> bits, which is sublinear in <span class="math inline">\(n\)</span>. Similarly, the verifier needs to perform
+a single hash computation for each level, so it does <span class="math inline">\(\mathcal{O}(\log n)\)</span> hash computations, which is also sublinear in <span class="math inline">\(n\)</span>.</p>
+<p>How about binding? Let’s assume you have two accepting openings for <span class="math inline">\(\mathbf v_i\neq \mathbf v_i&#39;\)</span>. Consider the first hash application. Denote <span class="math inline">\(\mathbf x, \mathbf x&#39;\)</span> the neighboring nodes at the leaf level. Recall that these are given as part of the proof. You should have
+<span class="math display">\[
+    c = H(\mathbf v_i, \mathbf x), \qquad c&#39; = H(\mathbf v&#39;_i, \mathbf x&#39;)
+\]</span>
+Now you have two cases:</p>
+<ul>
+<li>if <span class="math inline">\(c=c&#39;\)</span> then you have a collision! Indeed, regardless of what the values <span class="math inline">\(\mathbf x, \mathbf x&#39;\)</span> are, you know that <span class="math inline">\(\mathbf v_i\neq \mathbf v_i&#39;\)</span> but you have the same hash.</li>
+<li>If they are different compute the hash on the next level for both.</li>
+</ul>
+<p>You can continue on this way until at some level you get the same hash. This will definitely happen! Since both proofs are verifying, the root node is for both <span class="math inline">\(c\)</span> so this is the case in the end. So there must be at least one step where the hash becomes the same along the way. The first time this happens <em>you get a collision</em>! Indeed, you (1) end up with the same hash and (2) you know that the inputs are different. Indeed the hash computation at this level will be of the form</p>
+<p><span class="math display">\[
+  c_N = H(c_L, \mathbf x) = H(c_L&#39;, \mathbf x&#39;)
+  \]</span>
+where <span class="math inline">\(c_L, c_L&#39;\)</span> are the hashes from the previous level (note that here we assume w.l.o.g. that they are left children). Since this is the first time the hashes are equal, it means that
+<span class="math inline">\(c_L\neq c_R\)</span> which gives the collision.</p></li>
+</ol>
+</div>
+
+</div>
+</div>
+
+
+
+<div class="footnotes">
+<hr />
+<ol start="20">
+<li id="fn20"><p><a href="https://bitcoin.org/bitcoin.pdf" class="uri">https://bitcoin.org/bitcoin.pdf</a>.<a href="hash-functions.html#fnref20" class="footnote-back">↩︎</a></p></li>
+<li id="fn21"><p><em>You might wonder what “efficiently computable” means in this
+case, if the input size could be anything. To be precise, we say
+that the function is efficiently computable if it can be evaluated
+in time polynomial in <span class="math inline">\(\ell\)</span> when the input is of length polynomial
+in <span class="math inline">\(\ell\)</span>.</em><a href="hash-functions.html#fnref21" class="footnote-back">↩︎</a></p></li>
+<li id="fn22"><p><a href="https://en.wikipedia.org/wiki/Secure_Hash_Algorithms" class="uri">https://en.wikipedia.org/wiki/Secure_Hash_Algorithms</a>.<a href="hash-functions.html#fnref22" class="footnote-back">↩︎</a></p></li>
+<li id="fn23"><p>You might also see the same concept named the Merkle-Damgård
+transform, or the Merkle-Damgård construction.<a href="hash-functions.html#fnref23" class="footnote-back">↩︎</a></p></li>
+<li id="fn24"><p>As before, use some padding if the length of <span class="math inline">\(\mathbf x\)</span> is not a
+multiple of <span class="math inline">\(\ell\)</span>.<a href="hash-functions.html#fnref24" class="footnote-back">↩︎</a></p></li>
+<li id="fn25"><p>We deal with a simplified and informal version of vector commitment schemes in this exercise. The actual definitions of such a scheme can vary and can have additional properties.<a href="hash-functions.html#fnref25" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="security-definitions.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="elementary-number-theory.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

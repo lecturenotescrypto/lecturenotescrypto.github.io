@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12 Zero knowledge Proofs | Cryptography lecture notes</title>
+  <meta name="description" content="12 Zero knowledge Proofs | Cryptography lecture notes" />
+  <meta name="generator" content="bookdown 0.41 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12 Zero knowledge Proofs | Cryptography lecture notes" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12 Zero knowledge Proofs | Cryptography lecture notes" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="secret-sharing.html"/>
+<link rel="next" href="ring-theory.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="part"><span><b>I Introduction to modern cryptography</b></span></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Front page</a></li>
+<li class="chapter" data-level="1" data-path="introduction-to-security.html"><a href="introduction-to-security.html"><i class="fa fa-check"></i><b>1</b> Introduction to security</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction-to-security.html"><a href="introduction-to-security.html#what-cryptography-is-and-is-not"><i class="fa fa-check"></i><b>1.1</b> What cryptography is and is not</a></li>
+<li class="chapter" data-level="1.2" data-path="introduction-to-security.html"><a href="introduction-to-security.html#fundamental-security-principles"><i class="fa fa-check"></i><b>1.2</b> Fundamental security principles</a></li>
+<li class="chapter" data-level="1.3" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-parameter"><i class="fa fa-check"></i><b>1.3</b> Security parameter</a></li>
+<li class="chapter" data-level="1.4" data-path="introduction-to-security.html"><a href="introduction-to-security.html#security-level"><i class="fa fa-check"></i><b>1.4</b> Security level</a></li>
+<li class="chapter" data-level="" data-path="introduction-to-security.html"><a href="introduction-to-security.html#solved-exercises"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>II Symmetric cryptography</b></span></li>
+<li class="chapter" data-level="2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html"><i class="fa fa-check"></i><b>2</b> Randomness in cryptography</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#one-time-pad"><i class="fa fa-check"></i><b>2.1</b> One-time pad</a></li>
+<li class="chapter" data-level="2.2" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#sec:prngs"><i class="fa fa-check"></i><b>2.2</b> Pseudorandom generators</a></li>
+<li class="chapter" data-level="2.3" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#true-randomness"><i class="fa fa-check"></i><b>2.3</b> True randomness</a></li>
+<li class="chapter" data-level="" data-path="randomness-in-cryptography.html"><a href="randomness-in-cryptography.html#solved-exercises-1"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="block-ciphers.html"><a href="block-ciphers.html"><i class="fa fa-check"></i><b>3</b> Block ciphers</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#overview-of-block-ciphers"><i class="fa fa-check"></i><b>3.1</b> Overview of block ciphers</a></li>
+<li class="chapter" data-level="3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#modes-of-operation"><i class="fa fa-check"></i><b>3.2</b> Modes of operation</a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="block-ciphers.html"><a href="block-ciphers.html#electronic-codebook-ecb-mode"><i class="fa fa-check"></i><b>3.2.1</b> Electronic codebook (ECB) mode</a></li>
+<li class="chapter" data-level="3.2.2" data-path="block-ciphers.html"><a href="block-ciphers.html#cipher-block-chaining-cbc-mode"><i class="fa fa-check"></i><b>3.2.2</b> Cipher block chaining (CBC) mode</a></li>
+<li class="chapter" data-level="3.2.3" data-path="block-ciphers.html"><a href="block-ciphers.html#output-feedback-ofb-mode"><i class="fa fa-check"></i><b>3.2.3</b> Output feedback (OFB) mode</a></li>
+<li class="chapter" data-level="3.2.4" data-path="block-ciphers.html"><a href="block-ciphers.html#counter-ctr-mode"><i class="fa fa-check"></i><b>3.2.4</b> Counter (CTR) mode</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="block-ciphers.html"><a href="block-ciphers.html#des-and-aes"><i class="fa fa-check"></i><b>3.3</b> DES and AES</a>
+<ul>
+<li class="chapter" data-level="3.3.1" data-path="block-ciphers.html"><a href="block-ciphers.html#data-encryption-standard-des"><i class="fa fa-check"></i><b>3.3.1</b> Data Encryption Standard (DES)</a></li>
+<li class="chapter" data-level="3.3.2" data-path="block-ciphers.html"><a href="block-ciphers.html#advanced-encryption-standard-aes"><i class="fa fa-check"></i><b>3.3.2</b> Advanced Encryption Standard (AES)</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="block-ciphers.html"><a href="block-ciphers.html#solved-exercises-2"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="security-definitions.html"><a href="security-definitions.html"><i class="fa fa-check"></i><b>4</b> Security definitions</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="security-definitions.html"><a href="security-definitions.html#key-recovery-experiment"><i class="fa fa-check"></i><b>4.1</b> Key recovery experiment</a></li>
+<li class="chapter" data-level="4.2" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-ciphertext-only-experiment"><i class="fa fa-check"></i><b>4.2</b> Indistinguishability under ciphertext only experiment</a></li>
+<li class="chapter" data-level="4.3" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-plaintext-attack"><i class="fa fa-check"></i><b>4.3</b> Indistinguishability under chosen plaintext attack</a>
+<ul>
+<li class="chapter" data-level="4.3.1" data-path="security-definitions.html"><a href="security-definitions.html#casestudy-the-battle-of-midway"><i class="fa fa-check"></i><b>4.3.1</b> Casestudy: the battle of Midway</a></li>
+<li class="chapter" data-level="4.3.2" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cpa-experiment"><i class="fa fa-check"></i><b>4.3.2</b> The IND-CPA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.4" data-path="security-definitions.html"><a href="security-definitions.html#indistinguishability-under-chosen-ciphertext-attack"><i class="fa fa-check"></i><b>4.4</b> Indistinguishability under chosen ciphertext attack</a>
+<ul>
+<li class="chapter" data-level="4.4.1" data-path="security-definitions.html"><a href="security-definitions.html#malleability-of-cbc-mode"><i class="fa fa-check"></i><b>4.4.1</b> Malleability of CBC mode</a></li>
+<li class="chapter" data-level="4.4.2" data-path="security-definitions.html"><a href="security-definitions.html#padding-oracle-attack"><i class="fa fa-check"></i><b>4.4.2</b> Padding oracle attack</a></li>
+<li class="chapter" data-level="4.4.3" data-path="security-definitions.html"><a href="security-definitions.html#the-ind-cca-experiment"><i class="fa fa-check"></i><b>4.4.3</b> The IND-CCA experiment</a></li>
+</ul></li>
+<li class="chapter" data-level="4.5" data-path="security-definitions.html"><a href="security-definitions.html#notes-on-defining-and-interpreting-security"><i class="fa fa-check"></i><b>4.5</b> Notes on defining and interpreting security</a></li>
+<li class="chapter" data-level="" data-path="security-definitions.html"><a href="security-definitions.html#solved-exercises-3"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="hash-functions.html"><a href="hash-functions.html"><i class="fa fa-check"></i><b>5</b> Hash functions</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="hash-functions.html"><a href="hash-functions.html#some-issues-in-cryptocurrencies"><i class="fa fa-check"></i><b>5.1</b> Some issues in cryptocurrencies</a></li>
+<li class="chapter" data-level="5.2" data-path="hash-functions.html"><a href="hash-functions.html#sec:hash_def"><i class="fa fa-check"></i><b>5.2</b> Hash functions</a></li>
+<li class="chapter" data-level="5.3" data-path="hash-functions.html"><a href="hash-functions.html#birthday-attacks"><i class="fa fa-check"></i><b>5.3</b> Birthday attacks</a></li>
+<li class="chapter" data-level="5.4" data-path="hash-functions.html"><a href="hash-functions.html#the-merkle-damgård-transformation"><i class="fa fa-check"></i><b>5.4</b> The Merkle-Damgård transformation</a></li>
+<li class="chapter" data-level="" data-path="hash-functions.html"><a href="hash-functions.html#solved-exercises-4"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="part"><span><b>III Asymmetric cryptography</b></span></li>
+<li class="chapter" data-level="6" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html"><i class="fa fa-check"></i><b>6</b> Elementary number theory</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#integer-arithmetic"><i class="fa fa-check"></i><b>6.1</b> Integer arithmetic</a></li>
+<li class="chapter" data-level="6.2" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#the-euclidean-algorithm"><i class="fa fa-check"></i><b>6.2</b> The euclidean algorithm</a></li>
+<li class="chapter" data-level="6.3" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#modular-arithmetic"><i class="fa fa-check"></i><b>6.3</b> Modular arithmetic</a></li>
+<li class="chapter" data-level="6.4" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#efficient-modular"><i class="fa fa-check"></i><b>6.4</b> Modular arithmetic, but efficient</a></li>
+<li class="chapter" data-level="" data-path="elementary-number-theory.html"><a href="elementary-number-theory.html#solved-exercises-5"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="algebraic-structures.html"><a href="algebraic-structures.html"><i class="fa fa-check"></i><b>7</b> Algebraic structures</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="algebraic-structures.html"><a href="algebraic-structures.html#groups"><i class="fa fa-check"></i><b>7.1</b> Groups</a></li>
+<li class="chapter" data-level="7.2" data-path="algebraic-structures.html"><a href="algebraic-structures.html#finite-fields"><i class="fa fa-check"></i><b>7.2</b> Finite fields</a></li>
+<li class="chapter" data-level="" data-path="algebraic-structures.html"><a href="algebraic-structures.html#solved-exercises-6"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="public-key-encryption.html"><a href="public-key-encryption.html"><i class="fa fa-check"></i><b>8</b> Public-key encryption</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="public-key-encryption.html"><a href="public-key-encryption.html#public-key-cryptography"><i class="fa fa-check"></i><b>8.1</b> Public-key cryptography</a></li>
+<li class="chapter" data-level="8.2" data-path="public-key-encryption.html"><a href="public-key-encryption.html#the-rsa-encryption-scheme"><i class="fa fa-check"></i><b>8.2</b> The RSA encryption scheme</a></li>
+<li class="chapter" data-level="8.3" data-path="public-key-encryption.html"><a href="public-key-encryption.html#security-of-rsa"><i class="fa fa-check"></i><b>8.3</b> Security of RSA</a></li>
+<li class="chapter" data-level="8.4" data-path="public-key-encryption.html"><a href="public-key-encryption.html#rsa-optimization"><i class="fa fa-check"></i><b>8.4</b> Efficiency optimizations</a></li>
+<li class="chapter" data-level="" data-path="public-key-encryption.html"><a href="public-key-encryption.html#solved-exercises-7"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html"><i class="fa fa-check"></i><b>9</b> Discrete logarithm cryptosystems</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-discrete-logarithm-problem"><i class="fa fa-check"></i><b>9.1</b> The discrete logarithm problem</a></li>
+<li class="chapter" data-level="9.2" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>9.2</b> The Diffie-Hellman key exchange</a></li>
+<li class="chapter" data-level="9.3" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>9.3</b> The ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="9.4" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#formal-security-for-public-key-encryption"><i class="fa fa-check"></i><b>9.4</b> Formal security for public key encryption</a></li>
+<li class="chapter" data-level="" data-path="discrete-logarithm-cryptosystems.html"><a href="discrete-logarithm-cryptosystems.html#solved-exercises-8"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="digital-signatures.html"><a href="digital-signatures.html"><i class="fa fa-check"></i><b>10</b> Digital signatures</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="digital-signatures.html"><a href="digital-signatures.html#signature-schemes"><i class="fa fa-check"></i><b>10.1</b> Signature schemes</a></li>
+<li class="chapter" data-level="10.2" data-path="digital-signatures.html"><a href="digital-signatures.html#rsa-signatures"><i class="fa fa-check"></i><b>10.2</b> RSA signatures</a></li>
+<li class="chapter" data-level="10.3" data-path="digital-signatures.html"><a href="digital-signatures.html#signing-large-messages"><i class="fa fa-check"></i><b>10.3</b> Signing large messages</a></li>
+<li class="chapter" data-level="" data-path="digital-signatures.html"><a href="digital-signatures.html#solved-exercises-9"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="secret-sharing.html"><a href="secret-sharing.html"><i class="fa fa-check"></i><b>11</b> Secret sharing</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="secret-sharing.html"><a href="secret-sharing.html#secret-sharing-1"><i class="fa fa-check"></i><b>11.1</b> Secret sharing</a></li>
+<li class="chapter" data-level="11.2" data-path="secret-sharing.html"><a href="secret-sharing.html#sec:ssss"><i class="fa fa-check"></i><b>11.2</b> The Shamir secret sharing scheme</a></li>
+<li class="chapter" data-level="11.3" data-path="secret-sharing.html"><a href="secret-sharing.html#threshold-decryption-in-the-elgamal-encryption-scheme"><i class="fa fa-check"></i><b>11.3</b> Threshold decryption in the ElGamal encryption scheme</a></li>
+<li class="chapter" data-level="" data-path="secret-sharing.html"><a href="secret-sharing.html#solved-exercises-10"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html"><i class="fa fa-check"></i><b>12</b> Zero knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#sec:schnorr"><i class="fa fa-check"></i><b>12.1</b> The Schnorr Protocol</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#simulation-vs-soundness"><i class="fa fa-check"></i><b>12.1.1</b> Simulation vs Soundness</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="zero-knowledge-proofs.html"><a href="zero-knowledge-proofs.html#solved-exercises-11"><i class="fa fa-check"></i>Solved exercises</a></li>
+</ul></li>
+<li class="appendix"><span><b>Appendices</b></span></li>
+<li class="chapter" data-level="A" data-path="ring-theory.html"><a href="ring-theory.html"><i class="fa fa-check"></i><b>A</b> Ring theory</a></li>
+<li class="chapter" data-level="B" data-path="primality-testing.html"><a href="primality-testing.html"><i class="fa fa-check"></i><b>B</b> Primality testing</a></li>
+<li class="chapter" data-level="C" data-path="polynomial-interpolation.html"><a href="polynomial-interpolation.html"><i class="fa fa-check"></i><b>C</b> Polynomial interpolation</a></li>
+<li class="chapter" data-level="D" data-path="refreshers.html"><a href="refreshers.html"><i class="fa fa-check"></i><b>D</b> Refreshers</a>
+<ul>
+<li class="chapter" data-level="D.1" data-path="refreshers.html"><a href="refreshers.html#set-notation"><i class="fa fa-check"></i><b>D.1</b> Set notation</a></li>
+<li class="chapter" data-level="D.2" data-path="refreshers.html"><a href="refreshers.html#probability-theory"><i class="fa fa-check"></i><b>D.2</b> Probability theory</a></li>
+<li class="chapter" data-level="D.3" data-path="refreshers.html"><a href="refreshers.html#asymptotic-notation"><i class="fa fa-check"></i><b>D.3</b> Asymptotic notation</a></li>
+<li class="chapter" data-level="D.4" data-path="refreshers.html"><a href="refreshers.html#polydiv"><i class="fa fa-check"></i><b>D.4</b> Polynomial division</a></li>
+</ul></li>
+<li class="chapter" data-level="E" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html"><i class="fa fa-check"></i><b>E</b> SageMath Cookbook</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#installing-and-running"><i class="fa fa-check"></i>Installing and running</a></li>
+<li class="chapter" data-level="E.1" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-operations"><i class="fa fa-check"></i><b>E.1</b> Basic Operations</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#arithmetic-operations"><i class="fa fa-check"></i>Arithmetic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#comparison-operations"><i class="fa fa-check"></i>Comparison Operations</a></li>
+</ul></li>
+<li class="chapter" data-level="E.2" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bits-bytes-and-encoding"><i class="fa fa-check"></i><b>E.2</b> Bits, Bytes and Encoding</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#bitwise-operations"><i class="fa fa-check"></i>Bitwise Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#encodedecode-ascii"><i class="fa fa-check"></i>Encode/Decode ASCII</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bitstring"><i class="fa fa-check"></i>Sampling Random Bitstring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-bytes"><i class="fa fa-check"></i>Sampling Random Bytes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#xoring-bytes"><i class="fa fa-check"></i>Xoring bytes</a></li>
+</ul></li>
+<li class="chapter" data-level="E.3" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#symmetric-key-cryptography"><i class="fa fa-check"></i><b>E.3</b> Symmetric Key Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#one-time-pad-1"><i class="fa fa-check"></i>One-Time-Pad</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#prng-sha256"><i class="fa fa-check"></i>PRNG: SHA256</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#block-ciphers-aes128"><i class="fa fa-check"></i>Block Ciphers: AES128</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-cbc"><i class="fa fa-check"></i>Modes of Operation: AES128-CBC</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modes-of-operation-aes128-counter"><i class="fa fa-check"></i>Modes of Operation: AES128-Counter</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#hash-functions-1"><i class="fa fa-check"></i>Hash Functions</a></li>
+</ul></li>
+<li class="chapter" data-level="E.4" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#number-theory"><i class="fa fa-check"></i><b>E.4</b> Number theory</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-random-primes"><i class="fa fa-check"></i>Sampling Random Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#factoring"><i class="fa fa-check"></i>Factoring</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#primality-testing-1"><i class="fa fa-check"></i>Primality Testing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm"><i class="fa fa-check"></i>Extended Euclidian Algorithm</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#modular-arithmetic-1"><i class="fa fa-check"></i>Modular Arithmetic</a></li>
+</ul></li>
+<li class="chapter" data-level="E.5" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#groups-and-fields"><i class="fa fa-check"></i><b>E.5</b> Groups and Fields</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#additive-groups"><i class="fa fa-check"></i>Additive Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#unit-groups"><i class="fa fa-check"></i>Unit Groups</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#finite-fields-1"><i class="fa fa-check"></i>Finite Fields</a></li>
+</ul></li>
+<li class="chapter" data-level="E.6" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomials"><i class="fa fa-check"></i><b>E.6</b> Polynomials</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#basic-polynomials-operations"><i class="fa fa-check"></i>Basic Polynomials Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#extended-euclidian-algorithm-for-polynomials"><i class="fa fa-check"></i>Extended Euclidian Algorithm for Polynomials</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#polynomial-interpolation-1"><i class="fa fa-check"></i>Polynomial Interpolation</a></li>
+</ul></li>
+<li class="chapter" data-level="E.7" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa"><i class="fa fa-check"></i><b>E.7</b> RSA</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-modulus"><i class="fa fa-check"></i>Sampling an RSA Modulus</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-an-rsa-key-pair"><i class="fa fa-check"></i>Sampling an RSA key-pair</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#textbook-rsa-encryption"><i class="fa fa-check"></i>Textbook RSA Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#rsa-fdh-signatures"><i class="fa fa-check"></i>RSA-FDH Signatures</a></li>
+</ul></li>
+<li class="chapter" data-level="E.8" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#safe-prime-groups"><i class="fa fa-check"></i><b>E.8</b> Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-safe-primes"><i class="fa fa-check"></i>Sampling Safe Primes</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-a-safe-prime-subgroup"><i class="fa fa-check"></i>Sampling a safe prime subgroup</a></li>
+</ul></li>
+<li class="chapter" data-level="E.9" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange"><i class="fa fa-check"></i><b>E.9</b> Diffie Hellman Key Exchange</a></li>
+<li class="chapter" data-level="E.10" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-over-safe-prime-groups"><i class="fa fa-check"></i><b>E.10</b> ElGamal over Safe Prime Groups</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#sampling-elgamal-keys"><i class="fa fa-check"></i>Sampling ElGamal Keys</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption"><i class="fa fa-check"></i>ElGamal Encryption</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#lifted-elgamal-encryption"><i class="fa fa-check"></i>Lifted ElGamal Encryption</a></li>
+</ul></li>
+<li class="chapter" data-level="E.11" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elliptic-curve-cryptography-secp256k1-curve"><i class="fa fa-check"></i><b>E.11</b> Elliptic Curve Cryptography: secp256k1 Curve</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secp256k1-basic-operations"><i class="fa fa-check"></i>secp256k1 Basic Operations</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#diffie-hellman-key-exchange-over-secp256k1"><i class="fa fa-check"></i>Diffie Hellman Key Exchange over secp256k1</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#elgamal-encryption-over-secp256k1"><i class="fa fa-check"></i>ElGamal Encryption over secp256k1</a></li>
+</ul></li>
+<li class="chapter" data-level="E.12" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#secret-sharing-2"><i class="fa fa-check"></i><b>E.12</b> Secret Sharing</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#simple-secret-sharing"><i class="fa fa-check"></i>Simple Secret Sharing</a></li>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#shamir-secret-sharing"><i class="fa fa-check"></i>Shamir Secret Sharing</a></li>
+</ul></li>
+<li class="chapter" data-level="E.13" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-cryptography"><i class="fa fa-check"></i><b>E.13</b> Threshold Cryptography</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#threshold-elgamal"><i class="fa fa-check"></i>Threshold ElGamal</a></li>
+</ul></li>
+<li class="chapter" data-level="E.14" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#zero-knowledge-proofs-1"><i class="fa fa-check"></i><b>E.14</b> Zero Knowledge Proofs</a>
+<ul>
+<li class="chapter" data-level="" data-path="sagemath-cookbook.html"><a href="sagemath-cookbook.html#schnorr-protocol-over-secp256k1"><i class="fa fa-check"></i>Schnorr Protocol over secp256k1</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Cryptography lecture notes</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="zero-knowledge-proofs" class="section level1 hasAnchor" number="12">
+<h1><span class="header-section-number">12</span> Zero knowledge Proofs<a href="zero-knowledge-proofs.html#zero-knowledge-proofs" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Consider the following problem: Alice claims she knows the ElGamal public key <span class="math inline">\(x\)</span> corresponding to
+<span class="math inline">\(h = g^x\)</span> and Bob does not believe her. How can Alice convince Bob?</p>
+<p>There is a simple solution: Alice can just send <span class="math inline">\(x\)</span>. Then Bob can verify that <span class="math inline">\(h = g^x\)</span> and be
+convinced beyond doubt. But Alice does not want to compromise her secret key. She needs it to remain private.</p>
+<p>Another solution would be to ask Bob to encrypt any message of his choice and send the ciphertext.
+Alice can then decrypt the ciphertext -if she indeed knows the secret key- and send the plaintext to Bob. If the message is the one Bob encrypted he believes her. While the latter is clearly a better solution, it is not ideal: what if Bob intercepted the ciphertext, whose
+contents are supposed to be secret? Recall that ElGamal is not IND-CCA secure! We need an even
+more sophisticated solution.</p>
+<p>Before continuing, let us observe something about the requirements we have in regards to this
+problem. Contrary to the cryptographic primitives we have seen so far (e.g. encryption schemes,
+hash functions, digital signatures) we now need a protocol that protects Alice and Bob! In particular, we need to</p>
+<ul>
+<li>protect Bob from a possibly lying Alice, falsely claiming to know the secret <span class="math inline">\(x\)</span>,</li>
+<li>protect Alice from a curious Bob, who might try to learn information about the secret <span class="math inline">\(x\)</span> by making Alice “convince” him that she knows the secret.</li>
+</ul>
+<p>Our first task is to precisely capture these requirements in a definition. We will keep the definition informal, since defining accurately notions such as “Alice knows <span class="math inline">\(x\)</span>” or “Bob does not learn <span class="math inline">\(y\)</span>” can be tricky and technical to formally capture and are out of the scope of this course. For our needs, it is enough to understand such notions with their intuitive meaning.</p>
+<p>First, let’s define the relation <span class="math inline">\(\mathcal{R}_\text{dlog}\)</span> capturing the statement “<span class="math inline">\(x\)</span> is the discrete log of <span class="math inline">\(h\)</span> w.r.t. <span class="math inline">\(g\)</span>:</p>
+<p><span class="math display">\[
+\mathcal{R}_\text{dlog} = \{((G, g, h), x) \mid \text{ $G$ is a group with generator $g$ and } h = g^x \}
+\]</span></p>
+<p>Let’s next give our informal definition of a . We define it for an arbitrary relation <span class="math inline">\(\mathcal{R}\)</span> and not only for <span class="math inline">\(\mathcal{R}_\text{dlog}\)</span>.</p>
+<p>We refer to the values <span class="math inline">\((G, g, h)\)</span> which are known by both parties as <em>the statement</em> and to <span class="math inline">\(x\)</span> which is known only to Alice as <em>the witness</em>.</p>
+<div class="definition">
+<p><span id="def:unlabeled-div-195" class="definition"><strong>Definition 12.1  </strong></span>Let <span class="math inline">\(\mathcal{R}\)</span> be an NP relation containing statement/witness pairs <span class="math inline">\((x, w)\)</span>.
+A zero knowledge proof protocol is a protocol run between a Prover <span class="math inline">\(\mathcal{P}\)</span> (Alice) and
+a Verifier <span class="math inline">\(\mathcal{V}\)</span> (Bob) where <span class="math inline">\(\mathcal{P}\)</span> has input <span class="math inline">\(x, w\)</span>, <span class="math inline">\(\mathcal{V}\)</span> has input
+<span class="math inline">\(w\)</span> and both have input a security parameter <span class="math inline">\(\lambda\)</span>. <span class="math inline">\(\mathcal{P}\)</span> and <span class="math inline">\(\mathcal{V}\)</span> interact in a prescribed way for a number of rounds and at the end <span class="math inline">\(\mathcal{V}\)</span> outputs “accept” or “reject” indicating whether it is convinced that <span class="math inline">\(\mathcal{P}\)</span> knows <span class="math inline">\(w\)</span> s.t. <span class="math inline">\((x,w)\in\mathcal{R}\)</span>. The protocol satisfies the following properties:</p>
+<ul>
+<li><em>Completeness:</em> For every <span class="math inline">\((x,w)\in \mathcal{R}\)</span>, when <span class="math inline">\(\mathcal{P}\)</span> and <span class="math inline">\(\mathcal{V}\)</span> interact with inputs <span class="math inline">\((x,w)\)</span> and <span class="math inline">\(x\)</span> respectively, then <span class="math inline">\(\mathcal{V}\)</span> always outputs “accept”.</li>
+<li><em>Soundness:</em> For every polynomial time <span class="math inline">\(\mathcal{P}^*\)</span> that does not know a witness <span class="math inline">\(w\)</span> s.t.
+<span class="math inline">\((x,w)\in \mathcal{R}\)</span> the probability that <span class="math inline">\(\mathcal{P}^*\)</span> and <span class="math inline">\(\mathcal{V}\)</span> interact and
+<span class="math inline">\(\mathcal{V}\)</span> outputs “accept” is negligible in <span class="math inline">\(\lambda\)</span>.</li>
+<li><em>Zero Knowledge:</em> After the interaction, <span class="math inline">\(\mathcal{V}\)</span> learns <em>nothing except the validity of the statement</em>, that is, that <span class="math inline">\(\mathcal{P}\)</span> knows a witness <span class="math inline">\(w\)</span> such that <span class="math inline">\((x,w)\in \mathcal{R}\)</span>.</li>
+</ul>
+</div>
+<p>Let’s also give some more intuition about the latter property. How do we even argue about it? The solution is quite elegant! We require that <span class="math inline">\(\mathcal{V}\)</span> can <em>simulate</em> interactions that look exactly the same with an interaction with the real <span class="math inline">\(\mathcal{P}\)</span>. If <span class="math inline">\(\mathcal{V}\)</span> can do this on its own, then what can it learn from such an interaction? Nothing that it could not deduce on its own! This might sound a bit tricky at this point but it will become clear later with an example.</p>
+<div id="sec:schnorr" class="section level2 hasAnchor" number="12.1">
+<h2><span class="header-section-number">12.1</span> The Schnorr Protocol<a href="zero-knowledge-proofs.html#sec:schnorr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Let’s now introduce our first zero knowledge proof for <span class="math inline">\(\mathcal{R}_\text{dlog}\)</span> called the Schnorr protocol! We are on the setting of Safe-Prime groups (the protocol generalizes to any group where the discrete logarithm problem is hard), so we describe the group as
+<span class="math inline">\(\mathbb{G} = (p, q, g)\)</span> where <span class="math inline">\(g\)</span> is a generator of a subgroup of <span class="math inline">\(\mathbb{Z}_p^*\)</span> of order <span class="math inline">\(q\)</span>.<br />
+We have our prover and verifier with common input <span class="math inline">\(h\)</span> and <span class="math inline">\(\mathcal{P}\)</span> claims that
+it knows some <span class="math inline">\(x\)</span> such that <span class="math inline">\(h=g^x\)</span> in <span class="math inline">\(\mathbb{G}\)</span>. We set the security parameter as <span class="math inline">\(\lambda = \log q\)</span>, i.e. the number of bits to represent an element of the group. Let’s next describe the prescribed interaction between <span class="math inline">\(\mathcal{P}, \mathcal{V}\)</span>.</p>
+<p><span class="math inline">\(\mathcal{P}((p, q, g, h), x)\)</span> and <span class="math inline">\(\mathcal{V}(p, q, g, h)\)</span> interact as follows:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathcal{P}\)</span> samples a random <span class="math inline">\(s\in\mathbb{Z}_q\)</span> and computes <span class="math inline">\(r=g^s\)</span>. It sends <span class="math inline">\(r\)</span> to <span class="math inline">\(\mathcal{V}\)</span>.</li>
+<li><span class="math inline">\(\mathcal{V}\)</span> samples a random <span class="math inline">\(c\in\mathbb{Z}_q\)</span> and sends it to <span class="math inline">\(\mathcal{P}\)</span>.</li>
+<li><span class="math inline">\(\mathcal{P}\)</span> computes <span class="math inline">\(z = s + cx\)</span> and sends <span class="math inline">\(z\)</span> to <span class="math inline">\(\mathcal{V}\)</span>.</li>
+</ol>
+<p>Finally, <span class="math inline">\(\mathcal{V}\)</span> is ready to make its decision. It checks the equation <span class="math inline">\(g^z=r\cdot h^c\)</span> and it outputs iff it is satisfied.</p>
+<p>Let’s now try to see if the three properties hold.</p>
+<p>Let’s start with <em>completeness</em>. For this, we assume that <span class="math inline">\(x\)</span> is indeed the discrete logarithm of <span class="math inline">\(h\)</span>. Let’s see what the final equation gives:
+<span class="math display">\[
+g^z = g^{s+cx} = g^{s}g^{cx}= g^{s}(g^{x})^x = r\cdot h^c
+\]</span>
+so indeed the verifier always accepts in this case!</p>
+<p>For soundness we must make a more complicated argument. We will show that if the prover can answer the third message in a way that makes the verifier accept, it must (except with negligible probability) know the discrete logarithm <span class="math inline">\(x\)</span>. Concretely, assume that <span class="math inline">\(\mathcal{P}\)</span> sends any message <span class="math inline">\(r=g^s\)</span> in the first round. Now assume it can make <span class="math inline">\(\mathcal{V}\)</span> accept for two different challenges <span class="math inline">\(c_1\neq c_2\)</span>, that is, it can produce for both values <span class="math inline">\(z_1, z_2\)</span> such that
+<span class="math display">\[
+g^{z_1} = r\cdot h^{c_1}, \qquad g^{z_2} = r\cdot h^{c_2}
+\]</span>
+Let’ divide the two equations. We get:</p>
+<p><span class="math display">\[
+g^{z_1-z_2} = h^{c_1-c_2} \Leftrightarrow
+g^{(z_1-z_2)(c_1-c_2)^{-1}} = h
+\]</span>
+Recall that when we do operations on the exponents, we work <span class="math inline">\(\mod q\)</span> so in the above <span class="math inline">\((c_1-c_2)^{-1}\)</span> is the multiplicative inverse of <span class="math inline">\((c_1-c_2) \mod q\)</span> (why does it exist?).
+But then this means that the discrete logarithm of <span class="math inline">\(h\)</span> w.r.t. <span class="math inline">\(g\)</span> is <span class="math inline">\(x = (z_1-z_2)(c_1-c_2)^{-1}\)</span>. Note that the prover knows the values <span class="math inline">\(z_1, z_2, c_1, c_2\)</span> so it can indeed compute the witness <span class="math inline">\(x\)</span>. This can mean only two things: (1) either the prover can answer only for one challenge <span class="math inline">\(c\)</span> in the protocol execution or (2) it actually knows the witness. And if the prover only knows how to convince the verifier for a single value <span class="math inline">\(c\)</span>, this means that it succeeds only if the verifier picks this specific value, which happens with probability <span class="math inline">\(1/q\)</span> which is negligible!</p>
+<p>Finally, let’s discuss zero knowledge. Let’s first look into the transcript of the protocol, that is the “discussion” between <span class="math inline">\(\mathcal{P}\)</span> and <span class="math inline">\(\mathcal{V}\)</span>. This consists of <span class="math inline">\(3\)</span> elements:
+<span class="math inline">\(\mathsf{tr} = (r\in\mathbb{G}, c\in\mathbb{Z}_q, z\in\mathbb{Z}_q)\)</span>. We are interested in their distribution: they consist of a <em>uniformly distributed triplet</em> that satisfies the equation
+<span class="math inline">\(g^z = r\cdot h^c\)</span>. Can we pick such a triplet on our own without interacting with <span class="math inline">\(\mathcal{P}\)</span> and without knowing the secret? The answer is positive! We can do this as follows: pick any random <span class="math inline">\(z, c\in\mathbb{Z}_q\)</span> and set <span class="math inline">\(r = g^z\cdot h^{-c}\)</span>!</p>
+<p>Note that this looks exactly like the transcript. This is enough to say that <span class="math inline">\(\mathcal{V}\)</span> does not learn anything from the interaction: anything it could hope to learn by <span class="math inline">\(\mathcal{P}\)</span> it can save the
+trouble of actually “talking” with <span class="math inline">\(\mathcal{P}\)</span> and just produce a valid triplet on its own. Since it follows the same distribution, it would learn the same things from it!</p>
+<p>There is a flaw in the above argument, however. We assumed that
+<span class="math inline">\(\mathsf{tr} = (r\in\mathbb{G}, c\in\mathbb{Z}_q, z\in\mathbb{Z}_q)\)</span> consists of a <em>uniformly distributed triplet</em> that satisfies the equation
+<span class="math inline">\(g^z = r\cdot h^c\)</span>. But this is not necessarily true! In particular, <span class="math inline">\(\mathcal{V}\)</span> might try to cheat by not following the protocol! The value <span class="math inline">\(c\)</span> it sends must be a uniformly distributed element of
+<span class="math inline">\(\mathbb{Z}_q\)</span> but what if Bob picks one that is not? It turns out that we cannot prove zero knowledge in this case. We only achieve a weaker notion: <em>honest verifier zero knowledge</em> which states that
+<span class="math inline">\(\mathcal{V}\)</span> learns nothing about the validity of the statement <em>if it behaves honestly</em> (in our case sending a uniformly challenge <span class="math inline">\(c\)</span>). It turns out that this property is enough for practical application since there are ways to turn protocols with this property to protocols that achieve full zero knowledge.</p>
+<div id="simulation-vs-soundness" class="section level3 hasAnchor" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Simulation vs Soundness<a href="zero-knowledge-proofs.html#simulation-vs-soundness" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>There seems that something paradoxical is happening in the Schnorr protocol. We showed that we can simulate the interaction between <span class="math inline">\(\mathcal{P}\)</span> and <span class="math inline">\(\mathcal{V}\)</span> and argued that this is the reason <span class="math inline">\(\mathcal{V}\)</span> learns nothing about the witness. Why should <span class="math inline">\(\mathcal{V}\)</span> interact with <span class="math inline">\(\mathcal{P}\)</span> in the first place? Can’t he just “interact with itself”?</p>
+<p>The answer is no. In particular, <span class="math inline">\(\mathcal{V}\)</span> <em>learns something</em> by the interaction: that <span class="math inline">\(\mathcal{P}\)</span> indeed knows the witness! But how does it happen? What is the difference between a real and a simulated interaction? The answer lies in the <em>order of the messages</em>.</p>
+<p>In an actual interaction, <span class="math inline">\(\mathcal{P}\)</span> must send <span class="math inline">\(r\in\mathbb{G}\)</span> before it sees <span class="math inline">\(c\)</span>! If the latter is picked <em>after</em> <span class="math inline">\(r\)</span> only someone that knows the secret can compute a valid <span class="math inline">\(z\)</span> so indeed
+<span class="math inline">\(\mathcal{V}\)</span> is convinced about <span class="math inline">\(\mathcal{P}\)</span>’s claim!</p>
+<p>In other words, consider that Bob interacts with Alice and is convinced that she knows <span class="math inline">\(x\)</span> s.t. <span class="math inline">\(h=g^x\)</span>. It then takes the transcript <span class="math inline">\((r, c, z)\)</span> and shows it to Charlie. Bob claims that Alice knows <span class="math inline">\(x\)</span>. Should Charlie believe him? The answer is no! Charlie cannot know if this was a real interaction (where <span class="math inline">\(c\)</span> was picked after <span class="math inline">\(r\)</span>) or if it was one that Bob simulated. The only way Charlie can be convinced is if it interacts with Alice itself (or somehow be convinced that <span class="math inline">\(c\)</span> was sampled after <span class="math inline">\(r\)</span>).</p>
+</div>
+</div>
+<div id="solved-exercises-11" class="section level2 unnumbered hasAnchor">
+<h2>Solved exercises<a href="zero-knowledge-proofs.html#solved-exercises-11" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="exercise">
+<p><span id="exr:unlabeled-div-196" class="exercise"><strong>Exercise 12.1  </strong></span></p>
+<ol style="list-style-type: decimal">
+<li><p>Consider the safe prime group <span class="math inline">\((p, q, g)\)</span> and the DH tuple
+<span class="math inline">\((g, A = g^a, B = g^b, C = g^{ab})\)</span>. Rewrite the DH tuple in terms of the dlog problem, i.e. by expressing appropriate discrete logarithm relations between the elements <span class="math inline">\((g, A, B, C)\)</span>.</p></li>
+<li><p>Write an (honest verifier) zero knowledge proof protocol for showing that the tuple <span class="math inline">\((g, A, B, C)\)</span> is a DH tuple. <em>Hint: run two Shcnorr protocol executions in parallel</em>.</p></li>
+</ol>
+</div>
+<div class="solution">
+<p><span id="unlabeled-div-197" class="solution"><em>Solution</em>. </span></p>
+<ol style="list-style-type: decimal">
+<li><p>We can express the tuple in terms of <em>discrete logarithm equality</em>, namely <span class="math inline">\((g, A, B, C)\)</span> is
+a DH tuple if and only if the discrete logarithm of <span class="math inline">\(B\)</span> w.r.t. <span class="math inline">\(g\)</span> and the discrete logarithm of <span class="math inline">\(C\)</span> w.r.t. <span class="math inline">\(A\)</span> are equal. Formally, we define the DH relation as:
+<span class="math display">\[
+\mathcal{R}_\text{dh} = \{((G, g, A, B, C), x) \mid \text{ $G$ is a group with generator $g$ and } B = g^x \text{ and } C = A^x\}
+\]</span></p></li>
+<li><p>We need a zero knowledge proof for <span class="math inline">\(\mathcal{R}_\text{dh}\)</span>. Our strategy is to run two parallel execution of the Schnorr protocol: one for <span class="math inline">\(B = g^x\)</span> and one for <span class="math inline">\(C = A^x\)</span>.</p>
+<p><span class="math inline">\(\mathcal{P}((p, q, g, A, B, C), x)\)</span> and <span class="math inline">\(\mathcal{V}(p, q, g, A, B, C)\)</span> interact as follows:</p>
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\mathcal{P}\)</span> samples a random <span class="math inline">\(s\in\mathbb{Z}_q\)</span> and computes <span class="math inline">\(r_g=g^s\)</span> and <span class="math inline">\(r_A = A^s\)</span>. It sends <span class="math inline">\(r_g, r_A\)</span> to <span class="math inline">\(\mathcal{V}\)</span>.</li>
+<li><span class="math inline">\(\mathcal{V}\)</span> samples a random <span class="math inline">\(c\in\mathbb{Z}_q\)</span> and sends it to <span class="math inline">\(\mathcal{P}\)</span>.</li>
+<li><span class="math inline">\(\mathcal{P}\)</span> computes <span class="math inline">\(z = s + cx\)</span> and sends <span class="math inline">\(z\)</span> to <span class="math inline">\(\mathcal{V}\)</span>.</li>
+</ol>
+<p>Finally, <span class="math inline">\(\mathcal{V}\)</span> is ready to make its decision. It checks the equations
+<span class="math display">\[
+   g^z=r_g\cdot B^c, \qquad
+   A^z=r_A\cdot C^c
+   \]</span>
+and it outputs “accept” iff it is satisfied.</p>
+<p>Let’s see that our properties are satisfied. For completeness we have:
+<span class="math display">\[
+   g^z= g^{s + cx} = g^s\cdot (g^x)^c = r_g\cdot B^c
+   \]</span>
+<span class="math display">\[
+   A^z= A^{s + cx} = A^s\cdot (A^x)^c = r_A\cdot C^c
+   \]</span>
+so the honest prover always succeeds in convincing the verifier!</p>
+<p>Let’s move to soundness. We work exactly as in Schnorr protocol. In particular, let’s
+assume that for the same values <span class="math inline">\(r_g, r_A\)</span>, <span class="math inline">\(\mathcal{P}^*\)</span> can convince the verifier for
+two different challenges <span class="math inline">\(c_1, c_2\)</span>. We now have:
+<span class="math display">\[
+   \begin{aligned}
+   g^{z_1} &amp;= r_g\cdot B^{c_1}, \qquad g^{z_2} = r_g\cdot B^{c_2}\\
+   A^{z_1} &amp;= r_A\cdot C^{c_1}, \qquad A^{z_2} = r_A\cdot C^{c_2}\\
+   \end{aligned}
+   \]</span>
+Let’ divide the two equations. We get:</p>
+<p><span class="math display">\[
+   \begin{aligned}
+   g^{z_1-z_2} &amp;= B^{c_1-c_2} \Leftrightarrow g^{(z_1-z_2)(c_1-c_2)^{-1}} = B\\
+   A^{z_1-z_2} &amp;= C^{c_1-c_2} \Leftrightarrow A^{(z_1-z_2)(c_1-c_2)^{-1}} = C
+   \end{aligned}
+   \]</span>
+Therefore, setting <span class="math inline">\(x = (z_1-z_2)(c_1-c_2)^{-1}\)</span> we get that <span class="math inline">\(B = g^x\)</span> and <span class="math inline">\(C=A^x\)</span> and
+therefore <span class="math inline">\((g, A, B, C)\)</span> is a DH tuple. A malicious prover can then only answer for a
+single challenge <span class="math inline">\(c\)</span> each time if it does not know the witness which means it can convince
+<span class="math inline">\(\mathcal{V}\)</span> only with negligible probaiblity.</p>
+<p>Finally, for (honest verifier) zero knowledge we also act as in the Schnorr protocol:
+sample <span class="math inline">\(c,z\gets \mathbb{Z}_q\)</span> at random and compute
+<span class="math display">\[
+   r_g = g^{z}\cdot B^{-c}, \qquad r_A = A^{z}\cdot C^{-c}
+   \]</span>
+and output the tuple <span class="math inline">\((r_g, r_A, c, z)\)</span> as the transcript.</p>
+<p>The above protocol is known as the Chaum-Pedersen protocol.</p></li>
+</ol>
+</div>
+
+</div>
+</div>
+
+
+
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="secret-sharing.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ring-theory.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
